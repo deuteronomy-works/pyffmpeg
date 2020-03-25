@@ -5,6 +5,7 @@ Created on Wed Mar 25 15:07:19 2020
 """
 
 import os
+from subprocess import check_output
 from platform import system
 from base64 import b64decode
 if system() == 'Windows':
@@ -27,20 +28,34 @@ class FFmpeg():
 
         # Load OS specific ffmpeg executable
         if system() == 'Windows':
-            self.path_to_ffmpeg = cwd + './static/bin/win32'
-            ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg.exe'
+            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/win32')
+            self.ffmpeg_file = self.path_to_ffmpeg + '\\ffmpeg.exe'
             b64 = win32.contents
         elif system == 'linux':
-            self.path_to_ffmpeg = cwd + './static/bin/linux'
-            ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
+            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/linux')
+            self.ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = linux.contents
         elif system == 'darwin':
-            self.path_to_ffmpeg = cwd + './static/bin/darwin'
-            ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
+            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/darwin')
+            self.ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = darwin.contents
         else:
             b64 = ""
 
         raw = b64decode(b64)
-        with open(ffmpeg_file, 'wb') as f:
+        with open(self.ffmpeg_file, 'wb') as f:
             f.write(raw)
+
+    def convert(self, input_file, output_file):
+
+        i = input_file.replace("\\", "/")
+        o = output_file
+
+        if not os.path.exists(o):
+            check_output([
+                self.ffmpeg_file, '-i',
+                i,
+                o
+                ], shell=True)
+
+        return o
