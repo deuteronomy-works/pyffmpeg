@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # Ffmpeg binaries
-/pyffmpeg/static/bin
+/pyffmpeg/static/bin/linux
+/pyffmpeg/static/bin/win32
