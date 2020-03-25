@@ -131,3 +131,4 @@ dmypy.json
 # Ffmpeg binaries
 /pyffmpeg/static/bin/darwin
 /pyffmpeg/static/bin/linux
+*.exe
