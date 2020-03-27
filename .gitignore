@@ -132,3 +132,4 @@ dmypy.json
 /pyffmpeg/static/bin/darwin
 /pyffmpeg/static/bin/linux
 *.exe
+*.wav
