@@ -22,8 +22,9 @@ class FFmpeg():
     """
 
 
-    def __init__(self):
+    def __init__(self, directory="."):
 
+        self.save_dir = directory
         cwd = os.path.dirname(__file__)
 
         # Load OS specific ffmpeg executable
@@ -46,10 +47,16 @@ class FFmpeg():
         with open(self.ffmpeg_file, 'wb') as f:
             f.write(raw)
 
-    def convert(self, input_file, output_file):
+    def convert(self, input_file, output_file=None):
 
+        if os.path.isabs(output_file):
+            # absolute file
+            o = output_file
+        else:
+            # not an absolute file
+            o = os.path.join(self.save_dir, output_file)
+        
         i = input_file.replace("\\", "/")
-        o = output_file
 
         if not os.path.exists(o):
             check_output([
@@ -58,4 +65,5 @@ class FFmpeg():
                 o
                 ], shell=True)
 
+        print('now o: ', o)
         return o
