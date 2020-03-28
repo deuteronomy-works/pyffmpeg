@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyffmpeg',
-    version='0.0.2',
+    version='0.1',
     description='FFmpeg wrapper for python',
     long_description="""FFmpeg wrapper for python
     """,
@@ -13,7 +13,7 @@ setup(
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Other Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
