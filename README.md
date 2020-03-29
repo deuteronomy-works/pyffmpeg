@@ -33,9 +33,8 @@ ff.convert('path/to/music_folder/f.mp3', 'f.wav')
 
 ### Overwrite (Default is set to True)
 ```python
-ff = FFmpeg()
 ff.overwrite = False # do not overwrite but exit immediately
 ```
 
 ## Wiki
-The wiki can be located at ()[here]
+The wiki can be located at [here](https://github.com/deuteronomy-works/pyffmpeg/wiki)
