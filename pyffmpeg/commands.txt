@@ -1,0 +1,9 @@
+i = mp3 from video
+copy - audio from video [ -i i -vn -c:a o]
+reduce audio bitrate - [-i i ab 96k o]
+copy clip = [-i i -ss 13:38 -t 30:13 -c copy o]
+video snapshot - [-i i -r 0.1 o]
+1080 to 720 - [-i i -vf scale -1:720 o]
+animated gif - [-i -r 2 o]
+ringtone - [-ss h:m:s -t 00:15]
+concat - [-f concat -i file_list.txt -c copy o]
