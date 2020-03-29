@@ -58,10 +58,9 @@ class FFmpeg():
         
         i = input_file.replace("\\", "/")
 
-        if not os.path.exists(o):
-            check_output([
-                self.ffmpeg_file, '-i',
-                i,
-                o
-                ], shell=True)
+        check_output([
+            self.ffmpeg_file, '-i',
+            i,
+            o
+            ], shell=True)
         return o
