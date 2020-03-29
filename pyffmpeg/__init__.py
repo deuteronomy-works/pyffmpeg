@@ -52,7 +52,10 @@ class FFmpeg():
         with open(self.ffmpeg_file, 'wb') as f:
             f.write(raw)
 
-    def convert(self, input_file, output_file=None):
+    def convert(self, input_file, output_file):
+
+        """
+        """
 
         if os.path.isabs(output_file):
             # absolute file
@@ -60,7 +63,7 @@ class FFmpeg():
         else:
             # not an absolute file
             o = os.path.join(self.save_dir, output_file)
-        
+
         i = input_file.replace("\\", "/")
 
         check_output([
