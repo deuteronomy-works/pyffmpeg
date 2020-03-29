@@ -26,6 +26,11 @@ class FFmpeg():
 
         self.save_dir = directory
         cwd = os.path.dirname(__file__)
+        self.overwrite = True
+        if self.overwrite:
+            self._over_write = '-y'
+        else:
+            self._over_write = '-n'
 
         # Load OS specific ffmpeg executable
         if system() == 'Windows':
@@ -59,7 +64,7 @@ class FFmpeg():
         i = input_file.replace("\\", "/")
 
         check_output([
-            self.ffmpeg_file, '-i',
+            self.ffmpeg_file, self._over_write, '-i',
             i,
             o
             ], shell=True)
