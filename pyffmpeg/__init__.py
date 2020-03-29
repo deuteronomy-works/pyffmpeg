@@ -14,7 +14,6 @@ elif system == 'linux':
     from .static.bin.linux import linux
 else:
     from .static.bin.darwin import darwin
-from .commands import option
 
 class FFmpeg():
 
@@ -47,9 +46,6 @@ class FFmpeg():
         raw = b64decode(b64)
         with open(self.ffmpeg_file, 'wb') as f:
             f.write(raw)
-            
-        self.option = option
-        self.option.ffmpeg_file = self.ffmpeg_file
 
     def convert(self, input_file, output_file=None):
 
@@ -62,12 +58,10 @@ class FFmpeg():
         
         i = input_file.replace("\\", "/")
 
-        """if not os.path.exists(o):
+        if not os.path.exists(o):
             check_output([
                 self.ffmpeg_file, '-i',
                 i,
                 o
                 ], shell=True)
-        """
-        opt = option('i').start(i, o)
-        return opt
+        return o
