@@ -36,3 +36,6 @@ ff.convert('path/to/music_folder/f.mp3', 'f.wav')
 ff = FFmpeg()
 ff.overwrite = False # do not overwrite but exit immediately
 ```
+
+## Wiki
+The wiki can be located at ()[here]
