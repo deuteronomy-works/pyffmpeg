@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
+with open('README.md', 'r') as rm:
+    long_desc = rm.read()
+
 setup(
     name='pyffmpeg',
     version='0.1',
     description='FFmpeg wrapper for python',
-    long_description="""FFmpeg wrapper for python
-    """,
+    long_description=long_desc,
+    long_description_content_type='text/markdown',
     url='https://github.com/deuteronomy-works/pyffmpeg',
     author='Amoh - Gyebi Godwin Ampofo Michael',
     author_email='amohgyebigodwin@gmail.com',
