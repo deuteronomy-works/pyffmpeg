@@ -25,3 +25,10 @@ def test_convert():
     a = FFmpeg()
     ret = a.convert(i, o)
     assert ret == o
+
+def test_options():
+
+    opt = ['-i', 'H:\\GitHub\\pyffmpeg\\_test\\f.mp3', 'H:\\GitHub\\pyffmpeg\\_test\\f.wav']
+    a = FFmpeg()
+    ret = a.options(opt)
+    assert b'' == ret
