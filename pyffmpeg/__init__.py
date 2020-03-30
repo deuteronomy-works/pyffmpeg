@@ -35,21 +35,21 @@ class FFmpeg():
         # Load OS specific ffmpeg executable
         if system() == 'Windows':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/win32')
-            self.ffmpeg_file = self.path_to_ffmpeg + '\\ffmpeg.exe'
+            self._ffmpeg_file = self.path_to_ffmpeg + '\\ffmpeg.exe'
             b64 = win32.contents
         elif system == 'linux':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/linux')
-            self.ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
+            self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = linux.contents
         elif system == 'darwin':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/darwin')
-            self.ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
+            self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = darwin.contents
         else:
             b64 = ""
 
         raw = b64decode(b64)
-        with open(self.ffmpeg_file, 'wb') as f:
+        with open(self._ffmpeg_file, 'wb') as f:
             f.write(raw)
 
     def convert(self, input_file, output_file):
@@ -67,7 +67,7 @@ class FFmpeg():
         i = input_file.replace("\\", "/")
 
         check_output([
-            self.ffmpeg_file, self._over_write, '-i',
+            self._ffmpeg_file, self._over_write, '-i',
             i,
             o
             ], shell=True)
@@ -80,7 +80,7 @@ class FFmpeg():
         binary distributed with pyffmpeg. There is only one at a time.
         """
 
-        return self.ffmpeg_file
+        return self._ffmpeg_file
 
     def options(self, options):
 
@@ -95,7 +95,7 @@ class FFmpeg():
 
         # Add ffmpeg and overwrite variable
         options.insert(0, self._over_write)
-        options.insert(0, self.ffmpeg_file)
+        options.insert(0, self._ffmpeg_file)
 
         out = check_output(options, shell=True)
         return out
