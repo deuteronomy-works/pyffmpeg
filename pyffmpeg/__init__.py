@@ -72,3 +72,21 @@ class FFmpeg():
             o
             ], shell=True)
         return o
+
+    def options(self, options):
+
+        """
+        """
+
+        if type(options) == type([]):
+            pass
+        else:
+            splits = options.split(' ')
+            options = [item for item in splits]
+
+        # Add ffmpeg and overwrite variable
+        options.insert(0, self._over_write)
+        options.insert(0, self.ffmpeg_file)
+
+        out = check_output(options, shell=True)
+        return out
