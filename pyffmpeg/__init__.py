@@ -73,6 +73,15 @@ class FFmpeg():
             ], shell=True)
         return o
 
+    def get_ffmpeg_bin(self):
+
+        """
+        Get the ffmpeg executable file. This is the fullpath to the
+        binary distributed with pyffmpeg. There is only one at a time.
+        """
+
+        return self.ffmpeg_file
+
     def options(self, options):
 
         """
