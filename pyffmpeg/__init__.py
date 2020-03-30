@@ -34,8 +34,10 @@ class FFmpeg():
 
         # Load OS specific ffmpeg executable
         if system() == 'Windows':
-            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/win32')
-            self._ffmpeg_file = self.path_to_ffmpeg + '\\ffmpeg.exe'
+            self.path_to_ffmpeg = os.path.join(cwd, '.', 'static', 'bin',
+                                               'win32')
+            self._ffmpeg_file = os.path.join(self.path_to_ffmpeg,
+                                             'ffmpeg.exe')
             b64 = win32.contents
         elif system == 'linux':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/linux')
