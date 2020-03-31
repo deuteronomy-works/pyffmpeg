@@ -8,9 +8,10 @@ import os
 from subprocess import check_output
 from platform import system
 from base64 import b64decode
-if system() == 'Windows':
+os_name = system().lower()
+if os_name == 'windows':
     from .static.bin.win32 import win32
-elif system == 'linux':
+elif os_name == 'linux':
     from .static.bin.linux import linux
 else:
     from .static.bin.darwin import darwin
@@ -35,17 +36,17 @@ class FFmpeg():
             self._over_write = '-n'
 
         # Load OS specific ffmpeg executable
-        if system() == 'Windows':
+        if os_name == 'windows':
             self.path_to_ffmpeg = os.path.join(cwd, '.', 'static', 'bin',
                                                'win32')
             self._ffmpeg_file = os.path.join(self.path_to_ffmpeg,
                                              'ffmpeg.exe')
             b64 = win32.contents
-        elif system == 'linux':
+        elif os_name == 'linux':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/linux')
             self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = linux.contents
-        elif system == 'darwin':
+        elif os_name == 'darwin':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/darwin')
             self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = darwin.contents
