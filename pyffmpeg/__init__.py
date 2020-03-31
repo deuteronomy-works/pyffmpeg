@@ -27,6 +27,8 @@ class FFmpeg():
         self.save_dir = directory
         cwd = os.path.dirname(__file__)
         self.overwrite = True
+        self.loglevel = 'fatal'
+        self._log_level = '-loglevel'
         if self.overwrite:
             self._over_write = '-y'
         else:
@@ -69,7 +71,7 @@ class FFmpeg():
         i = input_file.replace("\\", "/")
 
         check_output([
-            self._ffmpeg_file, self._over_write, '-i',
+            self._ffmpeg_file, self._log_level, self.loglevel, self._over_write, '-i',
             i,
             o
             ], shell=True)
@@ -97,6 +99,9 @@ class FFmpeg():
 
         # Add ffmpeg and overwrite variable
         options.insert(0, self._over_write)
+        if self.loglevel != 'fatal':
+            options.insert(0, self.loglevel)
+            options.insert(0, self._log_level)
         options.insert(0, self._ffmpeg_file)
 
         out = check_output(options, shell=True)
