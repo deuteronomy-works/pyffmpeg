@@ -37,4 +37,4 @@ ff.overwrite = False # do not overwrite but exit immediately
 ```
 
 ## Wiki
-The wiki can be located at [here](https://github.com/deuteronomy-works/pyffmpeg/wiki)
+The wiki can be located [here](https://github.com/deuteronomy-works/pyffmpeg/wiki)
