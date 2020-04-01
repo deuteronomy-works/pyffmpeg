@@ -129,6 +129,5 @@ dmypy.json
 .pyre/
 
 # Ffmpeg binaries
-/pyffmpeg/static/bin
 *.exe
 *.wav
