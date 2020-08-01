@@ -29,7 +29,7 @@ class FFmpeg():
         cwd = os.path.dirname(__file__)
         self.overwrite = True
         self.loglevels = (
-            'quiet', 'panic', 'fatal', 'error', 'warining',
+            'quiet', 'panic', 'fatal', 'error', 'warning',
             'info', 'verbose', 'debug', 'trace')
         self.loglevel = 'fatal'
         self._log_level_stmt = '-loglevel'
