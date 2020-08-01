@@ -6,7 +6,7 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='pyffmpeg',
-    version='1.1.1',
+    version='1.2',
     description='FFmpeg wrapper for python',
     long_description=long_desc,
     long_description_content_type='text/markdown',
@@ -17,10 +17,8 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Development Status :: 5 - Production/Stable",
-        "Environment :: Other Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
-        "Operating System :: Microsoft :: Windows",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
     keywords='ffmpeg, FFmpeg, audio',
