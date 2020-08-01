@@ -131,6 +131,5 @@ dmypy.json
 # Ffmpeg binaries
 *.exe
 *.wav
-win32.py
-darwin.py
-linux.py
+/pyffmpeg/static/bin/linux
+/pyffmpeg/static/bin/win32
