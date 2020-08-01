@@ -131,3 +131,6 @@ dmypy.json
 # Ffmpeg binaries
 *.exe
 *.wav
+win32.py
+darwin.py
+linux.py
