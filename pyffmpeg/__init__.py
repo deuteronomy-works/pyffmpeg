@@ -28,8 +28,11 @@ class FFmpeg():
         self.save_dir = directory
         cwd = os.path.dirname(__file__)
         self.overwrite = True
+        self.loglevels = (
+            'quiet', 'panic', 'fatal', 'error', 'warining',
+            'info', 'verbose', 'debug', 'trace')
         self.loglevel = 'fatal'
-        self._log_level = '-loglevel'
+        self._log_level_stmt = '-loglevel'
         if self.overwrite:
             self._over_write = '-y'
         else:
@@ -71,8 +74,14 @@ class FFmpeg():
 
         i = input_file.replace("\\", "/")
 
+        if self.loglevel not in self.loglevels:
+            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+            ' Using fatal instead'
+            print(msg.format(self.loglevel))
+            self.loglevel = 'fatal'
+
         check_output([
-            self._ffmpeg_file, self._log_level, self.loglevel, self._over_write, '-i',
+            self._ffmpeg_file, self._log_level_stmt, self.loglevel, self._over_write, '-i',
             i,
             o
             ], shell=True)
@@ -100,9 +109,15 @@ class FFmpeg():
 
         # Add ffmpeg and overwrite variable
         options.insert(0, self._over_write)
+        if self.loglevel not in self.loglevels:
+            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+            ' Using fatal instead'
+            print(msg.format(self.loglevel))
+            self.loglevel = 'fatal'
+
         if self.loglevel != 'fatal':
             options.insert(0, self.loglevel)
-            options.insert(0, self._log_level)
+            options.insert(0, self._log_level_stmt)
         options.insert(0, self._ffmpeg_file)
 
         out = check_output(options, shell=True)

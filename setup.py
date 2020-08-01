@@ -17,7 +17,6 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Development Status :: 5 - Production/Stable",
-        "Environment :: Other Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: Microsoft :: OS Independent",
