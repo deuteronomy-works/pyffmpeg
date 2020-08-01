@@ -8,9 +8,10 @@ import os
 from subprocess import check_output
 from platform import system
 from base64 import b64decode
-if system() == 'Windows':
+os_name = system().lower()
+if os_name == 'windows':
     from .static.bin.win32 import win32
-elif system == 'linux':
+elif os_name == 'linux':
     from .static.bin.linux import linux
 else:
     from .static.bin.darwin import darwin
@@ -27,29 +28,36 @@ class FFmpeg():
         self.save_dir = directory
         cwd = os.path.dirname(__file__)
         self.overwrite = True
+        self.loglevels = (
+            'quiet', 'panic', 'fatal', 'error', 'warining',
+            'info', 'verbose', 'debug', 'trace')
+        self.loglevel = 'fatal'
+        self._log_level_stmt = '-loglevel'
         if self.overwrite:
             self._over_write = '-y'
         else:
             self._over_write = '-n'
 
         # Load OS specific ffmpeg executable
-        if system() == 'Windows':
-            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/win32')
-            self.ffmpeg_file = self.path_to_ffmpeg + '\\ffmpeg.exe'
+        if os_name == 'windows':
+            self.path_to_ffmpeg = os.path.join(cwd, '.', 'static', 'bin',
+                                               'win32')
+            self._ffmpeg_file = os.path.join(self.path_to_ffmpeg,
+                                             'ffmpeg.exe')
             b64 = win32.contents
-        elif system == 'linux':
+        elif os_name == 'linux':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/linux')
-            self.ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
+            self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = linux.contents
-        elif system == 'darwin':
+        elif os_name == 'darwin':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/darwin')
-            self.ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
+            self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = darwin.contents
         else:
             b64 = ""
 
         raw = b64decode(b64)
-        with open(self.ffmpeg_file, 'wb') as f:
+        with open(self._ffmpeg_file, 'wb') as f:
             f.write(raw)
 
     def convert(self, input_file, output_file):
@@ -66,8 +74,14 @@ class FFmpeg():
 
         i = input_file.replace("\\", "/")
 
+        if self.loglevel not in self.loglevels:
+            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+            ' Using fatal instead'
+            print(msg.format(self.loglevel))
+            self.loglevel = 'fatal'
+
         check_output([
-            self.ffmpeg_file, self._over_write, '-i',
+            self._ffmpeg_file, self._log_level_stmt, self.loglevel, self._over_write, '-i',
             i,
             o
             ], shell=True)
@@ -80,7 +94,7 @@ class FFmpeg():
         binary distributed with pyffmpeg. There is only one at a time.
         """
 
-        return self.ffmpeg_file
+        return self._ffmpeg_file
 
     def options(self, options):
 
@@ -95,7 +109,16 @@ class FFmpeg():
 
         # Add ffmpeg and overwrite variable
         options.insert(0, self._over_write)
-        options.insert(0, self.ffmpeg_file)
+        if self.loglevel not in self.loglevels:
+            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+            ' Using fatal instead'
+            print(msg.format(self.loglevel))
+            self.loglevel = 'fatal'
+
+        if self.loglevel != 'fatal':
+            options.insert(0, self.loglevel)
+            options.insert(0, self._log_level_stmt)
+        options.insert(0, self._ffmpeg_file)
 
         out = check_output(options, shell=True)
         return out

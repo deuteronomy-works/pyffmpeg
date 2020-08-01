@@ -129,7 +129,8 @@ dmypy.json
 .pyre/
 
 # Ffmpeg binaries
-/pyffmpeg/static/bin/darwin
-/pyffmpeg/static/bin/linux
 *.exe
 *.wav
+win32.py
+darwin.py
+linux.py
