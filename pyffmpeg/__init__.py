@@ -7,6 +7,7 @@ Created on Wed Mar 25 15:07:19 2020
 import os
 from subprocess import check_output
 from platform import system
+from lzma import decompress
 from base64 import b64decode
 os_name = system().lower()
 if os_name == 'windows':
@@ -57,8 +58,9 @@ class FFmpeg():
             b64 = ""
 
         raw = b64decode(b64)
+        decompressed = decompress(raw)
         with open(self._ffmpeg_file, 'wb') as f:
-            f.write(raw)
+            f.write(decompressed)
 
     def convert(self, input_file, output_file):
 
