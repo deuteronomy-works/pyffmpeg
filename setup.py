@@ -19,6 +19,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
+        "Operating System :: Microsoft :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
     keywords='ffmpeg, FFmpeg, audio',
