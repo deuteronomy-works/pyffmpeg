@@ -57,10 +57,12 @@ class FFmpeg():
         else:
             b64 = ""
 
-        raw = b64decode(b64)
-        decompressed = decompress(raw)
-        with open(self._ffmpeg_file, 'wb') as f:
-            f.write(decompressed)
+        if not os.path.exists(self._ffmpeg_file):
+            print('not exist')
+            raw = b64decode(b64)
+            decompressed = decompress(raw)
+            with open(self._ffmpeg_file, 'wb') as f:
+                f.write(decompressed)
 
     def convert(self, input_file, output_file):
 
