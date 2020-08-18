@@ -9,13 +9,18 @@ from subprocess import check_output
 from platform import system
 from lzma import decompress
 from base64 import b64decode
-os_name = system().lower()
-if os_name == 'windows':
+
+from .pseudo_ffprobe import FFprobe
+
+# load os specific ffmpeg bin data
+OS_NAME = system().lower()
+if OS_NAME == 'windows':
     from .static.bin.win32 import win32
-elif os_name == 'linux':
+elif OS_NAME == 'linux':
     from .static.bin.linux import linux
 else:
     from .static.bin.darwin import darwin
+
 
 class FFmpeg():
 
@@ -40,17 +45,17 @@ class FFmpeg():
             self._over_write = '-n'
 
         # Load OS specific ffmpeg executable
-        if os_name == 'windows':
+        if OS_NAME == 'windows':
             self.path_to_ffmpeg = os.path.join(cwd, '.', 'static', 'bin',
                                                'win32')
             self._ffmpeg_file = os.path.join(self.path_to_ffmpeg,
                                              'ffmpeg.exe')
             b64 = win32.contents
-        elif os_name == 'linux':
+        elif OS_NAME == 'linux':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/linux')
             self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = linux.contents
-        elif os_name == 'darwin':
+        elif OS_NAME == 'darwin':
             self.path_to_ffmpeg = os.path.join(cwd, './static/bin/darwin')
             self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = darwin.contents
@@ -58,11 +63,10 @@ class FFmpeg():
             b64 = ""
 
         if not os.path.exists(self._ffmpeg_file):
-            print('not exist')
             raw = b64decode(b64)
             decompressed = decompress(raw)
-            with open(self._ffmpeg_file, 'wb') as f:
-                f.write(decompressed)
+            with open(self._ffmpeg_file, 'wb') as f_file:
+                f_file.write(decompressed)
 
     def convert(self, input_file, output_file):
 
@@ -71,12 +75,12 @@ class FFmpeg():
 
         if os.path.isabs(output_file):
             # absolute file
-            o = output_file
+            out = output_file
         else:
             # not an absolute file
-            o = os.path.join(self.save_dir, output_file)
+            out = os.path.join(self.save_dir, output_file)
 
-        i = input_file.replace("\\", "/")
+        inf = input_file.replace("\\", "/")
 
         if self.loglevel not in self.loglevels:
             msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
@@ -86,10 +90,10 @@ class FFmpeg():
 
         check_output([
             self._ffmpeg_file, self._log_level_stmt, self.loglevel, self._over_write, '-i',
-            i,
-            o
+            inf,
+            out
             ], shell=True)
-        return o
+        return out
 
     def get_ffmpeg_bin(self):
 
@@ -99,6 +103,11 @@ class FFmpeg():
         """
 
         return self._ffmpeg_file
+
+    def get_fps(self, input_file):
+        fprobe = FFprobe(self.get_ffmpeg_bin(), input_file)
+        fps = fprobe.fps
+        return fps
 
     def options(self, options):
 
