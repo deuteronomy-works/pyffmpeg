@@ -9,6 +9,10 @@ from subprocess import check_output
 from platform import system
 from lzma import decompress
 from base64 import b64decode
+
+from .pseudo_ffprobe import FFprobe
+
+# load os specific ffmpeg bin data
 os_name = system().lower()
 if os_name == 'windows':
     from .static.bin.win32 import win32
@@ -16,6 +20,7 @@ elif os_name == 'linux':
     from .static.bin.linux import linux
 else:
     from .static.bin.darwin import darwin
+
 
 class FFmpeg():
 
@@ -98,6 +103,11 @@ class FFmpeg():
         """
 
         return self._ffmpeg_file
+
+    def get_fps(self, input_file):
+        fprobe = FFprobe(self.get_ffmpeg_bin, input_file)
+        fps = fprobe.fps
+        return fps
 
     def options(self, options):
 
