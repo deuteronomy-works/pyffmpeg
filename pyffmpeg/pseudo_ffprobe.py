@@ -9,7 +9,8 @@ import random
 
 class FFprobe():
 
-    def __init__(self, file_name):
+    def __init__(self, _ffmpeg, file_name):
+        self._ffmpeg = _ffmpeg
         self.file_name = file_name
         self.raw_streams = []
         self.video_extract_meths = {'fps': self._extract_fps}
@@ -37,7 +38,7 @@ class FFprobe():
         # randomize the filename to avoid overwrite prompt
         out_file = str(random.randrange(1, 10000000)) + '.mp3'
 
-        commands = ['H:\\CS\\practice\\python\\pyffmpeg subproces\\ffmpeg.exe', '-i', self.file_name, out_file]
+        commands = [self._ffmpeg, '-i', self.file_name, out_file]
 
         # start subprocess
         subP = subprocess.Popen(
@@ -59,5 +60,3 @@ class FFprobe():
         self._extract()
         #print(self.raw_streams)
 
-
-Probe("H:/CS/practice/python/pyffmpeg subproces/vv.mp4")
