@@ -105,7 +105,7 @@ class FFmpeg():
         return self._ffmpeg_file
 
     def get_fps(self, input_file):
-        fprobe = FFprobe(self.get_ffmpeg_bin, input_file)
+        fprobe = FFprobe(self.get_ffmpeg_bin(), input_file)
         fps = fprobe.fps
         return fps
 
