@@ -6,18 +6,21 @@ without using ffprobe itself, but from ffmpeg log info
 import subprocess
 import re
 import random
+import os
+
 
 class FFprobe():
 
     def __init__(self, _ffmpeg, file_name):
         self._ffmpeg = _ffmpeg
         self.file_name = file_name
-        self.raw_streams = []
-        self.video_extract_meths = {'fps': self._extract_fps}
-        self.probe()
 
         # Video metadata
         self.fps = 0
+
+        self.raw_streams = []
+        self.video_extract_meths = {'fps': self._extract_fps}
+        self.probe()
 
     def _extract(self):
 
@@ -30,7 +33,7 @@ class FFprobe():
 
     def _extract_fps(self, stream):
         # Extract fps data from the stream
-        fps_str = re.findall(r'\d+.?\d* fps', stream)[0].split(' fps')
+        fps_str = re.findall(r'\d+.?\d* fps', stream)[0].split(' fps')[0]
         self.fps = float(fps_str)
 
     def probe(self):
@@ -43,13 +46,15 @@ class FFprobe():
         # start subprocess
         subP = subprocess.Popen(
             commands,
+            stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            stdin=subprocess.PIPE,
             shell=True)
 
         # break the operation
         stdout, stderr = subP.communicate(input=b'q')
+
+        os.unlink(out_file)
 
         if not stderr:
             input_data = re.findall(r'Input .*?.*?.*?Stream mapping', str(stdout)[1:-2])[0]
@@ -58,5 +63,3 @@ class FFprobe():
             self.raw_streams = re.findall(r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n', input_data)
 
         self._extract()
-        #print(self.raw_streams)
-
