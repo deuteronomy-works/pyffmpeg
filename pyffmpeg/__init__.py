@@ -10,16 +10,16 @@ from platform import system
 from lzma import decompress
 from base64 import b64decode
 
-from .pseudo_ffprobe import FFprobe
+from pyffmpeg.pseudo_ffprobe import FFprobe
 
 # load os specific ffmpeg bin data
 OS_NAME = system().lower()
 if OS_NAME == 'windows':
-    from .static.bin.win32 import win32
+    from pyffmpeg.static.bin.win32 import win32
 elif OS_NAME == 'linux':
-    from .static.bin.linux import linux
+    from pyffmpeg.static.bin.linux import linux
 else:
-    from .static.bin.darwin import darwin
+    from pyffmpeg.static.bin.darwin import darwin
 
 
 class FFmpeg():
@@ -46,17 +46,19 @@ class FFmpeg():
 
         # Load OS specific ffmpeg executable
         if OS_NAME == 'windows':
-            self.path_to_ffmpeg = os.path.join(cwd, '.', 'static', 'bin',
-                                               'win32')
+            self.path_to_ffmpeg = os.path.join(cwd,
+            '.', 'static', 'bin', 'win32')
             self._ffmpeg_file = os.path.join(self.path_to_ffmpeg,
                                              'ffmpeg.exe')
             b64 = win32.contents
         elif OS_NAME == 'linux':
-            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/linux')
+            self.path_to_ffmpeg = os.path.join(cwd,
+            './static/bin/linux')
             self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = linux.contents
         elif OS_NAME == 'darwin':
-            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/darwin')
+            self.path_to_ffmpeg = os.path.join(cwd,
+            './static/bin/darwin')
             self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = darwin.contents
         else:
@@ -65,6 +67,10 @@ class FFmpeg():
         if not os.path.exists(self._ffmpeg_file):
             raw = b64decode(b64)
             decompressed = decompress(raw)
+            # Create the folders
+            if not os.path.exists(self.path_to_ffmpeg):
+                os.makedirs(self.path_to_ffmpeg)
+            # Finally create the ffmpeg file
             with open(self._ffmpeg_file, 'wb') as f_file:
                 f_file.write(decompressed)
 
@@ -89,10 +95,9 @@ class FFmpeg():
             self.loglevel = 'fatal'
 
         check_output([
-            self._ffmpeg_file, self._log_level_stmt, self.loglevel, self._over_write, '-i',
-            inf,
-            out
-            ], shell=True)
+            self._ffmpeg_file, self._log_level_stmt, self.loglevel,
+            self._over_write, '-i', inf, out], shell=True)
+
         return out
 
     def get_ffmpeg_bin(self):
