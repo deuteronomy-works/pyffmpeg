@@ -10,16 +10,16 @@ from platform import system
 from lzma import decompress
 from base64 import b64decode
 
-from .pseudo_ffprobe import FFprobe
+from pyffmpeg.pseudo_ffprobe import FFprobe
 
 # load os specific ffmpeg bin data
 OS_NAME = system().lower()
 if OS_NAME == 'windows':
-    from .static.bin.win32 import win32
+    from pyffmpeg.static.bin.win32 import win32
 elif OS_NAME == 'linux':
-    from .static.bin.linux import linux
+    from pyffmpeg.static.bin.linux import linux
 else:
-    from .static.bin.darwin import darwin
+    from pyffmpeg.static.bin.darwin import darwin
 
 
 class FFmpeg():
