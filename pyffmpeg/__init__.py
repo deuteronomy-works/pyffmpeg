@@ -65,6 +65,10 @@ class FFmpeg():
         if not os.path.exists(self._ffmpeg_file):
             raw = b64decode(b64)
             decompressed = decompress(raw)
+            # Create the folders
+            if not os.path.exists(self.path_to_ffmpeg):
+                os.makedirs(self.path_to_ffmpeg)
+            # Finally create the ffmpeg file
             with open(self._ffmpeg_file, 'wb') as f_file:
                 f_file.write(decompressed)
 
