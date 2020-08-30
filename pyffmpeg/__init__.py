@@ -46,17 +46,19 @@ class FFmpeg():
 
         # Load OS specific ffmpeg executable
         if OS_NAME == 'windows':
-            self.path_to_ffmpeg = os.path.join(cwd, '.', 'static', 'bin',
-                                               'win32')
+            self.path_to_ffmpeg = os.path.join(cwd,
+            '.', 'static', 'bin', 'win32')
             self._ffmpeg_file = os.path.join(self.path_to_ffmpeg,
                                              'ffmpeg.exe')
             b64 = win32.contents
         elif OS_NAME == 'linux':
-            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/linux')
+            self.path_to_ffmpeg = os.path.join(cwd,
+            './static/bin/linux')
             self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = linux.contents
         elif OS_NAME == 'darwin':
-            self.path_to_ffmpeg = os.path.join(cwd, './static/bin/darwin')
+            self.path_to_ffmpeg = os.path.join(cwd,
+            './static/bin/darwin')
             self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
             b64 = darwin.contents
         else:
@@ -93,10 +95,9 @@ class FFmpeg():
             self.loglevel = 'fatal'
 
         check_output([
-            self._ffmpeg_file, self._log_level_stmt, self.loglevel, self._over_write, '-i',
-            inf,
-            out
-            ], shell=True)
+            self._ffmpeg_file, self._log_level_stmt, self.loglevel,
+            self._over_write, '-i', inf, out], shell=True)
+
         return out
 
     def get_ffmpeg_bin(self):
