@@ -22,6 +22,38 @@ else:
     from pyffmpeg.static.bin.darwin import darwin
 
 
+# Load OS specific ffmpeg executable
+cwd = os.path.dirname(__file__)
+if OS_NAME == 'windows':
+    path_to_ffmpeg = os.path.join(cwd,
+    '.', 'static', 'bin', 'win32')
+    FFMPEG_FILE = os.path.join(path_to_ffmpeg,
+                                        'ffmpeg.exe')
+    b64 = win32.contents
+elif OS_NAME == 'linux':
+    path_to_ffmpeg = os.path.join(cwd,
+    './static/bin/linux')
+    FFMPEG_FILE = path_to_ffmpeg + '/ffmpeg'
+    b64 = linux.contents
+elif OS_NAME == 'darwin':
+    path_to_ffmpeg = os.path.join(cwd,
+    './static/bin/darwin')
+    FFMPEG_FILE = path_to_ffmpeg + '/ffmpeg'
+    b64 = darwin.contents
+else:
+    b64 = ""
+
+if not os.path.exists(FFMPEG_FILE):
+    raw = b64decode(b64)
+    decompressed = decompress(raw)
+    # Create the folders
+    if not os.path.exists(path_to_ffmpeg):
+        os.makedirs(path_to_ffmpeg)
+    # Finally create the ffmpeg file
+    with open(FFMPEG_FILE, 'wb') as f_file:
+        f_file.write(decompressed)
+
+
 class FFmpeg():
 
 
@@ -32,7 +64,6 @@ class FFmpeg():
     def __init__(self, directory="."):
 
         self.save_dir = directory
-        cwd = os.path.dirname(__file__)
         self.overwrite = True
         self.loglevels = (
             'quiet', 'panic', 'fatal', 'error', 'warning',
@@ -44,35 +75,7 @@ class FFmpeg():
         else:
             self._over_write = '-n'
 
-        # Load OS specific ffmpeg executable
-        if OS_NAME == 'windows':
-            self.path_to_ffmpeg = os.path.join(cwd,
-            '.', 'static', 'bin', 'win32')
-            self._ffmpeg_file = os.path.join(self.path_to_ffmpeg,
-                                             'ffmpeg.exe')
-            b64 = win32.contents
-        elif OS_NAME == 'linux':
-            self.path_to_ffmpeg = os.path.join(cwd,
-            './static/bin/linux')
-            self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
-            b64 = linux.contents
-        elif OS_NAME == 'darwin':
-            self.path_to_ffmpeg = os.path.join(cwd,
-            './static/bin/darwin')
-            self._ffmpeg_file = self.path_to_ffmpeg + '/ffmpeg'
-            b64 = darwin.contents
-        else:
-            b64 = ""
-
-        if not os.path.exists(self._ffmpeg_file):
-            raw = b64decode(b64)
-            decompressed = decompress(raw)
-            # Create the folders
-            if not os.path.exists(self.path_to_ffmpeg):
-                os.makedirs(self.path_to_ffmpeg)
-            # Finally create the ffmpeg file
-            with open(self._ffmpeg_file, 'wb') as f_file:
-                f_file.write(decompressed)
+        self._ffmpeg_file = FFMPEG_FILE
 
     def convert(self, input_file, output_file):
 
