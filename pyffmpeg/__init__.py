@@ -8,50 +8,59 @@ import os
 from subprocess import check_output
 from platform import system
 from lzma import decompress
-from base64 import b64decode
+from base64 import b64decode, b64encode
 
 from pyffmpeg.pseudo_ffprobe import FFprobe
 
-# load os specific ffmpeg bin data
-OS_NAME = system().lower()
-if OS_NAME == 'windows':
-    from pyffmpeg.static.bin.win32 import win32
-elif OS_NAME == 'linux':
-    from pyffmpeg.static.bin.linux import linux
-else:
-    from pyffmpeg.static.bin.darwin import darwin
+def load_ffmpeg_bin():
+
+    # load os specific ffmpeg bin data
+    os_name = system().lower()
+    if os_name == 'windows':
+        from pyffmpeg.static.bin.win32 import win32
+    elif os_name == 'linux':
+        from pyffmpeg.static.bin.linux import linux
+    else:
+        from pyffmpeg.static.bin.darwin import darwin
 
 
-# Load OS specific ffmpeg executable
-cwd = os.path.dirname(__file__)
-if OS_NAME == 'windows':
-    path_to_ffmpeg = os.path.join(cwd,
-    '.', 'static', 'bin', 'win32')
-    FFMPEG_FILE = os.path.join(path_to_ffmpeg,
-                                        'ffmpeg.exe')
-    b64 = win32.contents
-elif OS_NAME == 'linux':
-    path_to_ffmpeg = os.path.join(cwd,
-    './static/bin/linux')
-    FFMPEG_FILE = path_to_ffmpeg + '/ffmpeg'
-    b64 = linux.contents
-elif OS_NAME == 'darwin':
-    path_to_ffmpeg = os.path.join(cwd,
-    './static/bin/darwin')
-    FFMPEG_FILE = path_to_ffmpeg + '/ffmpeg'
-    b64 = darwin.contents
-else:
-    b64 = ""
+    # Load OS specific ffmpeg executable
+    cwd = os.path.dirname(__file__)
+    if os_name == 'windows':
+        path_to_ffmpeg = os.path.join(cwd,
+        '.', 'static', 'bin', 'win32')
+        ffmpeg_file = os.path.join(path_to_ffmpeg,
+                                            'ffmpeg.exe')
+        b64 = win32.contents
+    elif os_name == 'linux':
+        path_to_ffmpeg = os.path.join(cwd,
+        './static/bin/linux')
+        ffmpeg_file = path_to_ffmpeg + '/ffmpeg'
+        b64 = linux.contents
+    elif os_name == 'darwin':
+        path_to_ffmpeg = os.path.join(cwd,
+        './static/bin/darwin')
+        ffmpeg_file = path_to_ffmpeg + '/ffmpeg'
+        b64 = darwin.contents
+    else:
+        b64 = ""
 
-if not os.path.exists(FFMPEG_FILE):
-    raw = b64decode(b64)
-    decompressed = decompress(raw)
-    # Create the folders
-    if not os.path.exists(path_to_ffmpeg):
-        os.makedirs(path_to_ffmpeg)
-    # Finally create the ffmpeg file
-    with open(FFMPEG_FILE, 'wb') as f_file:
-        f_file.write(decompressed)
+    if not os.path.exists(ffmpeg_file):
+        raw = b64decode(b64)
+        decompressed = decompress(raw)
+        # Create the folders
+        if not os.path.exists(path_to_ffmpeg):
+            os.makedirs(path_to_ffmpeg)
+        # Finally create the ffmpeg file
+        with open(ffmpeg_file, 'wb') as f_file:
+            f_file.write(decompressed)
+
+        # Write path to file
+        with open('FFMBIN.PYF', 'w') as pyf:
+            conts = str(b64encode(bytes(ffmpeg_file, 'utf-8')))[2:-1]
+            pyf.write(conts)
+
+    return ffmpeg_file
 
 
 class FFmpeg():
@@ -75,7 +84,14 @@ class FFmpeg():
         else:
             self._over_write = '-n'
 
-        self._ffmpeg_file = FFMPEG_FILE
+        if os.path.exists('FFMBIN.PYF'):
+            # get ffmpeg path
+            with open('FFMBIN.PYF', 'rb') as pyf:
+                conts = b64decode(pyf.read())
+            self._ffmpeg_file = str(conts, 'utf-8')
+
+        else:
+            self._ffmpeg_file = load_ffmpeg_bin()
 
     def convert(self, input_file, output_file):
 
@@ -113,7 +129,7 @@ class FFmpeg():
         return self._ffmpeg_file
 
     def get_fps(self, input_file):
-        fprobe = FFprobe(self.get_ffmpeg_bin(), input_file)
+        fprobe = FFprobe(input_file)
         fps = fprobe.fps
         return fps
 
