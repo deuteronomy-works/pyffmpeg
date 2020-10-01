@@ -7,12 +7,22 @@ import subprocess
 import re
 import random
 import os
+from base64 import b64decode
 
 
 class FFprobe():
 
-    def __init__(self, _ffmpeg, file_name):
-        self._ffmpeg = _ffmpeg
+    def __init__(self, file_name):
+        if os.path.exists('FFMBIN.PYF'):
+            # get ffmpeg path
+            with open('FFMBIN.PYF', 'rb') as pyf:
+                conts = b64decode(pyf.read())
+            self._ffmpeg = str(conts, 'utf-8')
+
+        else:
+            from pyffmpeg import load_ffmpeg_bin
+            self._ffmpeg = load_ffmpeg_bin()
+
         self.file_name = file_name
 
         # Video metadata
@@ -63,3 +73,4 @@ class FFprobe():
             self.raw_streams = re.findall(r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n', input_data)
 
         self._extract()
+
