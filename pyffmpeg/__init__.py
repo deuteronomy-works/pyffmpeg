@@ -57,7 +57,7 @@ def load_ffmpeg_bin():
 
         # Write path to file
         with open('FFMBIN.PYF', 'w') as pyf:
-            conts = str(b64encode(ffmpeg_file))[2:-1]
+            conts = str(b64encode(bytes(ffmpeg_file, 'utf-8')))[2:-1]
             pyf.write(conts)
 
     return ffmpeg_file
