@@ -12,17 +12,10 @@ from base64 import b64decode, b64encode
 
 from pyffmpeg.pseudo_ffprobe import FFprobe
 
+
 def load_ffmpeg_bin():
 
-    # load os specific ffmpeg bin data
     os_name = system().lower()
-    if os_name == 'windows':
-        from pyffmpeg.static.bin.win32 import win32
-    elif os_name == 'linux':
-        from pyffmpeg.static.bin.linux import linux
-    else:
-        from pyffmpeg.static.bin.darwin import darwin
-
 
     # Load OS specific ffmpeg executable
     cwd = os.path.dirname(__file__)
@@ -31,21 +24,28 @@ def load_ffmpeg_bin():
         '.', 'static', 'bin', 'win32')
         ffmpeg_file = os.path.join(path_to_ffmpeg,
                                             'ffmpeg.exe')
-        b64 = win32.contents
     elif os_name == 'linux':
         path_to_ffmpeg = os.path.join(cwd,
         './static/bin/linux')
         ffmpeg_file = path_to_ffmpeg + '/ffmpeg'
-        b64 = linux.contents
     elif os_name == 'darwin':
         path_to_ffmpeg = os.path.join(cwd,
         './static/bin/darwin')
         ffmpeg_file = path_to_ffmpeg + '/ffmpeg'
-        b64 = darwin.contents
-    else:
-        b64 = ""
 
     if not os.path.exists(ffmpeg_file):
+
+        # load os specific ffmpeg bin data
+        if os_name == 'windows':
+            from pyffmpeg.static.bin.win32 import win32
+            b64 = win32.contents
+        elif os_name == 'linux':
+            from pyffmpeg.static.bin.linux import linux
+            b64 = linux.contents
+        else:
+            from pyffmpeg.static.bin.darwin import darwin
+            b64 = darwin.contents
+
         raw = b64decode(b64)
         decompressed = decompress(raw)
         # Create the folders
