@@ -40,7 +40,7 @@ def test_get_ffmpeg_bin():
     sys = system()
     if sys == 'Windows':
         folder = 'win32\\ffmpeg.exe'
-    elif sys == 'linux':
+    elif sys == 'Linux':
         folder = 'linux/ffmpeg'
     else:
         folder = 'darwin/ffmpeg'
