@@ -43,6 +43,7 @@ def test_get_ffmpeg_bin():
     elif sys == 'linux':
         folder = 'linux/ffmpeg'
     else:
+        print('sys here: ', sys)
         folder = 'darwin/ffmpeg'
 
     f_path = os.path.join(cwd, 'pyffmpeg', '.', 'static', 'bin', folder)
