@@ -32,7 +32,7 @@ def test_convert():
 
     a = FFmpeg()
     ret = a.convert(i, o)
-    os.remove(o)
+    #os.remove(o)
     assert ret == o
 
 def test_get_ffmpeg_bin():
@@ -72,5 +72,5 @@ def test_options():
 
     a = FFmpeg()
     ret = a.options(opt)
-    os.remove(o)
+    #os.remove(o)
     assert b'' == ret
