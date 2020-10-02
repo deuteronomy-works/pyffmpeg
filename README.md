@@ -1,4 +1,4 @@
-# pyffmpeg  [![Downloads](https://pepy.tech/badge/pyffmpeg)](https://pepy.tech/project/pyffmpeg)
+# pyffmpeg  [![Downloads](https://pepy.tech/badge/pyffmpeg)](https://pepy.tech/project/pyffmpeg) [![Build Status](https://travis-ci.com/deuteronomy-works/pyffmpeg.svg?branch=master)](https://travis-ci.com/deuteronomy-works/pyffmpeg)  [![Build Status](https://travis-ci.com/deuteronomy-works/pyffmpeg.svg?branch=build-windows)](https://travis-ci.com/deuteronomy-works/pyffmpeg)  [![Build Status](https://travis-ci.com/deuteronomy-works/pyffmpeg.svg?branch=build-linux)](https://travis-ci.com/deuteronomy-works/pyffmpeg)  [![Build Status](https://travis-ci.com/deuteronomy-works/pyffmpeg.svg?branch=build-darwin)](https://travis-ci.com/deuteronomy-works/pyffmpeg)
 FFmpeg wrapper for python.
 
 The beautiful thing about it is that it comes with its own FFmpeg executable. It is compressed, making it the smallest you can find. And becuase its cross-platform and python 3, it is the only option available for building cross-platform apps with ffmpeg in python.
