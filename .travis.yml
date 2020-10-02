@@ -1,4 +1,5 @@
-language: python            # this works for Linux but is an error on macOS or Windows
+language: python
 jobs:
   allow_failures:
     - if: branch = master
+    - if: branch = development
