@@ -3,7 +3,10 @@ from platform import system
 import pytest
 from pyffmpeg import FFmpeg
 
+
 cwd = os.path.dirname(__file__)
+i = "https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/_test/f.mp3"
+
 
 def test_save_directory():
 
@@ -24,7 +27,7 @@ def test_convert():
     """
 
     path = os.path.join(cwd, '_test')
-    i = os.path.join(path, 'f.mp3')
+    #i = os.path.join(path, 'f.mp3')
     o = os.path.join(path, 'f.wav')
 
     a = FFmpeg()
@@ -51,7 +54,7 @@ def test_loglevel():
     ff.loglevel = 'fa'
 
     path = os.path.join(cwd, '_test')
-    i = os.path.join(path, 'f.mp3')
+    #i = os.path.join(path, 'f.mp3')
     o = os.path.join(path, 'f.wav')
 
     opt = ['-i', i, o]
@@ -62,7 +65,7 @@ def test_loglevel():
 def test_options():
 
     path = os.path.join(cwd, '_test')
-    i = os.path.join(path, 'f.mp3')
+    #i = os.path.join(path, 'f.mp3')
     o = os.path.join(path, 'f.wav')
 
     opt = ['-i', i, o]
