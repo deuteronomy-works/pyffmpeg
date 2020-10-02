@@ -1,4 +1,4 @@
 language: python            # this works for Linux but is an error on macOS or Windows
 jobs:
-  exclude:
+  allow_failures:
     - if: branch = master
