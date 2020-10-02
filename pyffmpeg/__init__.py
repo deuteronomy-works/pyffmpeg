@@ -5,7 +5,7 @@ Created on Wed Mar 25 15:07:19 2020
 """
 
 import os
-from subprocess import check_output
+from subprocess import run
 from platform import system
 from lzma import decompress
 from base64 import b64decode, b64encode
@@ -113,7 +113,7 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        check_output([
+        run([
             self._ffmpeg_file, self._log_level_stmt, self.loglevel,
             self._over_write, '-i', inf, out], shell=True)
 
@@ -157,5 +157,5 @@ class FFmpeg():
             options.insert(0, self._log_level_stmt)
         options.insert(0, self._ffmpeg_file)
 
-        out = check_output(options, shell=True)
-        return out
+        out = run(options, shell=True, capture_output=True)
+        return out.stdout
