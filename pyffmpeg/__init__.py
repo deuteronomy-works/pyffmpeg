@@ -56,18 +56,11 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        outP = run([
+        run([
             self._ffmpeg_file, self._log_level_stmt, self.loglevel,
-            self._over_write, '-i', inf, out], shell=True,
-            capture_output=True)
+            self._over_write, '-i', inf, out], shell=True)
 
-        print(outP.stderr)
-
-        if os.path.exists(out):
-            print('yes')
-            return out
-        else:
-            print('no')
+        return out
 
     def get_ffmpeg_bin(self):
 

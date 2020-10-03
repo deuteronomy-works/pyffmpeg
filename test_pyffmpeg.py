@@ -28,17 +28,11 @@ def test_convert():
     """
 
     path = Paths().home_path
-    o = os.path.join(path, 'f.wav')
+    out = os.path.join(path, 'f.wav')
 
     ff = FFmpeg()
-    ff.loglevel = 'verbose'
-    ff.convert(i, o)
-    if os.path.exists(o):
-        os.remove(o)
-        assert True
-    else:
-        print(os.listdir(path))
-        assert False
+    ret = ff.convert(i, out)
+    assert out == ret
 
 def test_get_ffmpeg_bin():
 
@@ -66,10 +60,5 @@ def test_options():
     opt = ['-i', i, o]
 
     ff = FFmpeg()
-    ff.options(opt)
-    if os.path.exists(o):
-        os.remove(o)
-        assert True
-    else:
-        print(path)
-        assert False
+    ret = ff.options(opt)
+    assert b'' == ret
