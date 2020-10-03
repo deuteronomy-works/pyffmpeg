@@ -26,29 +26,29 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
     - name: Build master
+      if: branch = master
       run: |
         python setup.py sdist
-      if: branch = master
     - name: Build Linux
+      if: branch = build-linux
       run: |
         python setup.py sdist bdist_wheel
         python rename.py linux
-      if: branch = build-linux
     - name: Build Darwin
+      if: branch = build-darwin
       run: |
         python setup.py sdist bdist_wheel
         python rename.py macos
-      if: branch = build-darwin
     - name: Build Windows 32
+      if: branch = build-windows
       run: |
         python setup.py sdist bdist_wheel
         python rename.py win32
-      if: branch = build-windows
     - name: Build Windows x64
+      if: branch = build-windows
       run: |
         python setup.py sdist bdist_wheel
         python rename.py amd64
-      if: branch = build-windows
     - name: Publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
