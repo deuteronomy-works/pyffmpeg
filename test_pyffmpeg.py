@@ -31,12 +31,13 @@ def test_convert():
     o = os.path.join(path, 'f.wav')
 
     ff = FFmpeg()
+    ff.loglevel = 'verbose'
     ff.convert(i, o)
     if os.path.exists(o):
         os.remove(o)
         assert True
     else:
-        print(path)
+        print(os.listdir(path))
         assert False
 
 def test_get_ffmpeg_bin():
