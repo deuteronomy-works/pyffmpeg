@@ -28,7 +28,7 @@ jobs:
         python rename.py win32
     - name: Build Windows x64
       run: |
-        python setup.py sdist bdist_wheel
+        python setup.py bdist_wheel
         python rename.py amd64
     - name: Publish
       env:
