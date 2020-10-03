@@ -2,6 +2,7 @@ import os
 from platform import system
 import pytest
 from pyffmpeg import FFmpeg
+from pyffmpeg.misc import Paths
 
 
 cwd = os.path.dirname(__file__)
@@ -27,27 +28,21 @@ def test_convert():
     """
 
     path = os.path.join(cwd, '_test')
-    #i = os.path.join(path, 'f.mp3')
     o = os.path.join(path, 'f.wav')
 
-    a = FFmpeg()
-    ret = a.convert(i, o)
-    #os.remove(o)
-    assert ret == o
+    ff = FFmpeg()
+    ff.convert(i, o)
+    if os.path.exists(o):
+        os.remove(o)
+        assert True
+    else:
+        assert False
 
 def test_get_ffmpeg_bin():
 
-    sys = system()
-    if sys == 'Windows':
-        folder = 'win32\\ffmpeg.exe'
-    elif sys == 'Linux':
-        folder = 'linux/ffmpeg'
-    else:
-        folder = 'darwin/ffmpeg'
-
-    f_path = os.path.join(cwd, 'pyffmpeg', '.', 'static', 'bin', folder)
+    home_path = Paths().load_ffmpeg_bin()
     bin_path = FFmpeg().get_ffmpeg_bin()
-    assert f_path == bin_path
+    assert home_path == bin_path
 
 def test_loglevel():
     ff = FFmpeg()
@@ -70,7 +65,10 @@ def test_options():
 
     opt = ['-i', i, o]
 
-    a = FFmpeg()
-    ret = a.options(opt)
-    #os.remove(o)
-    assert b'' == ret
+    ff = FFmpeg()
+    ff.options(opt)
+    if os.path.exists(o):
+        os.remove(o)
+        assert True
+    else:
+        assert False
