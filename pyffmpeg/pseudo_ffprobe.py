@@ -9,7 +9,7 @@ import random
 import os
 from base64 import b64decode
 
-from pyffmpeg import v
+from .misc import load_ffmpeg_bin
 
 
 class FFprobe():
