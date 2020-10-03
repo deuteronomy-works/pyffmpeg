@@ -11,7 +11,7 @@ from lzma import decompress
 from base64 import b64decode, b64encode
 
 from .pseudo_ffprobe import FFprobe
-from .misc import load_ffmpeg_bin
+from .misc import Paths
 
 
 class FFmpeg():
@@ -34,7 +34,7 @@ class FFmpeg():
             self._over_write = '-y'
         else:
             self._over_write = '-n'
-        self._ffmpeg_file = load_ffmpeg_bin()
+        self._ffmpeg_file = Paths().load_ffmpeg_bin()
 
     def convert(self, input_file, output_file):
 

@@ -9,14 +9,14 @@ import random
 import os
 from base64 import b64decode
 
-from .misc import load_ffmpeg_bin
+from .misc import Paths
 
 
 class FFprobe():
 
     def __init__(self, file_name):
 
-        self._ffmpeg = load_ffmpeg_bin()
+        self._ffmpeg = Paths().load_ffmpeg_bin()
         self.file_name = file_name
 
         # Video metadata
