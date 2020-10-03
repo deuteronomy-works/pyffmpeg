@@ -28,27 +28,27 @@ jobs:
     - name: Build master
       run: |
         python setup.py sdist
-        if: branch = master
+      if: branch = master
     - name: Build Linux
       run: |
         python setup.py sdist bdist_wheel
         python rename.py linux
-        if: branch = build-linux
+      if: branch = build-linux
     - name: Build Darwin
       run: |
         python setup.py sdist bdist_wheel
         python rename.py macos
-        if: branch = build-darwin
+      if: branch = build-darwin
     - name: Build Windows 32
       run: |
         python setup.py sdist bdist_wheel
         python rename.py win32
-        if: branch = build-windows
+      if: branch = build-windows
     - name: Build Windows x64
       run: |
         python setup.py sdist bdist_wheel
         python rename.py amd64
-        if: branch = build-windows
+      if: branch = build-windows
     - name: Publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
