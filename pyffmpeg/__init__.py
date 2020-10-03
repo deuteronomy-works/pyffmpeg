@@ -61,7 +61,7 @@ class FFmpeg():
             self._over_write, '-i', inf, out], shell=True,
             capture_output=True)
 
-        print(outP.stdout)
+        print(outP.stderr)
 
         if os.path.exists(out):
             print('yes')
