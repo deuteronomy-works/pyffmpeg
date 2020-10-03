@@ -10,28 +10,25 @@ from platform import system
 from lzma import decompress
 from base64 import b64decode, b64encode
 
-from pyffmpeg.pseudo_ffprobe import FFprobe
+from .pseudo_ffprobe import FFprobe
 
+v = ''
 
 def load_ffmpeg_bin():
 
-    os_name = system().lower()
-
     # Load OS specific ffmpeg executable
-    cwd = os.path.dirname(__file__)
+    os_name = system().lower()
     if os_name == 'windows':
-        path_to_ffmpeg = os.path.join(cwd,
-        '.', 'static', 'bin', 'win32')
-        ffmpeg_file = os.path.join(path_to_ffmpeg,
-                                            'ffmpeg.exe')
-    elif os_name == 'linux':
-        path_to_ffmpeg = os.path.join(cwd,
-        './static/bin/linux')
-        ffmpeg_file = path_to_ffmpeg + '/ffmpeg'
-    elif os_name == 'darwin':
-        path_to_ffmpeg = os.path.join(cwd,
-        './static/bin/darwin')
-        ffmpeg_file = path_to_ffmpeg + '/ffmpeg'
+        env_name = 'USERPROFILE'
+        ffmpeg_ext = '.exe'
+    else:
+        env_name = 'HOME'
+        ffmpeg_ext = ""
+
+    bin_path = os.path.join(
+        os.environ[env_name], '.pyffmpeg', 'bin')
+    ffmpeg_file = os.path.join(
+        bin_path, 'ffmpeg'+ffmpeg_ext)
 
     if not os.path.exists(ffmpeg_file):
 
@@ -49,16 +46,11 @@ def load_ffmpeg_bin():
         raw = b64decode(b64)
         decompressed = decompress(raw)
         # Create the folders
-        if not os.path.exists(path_to_ffmpeg):
-            os.makedirs(path_to_ffmpeg)
+        if not os.path.exists(bin_path):
+            os.makedirs(bin_path)
         # Finally create the ffmpeg file
         with open(ffmpeg_file, 'wb') as f_file:
             f_file.write(decompressed)
-
-        # Write path to file
-        with open('FFMBIN.PYF', 'w') as pyf:
-            conts = str(b64encode(bytes(ffmpeg_file, 'utf-8')))[2:-1]
-            pyf.write(conts)
 
     return ffmpeg_file
 
@@ -83,15 +75,7 @@ class FFmpeg():
             self._over_write = '-y'
         else:
             self._over_write = '-n'
-
-        if os.path.exists('FFMBIN.PYF'):
-            # get ffmpeg path
-            with open('FFMBIN.PYF', 'rb') as pyf:
-                conts = b64decode(pyf.read())
-            self._ffmpeg_file = str(conts, 'utf-8')
-
-        else:
-            self._ffmpeg_file = load_ffmpeg_bin()
+        self._ffmpeg_file = load_ffmpeg_bin()
 
     def convert(self, input_file, output_file):
 
