@@ -27,16 +27,12 @@ def test_convert():
     """
     """
 
-    path = os.path.join(cwd, '_test')
-    o = os.path.join(path, 'f.wav')
+    path = Paths().home_path
+    out = os.path.join(path, 'f.wav')
 
     ff = FFmpeg()
-    ff.convert(i, o)
-    if os.path.exists(o):
-        os.remove(o)
-        assert True
-    else:
-        assert False
+    ret = ff.convert(i, out)
+    assert out == ret
 
 def test_get_ffmpeg_bin():
 
@@ -48,8 +44,7 @@ def test_loglevel():
     ff = FFmpeg()
     ff.loglevel = 'fa'
 
-    path = os.path.join(cwd, '_test')
-    #i = os.path.join(path, 'f.mp3')
+    path = Paths().home_path
     o = os.path.join(path, 'f.wav')
 
     opt = ['-i', i, o]
@@ -59,16 +54,11 @@ def test_loglevel():
 
 def test_options():
 
-    path = os.path.join(cwd, '_test')
-    #i = os.path.join(path, 'f.mp3')
+    path = Paths().home_path
     o = os.path.join(path, 'f.wav')
 
     opt = ['-i', i, o]
 
     ff = FFmpeg()
-    ff.options(opt)
-    if os.path.exists(o):
-        os.remove(o)
-        assert True
-    else:
-        assert False
+    ret = ff.options(opt)
+    assert b'' == ret
