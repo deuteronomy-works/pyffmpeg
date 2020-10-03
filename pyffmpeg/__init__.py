@@ -60,7 +60,11 @@ class FFmpeg():
             self._ffmpeg_file, self._log_level_stmt, self.loglevel,
             self._over_write, '-i', inf, out], shell=True)
 
-        return out
+        if os.path.exists(out):
+            print('yes')
+            return out
+        else:
+            print('no')
 
     def get_ffmpeg_bin(self):
 
