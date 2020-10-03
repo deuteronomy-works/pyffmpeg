@@ -24,7 +24,7 @@ jobs:
         pip install setuptools wheel twine
     - name: Build Windows 32
       run: |
-        python setup.py sdist bdist_wheel
+        python setup.py bdist_wheel
         python rename.py win32
     - name: Build Windows x64
       run: |
