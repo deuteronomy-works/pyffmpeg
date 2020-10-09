@@ -35,6 +35,7 @@ class FFmpeg():
         else:
             self._over_write = '-n'
         self._ffmpeg_file = Paths().load_ffmpeg_bin()
+        self.error = ''
 
     def convert(self, input_file, output_file):
 
@@ -56,10 +57,11 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        run([
+        outP = run([
             self._ffmpeg_file, self._log_level_stmt, self.loglevel,
-            self._over_write, '-i', inf, out], shell=True)
+            self._over_write, '-i', inf, out], shell=True, capture_output=True)
 
+        self.error = str(outP.stderr, 'utf-8')
         return out
 
     def get_ffmpeg_bin(self):
@@ -97,9 +99,6 @@ class FFmpeg():
                 options.insert(0, self._log_level_stmt)
             options.insert(0, self._ffmpeg_file)
 
-            out = run(options, shell=True, capture_output=True)
-            return out.stdout
-
         else:
             options = opts
 
@@ -123,5 +122,6 @@ class FFmpeg():
             # add ffmpeg
             options = " ".join([self._ffmpeg_file, options])
 
-            out = run(options, shell=True, capture_output=True)
-            return options
+        out = run(options, shell=True, capture_output=True)
+        self.error = str(out.stderr, 'utf-8')
+        return True
