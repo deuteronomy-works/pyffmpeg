@@ -67,4 +67,3 @@ class FFprobe():
             self.raw_streams = re.findall(r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n', input_data)
 
         self._extract()
-

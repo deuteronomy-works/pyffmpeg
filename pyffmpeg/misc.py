@@ -1,6 +1,5 @@
 """
 To Provide miscellaneous function
-
 """
 
 import os
