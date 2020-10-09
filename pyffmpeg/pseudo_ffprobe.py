@@ -9,7 +9,7 @@ import random
 import os
 from base64 import b64decode
 
-from .misc import Paths
+from .misc import Paths, fix_splashes
 
 
 class FFprobe():

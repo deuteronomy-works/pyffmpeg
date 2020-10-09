@@ -57,3 +57,17 @@ class Paths():
                 f_file.write(decompressed)
 
         return self.ffmpeg_file
+
+
+def fix_splashes(options):
+    if system().lower() == 'windows':
+        new_opts = []
+        for entry in options:
+            fixed = entry
+            if '/' in entry:
+                fixing = entry.replace('/', '\\')
+                fixed = fixing
+            new_opts.append(fixed)
+        return new_opts
+    else:
+        return options

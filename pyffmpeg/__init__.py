@@ -11,7 +11,7 @@ from lzma import decompress
 from base64 import b64decode, b64encode
 
 from .pseudo_ffprobe import FFprobe
-from .misc import Paths
+from .misc import Paths, fix_splashes
 
 
 class FFmpeg():
@@ -76,29 +76,52 @@ class FFmpeg():
         fps = fprobe.fps
         return fps
 
-    def options(self, options):
+    def options(self, opts):
 
         """
         """
 
-        if type(options) == type([]):
-            pass
+        if type(opts) == type([]):
+            options = fix_splashes(opts)
+
+            # Add ffmpeg and overwrite variable
+            options.insert(0, self._over_write)
+            if self.loglevel not in self.loglevels:
+                msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+                ' Using fatal instead'
+                print(msg.format(self.loglevel))
+                self.loglevel = 'fatal'
+
+            if self.loglevel != 'fatal':
+                options.insert(0, self.loglevel)
+                options.insert(0, self._log_level_stmt)
+            options.insert(0, self._ffmpeg_file)
+
+            out = run(options, shell=True, capture_output=True)
+            return out.stdout
+
         else:
-            splits = options.split(' ')
-            options = [item for item in splits]
+            options = opts
 
-        # Add ffmpeg and overwrite variable
-        options.insert(0, self._over_write)
-        if self.loglevel not in self.loglevels:
-            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
-            ' Using fatal instead'
-            print(msg.format(self.loglevel))
-            self.loglevel = 'fatal'
+            # Add ffmpeg and overwrite variable
 
-        if self.loglevel != 'fatal':
-            options.insert(0, self.loglevel)
-            options.insert(0, self._log_level_stmt)
-        options.insert(0, self._ffmpeg_file)
+            # handle overwrite
+            if self._over_write not in options:
+                options = " ".join([self._over_write, options])
 
-        out = run(options, shell=True, capture_output=True)
-        return out.stdout
+            # handle loglevel
+            if self._log_level_stmt not in options:
+                if self.loglevel not in self.loglevels:
+                    msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+                    ' Using fatal instead'
+                    print(msg.format(self.loglevel))
+                    self.loglevel = 'fatal'
+
+                if self.loglevel != 'fatal':
+                    options = " ".join([self._log_level_stmt, self.loglevel, options])
+            
+            # add ffmpeg
+            options = " ".join([self._ffmpeg_file, options])
+
+            out = run(options, shell=True, capture_output=True)
+            return options
