@@ -52,7 +52,7 @@ class FFmpeg():
         inf = input_file.replace("\\", "/")
 
         if self.loglevel not in self.loglevels:
-            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +
             ' Using fatal instead'
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
@@ -83,14 +83,14 @@ class FFmpeg():
         """
         """
 
-        if type(opts) == type([]):
+        if isinstance(opts, list):
             options = fix_splashes(opts)
 
             # Add ffmpeg and overwrite variable
             options.insert(0, self._over_write)
             if self.loglevel not in self.loglevels:
                 msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
-                ' Using fatal instead'
+                 ' Using fatal instead'
                 print(msg.format(self.loglevel))
                 self.loglevel = 'fatal'
 
@@ -112,13 +112,14 @@ class FFmpeg():
             if self._log_level_stmt not in options:
                 if self.loglevel not in self.loglevels:
                     msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
-                    ' Using fatal instead'
+                     ' Using fatal instead'
                     print(msg.format(self.loglevel))
                     self.loglevel = 'fatal'
 
                 if self.loglevel != 'fatal':
-                    options = " ".join([self._log_level_stmt, self.loglevel, options])
-            
+                    options = " ".join(
+                        [self._log_level_stmt, self.loglevel, options])
+
             # add ffmpeg
             options = " ".join([self._ffmpeg_file, options])
 
