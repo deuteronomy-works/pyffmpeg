@@ -9,7 +9,7 @@ import random
 import os
 from base64 import b64decode
 
-from .misc import Paths
+from .misc import Paths, fix_splashes
 
 
 class FFprobe():
@@ -67,4 +67,3 @@ class FFprobe():
             self.raw_streams = re.findall(r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n', input_data)
 
         self._extract()
-

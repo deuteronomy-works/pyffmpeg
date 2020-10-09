@@ -31,8 +31,16 @@ def test_convert():
     out = os.path.join(path, 'f.wav')
 
     ff = FFmpeg()
-    ret = ff.convert(i, out)
-    assert out == ret
+    ff.loglevel = 'info'
+    ff.convert(i, out)
+    if ff.error:
+        if 'Output' in ff.error:
+            assert True
+        else:
+            print(ff.error)
+            assert False
+    else:
+        assert True
 
 def test_get_ffmpeg_bin():
 
@@ -61,4 +69,11 @@ def test_options():
 
     ff = FFmpeg()
     ret = ff.options(opt)
-    assert b'' == ret
+    if ff.error:
+        if 'Output' in ff.error:
+            assert True
+        else:
+            print(ff.error)
+            assert False
+    else:
+        assert True
