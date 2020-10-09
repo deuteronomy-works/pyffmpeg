@@ -52,8 +52,8 @@ class FFmpeg():
         inf = input_file.replace("\\", "/")
 
         if self.loglevel not in self.loglevels:
-            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +
-            ' Using fatal instead'
+            msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+             ' Using fatal instead'
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
