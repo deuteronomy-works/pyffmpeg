@@ -57,7 +57,7 @@ class FFmpeg():
             self.loglevel = 'fatal'
 
         print(f'Query: {self._ffmpeg_file}, {self._log_level_stmt}, {self.loglevel}, {self._over_write}')
-        outP = run(f"{self._ffmpeg_file} -y -i https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/_test/f.mp3 /home/travis/.pyffmpeg/f.wav", shell=True, capture_output=True)
+        outP = run(f"{self._ffmpeg_file} -loglevel info -y -i https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/_test/f.mp3 /home/travis/.pyffmpeg/f.wav", shell=True, capture_output=True)
         #outP = run([
         #    self._ffmpeg_file, self._over_write, '-i', inf, out], shell=True, capture_output=True)
 
