@@ -59,7 +59,7 @@ class FFmpeg():
         print(f'Query: {self._log_level_stmt}, {self.loglevel}, {self._over_write}')
         outP = run([
             self._ffmpeg_file, self._over_write, '-i', inf, out,
-            self._log_level_stmt, self.loglevel,], shell=True, capture_output=True)
+            self._log_level_stmt, self.loglevel], shell=True, capture_output=True)
 
         self.error = str(outP.stderr, 'utf-8')
         return out
