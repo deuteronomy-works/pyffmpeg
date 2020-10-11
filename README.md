@@ -21,7 +21,6 @@ output_file = ff.convert(inp, out)
 
 print(output_file)
 
-
 ```
 
 ## Advanced Usage
