@@ -56,11 +56,9 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        print(f'Query: {self._ffmpeg_file}, {self._log_level_stmt}, {self.loglevel}, {self._over_write}')
-        outP = run(f"{self._ffmpeg_file} -loglevel {self.loglevel} {self._over_write} -i {inf} {out}", shell=True, capture_output=True)
-        #outP = run([
-        #    self._ffmpeg_file, self._over_write, '-i', inf, out], shell=True, capture_output=True)
-
+        outP = run(f"{self._ffmpeg_file} -loglevel {self.loglevel} " +
+                    "{self._over_write} -i {inf} {out}",
+                    shell=True, capture_output=True)
         self.error = str(outP.stderr, 'utf-8')
         return out
 
@@ -120,7 +118,6 @@ class FFmpeg():
 
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
-        print(f"options: {options}")
 
         out = run(options, shell=True, capture_output=True)
         self.error = str(out.stderr, 'utf-8')
