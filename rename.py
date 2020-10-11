@@ -18,4 +18,3 @@ for x in lists:
         print(na)
         new_name = '-'.join(na)
         os.rename(x, new_name)
-
