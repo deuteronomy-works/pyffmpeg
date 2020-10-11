@@ -94,7 +94,7 @@ class FFmpeg():
                 self.loglevel = 'fatal'
 
             if self.loglevel != 'fatal':
-            options.insert(0, self._ffmpeg_file)
+                options.insert(0, self._ffmpeg_file)
 
         else:
             options = opts
