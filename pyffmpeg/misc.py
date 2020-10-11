@@ -1,6 +1,5 @@
 """
 To Provide miscellaneous function
-
 """
 
 import os
@@ -56,4 +55,22 @@ class Paths():
             with open(self.ffmpeg_file, 'wb') as f_file:
                 f_file.write(decompressed)
 
+            # Do chmod on Unix
+            if os_name != 'windows':
+                os.system(f'chmod +x {self.ffmpeg_file}')
+
         return self.ffmpeg_file
+
+
+def fix_splashes(options):
+    if system().lower() == 'windows':
+        new_opts = []
+        for entry in options:
+            fixed = entry
+            if '/' in entry:
+                fixing = entry.replace('/', '\\')
+                fixed = fixing
+            new_opts.append(fixed)
+        return new_opts
+    else:
+        return options
