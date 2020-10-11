@@ -32,6 +32,7 @@ def test_convert():
 
     ff = FFmpeg()
     ff.loglevel = 'info'
+    print(f'in and out: {i}, {out}')
     ff.convert(i, out)
     if ff.error:
         if 'Output' in ff.error:
@@ -68,6 +69,7 @@ def test_options():
     opt = ['-i', i, o]
 
     ff = FFmpeg()
+    print(f'in and out: {i}, {o}')
     ret = ff.options(opt)
     if ff.error:
         if 'Output' in ff.error:
