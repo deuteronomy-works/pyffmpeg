@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 25 15:07:19 2020
-
 """
 
 import os
@@ -57,10 +56,9 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        outP = run([
-            self._ffmpeg_file, self._log_level_stmt, self.loglevel,
-            self._over_write, '-i', inf, out], shell=True, capture_output=True)
-
+        options = f"{self._ffmpeg_file} -loglevel {self.loglevel} "
+        options += f"{self._over_write} -i {inf} {out}"
+        outP = run(options, shell=True, capture_output=True)
         self.error = str(outP.stderr, 'utf-8')
         return out
 
@@ -94,10 +92,8 @@ class FFmpeg():
                 print(msg.format(self.loglevel))
                 self.loglevel = 'fatal'
 
-            if self.loglevel != 'fatal':
-                options.insert(0, self.loglevel)
-                options.insert(0, self._log_level_stmt)
-            options.insert(0, self._ffmpeg_file)
+            options = ' '.join(options)
+            options = ' '.join(['-loglevel', self.loglevel, options])
 
         else:
             options = opts
@@ -118,10 +114,10 @@ class FFmpeg():
 
                 if self.loglevel != 'fatal':
                     options = " ".join(
-                        [self._log_level_stmt, self.loglevel, options])
+                        [options])
 
-            # add ffmpeg
-            options = " ".join([self._ffmpeg_file, options])
+        # add ffmpeg
+        options = " ".join([self._ffmpeg_file, options])
 
         out = run(options, shell=True, capture_output=True)
         self.error = str(out.stderr, 'utf-8')
