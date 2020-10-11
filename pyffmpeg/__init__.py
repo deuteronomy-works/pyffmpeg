@@ -56,9 +56,9 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        outP = run(f"{self._ffmpeg_file} -loglevel {self.loglevel} " +
-                  f"{self._over_write} -i {inf} {out}",
-                    shell=True, capture_output=True)
+        options = f"{self._ffmpeg_file} -loglevel {self.loglevel} "
+        options += f"{self._over_write} -i {inf} {out}"
+        outP = run(options, shell=True, capture_output=True)
         self.error = str(outP.stderr, 'utf-8')
         return out
 
