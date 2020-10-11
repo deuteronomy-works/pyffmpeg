@@ -4,6 +4,7 @@ from pyffmpeg.misc import fix_splashes
 
 os_name = system().lower()
 
+
 @pytest.mark.parametrize(
     'case,exp', [
         (['-i', 'f.wav', 'o.wav'], ['-i', 'f.wav', 'o.wav']),
