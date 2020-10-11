@@ -56,9 +56,10 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        print(f'Query: {self._log_level_stmt}, {self.loglevel}, {self._over_write}')
-        outP = run([
-            self._ffmpeg_file, self._over_write, '-i', inf, out], shell=True, capture_output=True)
+        print(f'Query: {self._ffmpeg_file}, {self._log_level_stmt}, {self.loglevel}, {self._over_write}')
+        outP = run(f"{self._ffmpeg_file} -i https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/_test/f.mp3 /home/travis/.pyffmpeg/f.wav", shell=True, capture_output=True)
+        #outP = run([
+        #    self._ffmpeg_file, self._over_write, '-i', inf, out], shell=True, capture_output=True)
 
         self.error = str(outP.stderr, 'utf-8')
         return out
