@@ -19,7 +19,7 @@ os_name = system().lower()
 def test_fix_splashes(case, exp):
     ret = fix_splashes(case)
 
-    if os_name = "windows"
+    if os_name == "windows"
         assert ret == exp
     elif '\\' not in ret:
         assert True
