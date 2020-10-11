@@ -22,14 +22,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
-    - name: Build Windows 32
+    - name: Build Windows
       run: |
-        python setup.py bdist_wheel
-        python rename.py win32
-    - name: Build Windows x64
-      run: |
-        python setup.py bdist_wheel
-        python rename.py amd64
+        python setup.py sdist
     - name: Publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
