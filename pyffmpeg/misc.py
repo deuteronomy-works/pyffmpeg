@@ -55,6 +55,10 @@ class Paths():
             with open(self.ffmpeg_file, 'wb') as f_file:
                 f_file.write(decompressed)
 
+            # Do chmod on Unix
+            if os_name != 'windows':
+                os.system(f'chmod +x {self.ffmpeg_file}')
+
         return self.ffmpeg_file
 
 
