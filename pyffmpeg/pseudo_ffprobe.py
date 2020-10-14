@@ -4,7 +4,6 @@ without using ffprobe itself, but from ffmpeg log info
 """
 
 import subprocess
-import threading
 from time import sleep
 import re
 import random
@@ -90,8 +89,8 @@ class FFprobe():
             if self.misc.os_name != 'windows':
                 os.system(f'chmod +rw {dir_name}')
 
-        commands = f"{self._ffmpeg} -i {self.file_name} -an"
-        commands += f" -vcodec copy {out_file}"
+        commands = f'{self._ffmpeg} -i "{self.file_name}" -an'
+        commands += f' -vcodec copy "{out_file}"'
 
         # start subprocess
         subP = subprocess.run(commands, capture_output=True)
