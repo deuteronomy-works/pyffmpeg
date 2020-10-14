@@ -1,5 +1,5 @@
 # pyffmpeg  [![Downloads](https://pepy.tech/badge/pyffmpeg)](https://pepy.tech/project/pyffmpeg)
-Master [![Build Status](https://travis-ci.com/deuteronomy-works/pyffmpeg.svg?branch=master)](https://travis-ci.com/deuteronomy-works/pyffmpeg)  Windows [![Build Status](https://travis-ci.com/deuteronomy-works/pyffmpeg.svg?branch=build-windows)](https://travis-ci.com/deuteronomy-works/pyffmpeg)  Linux [![Build Status](https://travis-ci.com/deuteronomy-works/pyffmpeg.svg?branch=build-linux)](https://travis-ci.com/deuteronomy-works/pyffmpeg)  Darwin [![Build Status](https://travis-ci.com/deuteronomy-works/pyffmpeg.svg?branch=build-darwin)](https://travis-ci.com/deuteronomy-works/pyffmpeg)
+![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-linux?label=Linux&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-darwin?label=Macos&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-windows?label=Windows&style=for-the-badge)
 
 FFmpeg wrapper for python.
 
