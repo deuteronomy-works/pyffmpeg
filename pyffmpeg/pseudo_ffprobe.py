@@ -4,6 +4,7 @@ without using ffprobe itself, but from ffmpeg log info
 """
 
 import subprocess
+import threading
 from time import sleep
 import re
 import random
@@ -17,7 +18,8 @@ class FFprobe():
 
     def __init__(self, file_name):
 
-        self._ffmpeg = Paths().load_ffmpeg_bin()
+        self.misc = Paths()
+        self._ffmpeg = self.misc.load_ffmpeg_bin()
         self.file_name = file_name
 
         # Metadata
@@ -67,6 +69,38 @@ class FFprobe():
 
         # then handle stream 0:0 so
         self._parse_stream_meta(self.stream_heads)
+
+    def get_album_art(self, out_file=None):
+        album_thread = threading.Thread(target=self._get_album_art, args=[out_file])
+        album_thread.daemon = True
+        album_thread.start()
+
+    def _get_album_art(self, out_file=None):
+        user_file = True
+        if not out_file:
+            # randomize the filename to avoid overwrite prompt
+            out_file = str(random.randrange(1, 10000000)) + '.mp3'
+            out_file = os.path.join(self.misc.home_path, out_file)
+            user_file = False
+        else:
+            # make directory suplied by user, read and write
+            dir_name = os.path.dirname(out_file)
+            if self.misc.os_name != 'windows':
+                os.system(f'chmod +rw {dir_name}')
+
+        commands = f"{self._ffmpeg} -i {self.file_name} -an"
+        commands += f" -vcodec copy {out_file}"
+
+        # start subprocess
+        subP = subprocess.run(commands, capture_output=True)
+        if subP.returncode == 0:
+            if user_file:
+                return True
+            else:
+                with open(out_file, 'rb') as out:
+                    data = out.read()
+                os.unlink(out_file)
+                return data
 
     def _parse_meta(self, stream):
         tags = {}
