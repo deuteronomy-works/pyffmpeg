@@ -20,9 +20,18 @@ class FFprobe():
         self._ffmpeg = Paths().load_ffmpeg_bin()
         self.file_name = file_name
 
-        # Video metadata
+        # Metadata
         self.fps = 0
+        self.duration = 0
+        self.start = 0
+        self.bitrate = 0
+        self.type = ''
+        self.metadata = {}
+        self.other_metadata = {}
+        self._other_metadata = []
 
+        self.streams = [[[], []]]
+        self.stream_heads = []
         self.raw_streams = []
         self.video_extract_meths = {'fps': self._extract_fps}
         self.probe()
@@ -47,20 +56,70 @@ class FFprobe():
         all_streams = stdout.split('Stream mapping')[0]
         # individual streams
         streams = all_streams.split('Stream')
-        meta = []
-        streamer = [['', [], []]]
         for x in range(len(streams)):
             if x == 0:
-                meta = self._strip_meta(streams[x])
+                self.metadata = self._parse_meta(streams[x])
             else:
-                streamer[0][x-1] = self._strip_meta(streams[x])
+                self.streams[0][x-1] = self._parse_meta(streams[x])
 
-        print('meta: ', meta)
-        print('stream: ', streamer)
-        print('all: ', streamer[0][1])
-        """print(main, '\n')
-        print(zero, '\n')
-        print(one, '\n')"""
+        # parse other metadata
+        self._parse_other_meta()
+
+        # then handle stream 0:0 so
+        self._parse_stream_meta(self.stream_heads)
+
+    def _parse_meta(self, stream):
+        tags = {}
+        metadata = self._strip_meta(stream)
+        for x in range(len(metadata)):
+            line = metadata[x]
+            data = line.split(":", 1)
+            key = data[0].strip()
+            value = data[1].strip()
+            # this might be a continuation
+            if key == '':
+                tags[prev_key] += "\\r\\n" + data[1].strip()
+            else:
+                tags[key] = value
+                prev_key = key
+        return tags
+
+    def _parse_other_meta(self):
+        for stream in self._other_metadata:
+            items = stream.split(',')
+            for each in items:
+                data = each.split(":",2)
+                key = data[0].strip()
+                value = data[1].strip()
+                # there might be multiple
+                if key == '' and len(data) > 2:
+                    key = value
+                    value = data[2].strip()
+                self.other_metadata[key] = value
+        
+        # try to extract the known
+        # Add more to it
+        # and even move it to a function loop
+        if 'Duration' in self.other_metadata:
+            self.duration = self.other_metadata['Duration']
+        elif 'start' in self.other_metadata:
+            self.start = self.other_metadata['start']
+        elif 'bitrate' in self.other_metadata:
+            self.bitrate = self.other_metadata['bitrate']
+
+    def _parse_stream_meta(self, stream):
+        for stream in stream:
+            infos = stream.split(': ')[-1]
+            data = infos.split(', ')
+
+            # try to extract the known
+            # Add more to it
+            for each in data:
+                if '/s' in each:
+                    self.bitrate = each
+                # more should be added here
+                elif each in ('mp3', 'mp4'):
+                    self.type = each
 
     def probe(self):
 
@@ -96,6 +155,10 @@ class FFprobe():
 
     def _strip_meta(self, stdout):
         std = stdout.splitlines()
+
+        # store in stream header
+        self.stream_heads.append(std[0])
+
         meta_spaces = 0
         meta = []
         for line in std:
@@ -106,6 +169,7 @@ class FFprobe():
                     meta_spaces = len(a[:-1])
                     continue
                 if len(a[:-1]) <= meta_spaces and meta_spaces > 0:
+                    self._other_metadata.append(line)
                     break
                 if meta_spaces > 0:
                     meta.append(line)
