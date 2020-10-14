@@ -35,7 +35,14 @@ class FFprobe():
         self.streams = [[[], []]]
         self.stream_heads = []
         self.raw_streams = []
+
+        # extracting methods
         self.video_extract_meths = {'fps': self._extract_fps}
+
+        # error reports
+        self.error = ''
+
+        # START
         self.probe()
 
     def _extract(self):
@@ -71,15 +78,10 @@ class FFprobe():
         self._parse_stream_meta(self.stream_heads)
 
     def get_album_art(self, out_file=None):
-        album_thread = threading.Thread(target=self._get_album_art, args=[out_file])
-        album_thread.daemon = True
-        album_thread.start()
-
-    def _get_album_art(self, out_file=None):
         user_file = True
         if not out_file:
             # randomize the filename to avoid overwrite prompt
-            out_file = str(random.randrange(1, 10000000)) + '.mp3'
+            out_file = str(random.randrange(1, 10000000)) + '.jpg'
             out_file = os.path.join(self.misc.home_path, out_file)
             user_file = False
         else:
