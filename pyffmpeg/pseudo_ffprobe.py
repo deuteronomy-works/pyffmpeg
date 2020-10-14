@@ -137,7 +137,7 @@ class FFprobe():
             shell=True)
 
         # break the operation
-        sleep(1)
+        sleep(0.02)
         stdout, stderr = subP.communicate(input=b'q')
 
         os.unlink(out_file)
@@ -151,7 +151,7 @@ class FFprobe():
 
             self._extract()
         else:
-            self._extract_all(str(stdout, 'utf-*'))
+            self._extract_all(str(stdout, 'utf-8'))
 
     def _strip_meta(self, stdout):
         std = stdout.splitlines()
