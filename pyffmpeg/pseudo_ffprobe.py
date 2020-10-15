@@ -123,7 +123,7 @@ class FFprobe():
         for stream in self._other_metadata:
             items = stream.split(',')
             for each in items:
-                data = each.split(":",2)
+                data = each.split(":", 2)
                 key = data[0].strip()
                 value = data[1].strip()
                 # there might be multiple
@@ -131,7 +131,7 @@ class FFprobe():
                     key = value
                     value = data[2].strip()
                 self.other_metadata[key] = value
-        
+
         # try to extract the known
         # Add more to it
         # and even move it to a function loop
@@ -179,10 +179,12 @@ class FFprobe():
 
         if b'Videosss' in stdout:
             if not stderr:
-                input_data = re.findall(r'Input .*?.*?.*?Stream mapping', str(stdout)[-2:1])[0]
+                pattern = r'Input .*?.*?.*?Stream mapping'
+                input_data = re.findall(pattern, str(stdout)[-2:1])[0]
 
                 # take the streams data
-                self.raw_streams = re.findall(r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n', input_data)
+                pattern_two = r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n'
+                self.raw_streams = re.findall(pattern_two, input_data)
 
             self._extract()
         else:
