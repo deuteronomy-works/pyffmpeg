@@ -3,8 +3,10 @@
 # test file exist does not happen
 from pyffmpeg import FFprobe
 
+
 def test_probe():
     pass
+
 
 def test_album_art():
     pass
