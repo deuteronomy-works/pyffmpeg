@@ -11,8 +11,8 @@ from base64 import b64decode, b64encode
 class Paths():
 
     def __init__(self):
-        os_name = system().lower()
-        if os_name == 'windows':
+        self.os_name = system().lower()
+        if self.os_name == 'windows':
             env_name = 'USERPROFILE'
             self._ffmpeg_ext = '.exe'
         else:
@@ -26,6 +26,8 @@ class Paths():
         # Create the folders
         if not os.path.exists(self.bin_path):
             os.makedirs(self.bin_path)
+            if self.os_name != 'windows':
+                os.system(f'chmod +rw {self.bin_path}')
         self.ffmpeg_file = ''
 
     def load_ffmpeg_bin(self):
@@ -38,11 +40,10 @@ class Paths():
         if not os.path.exists(self.ffmpeg_file):
 
             # load os specific ffmpeg bin data
-            os_name = system().lower()
-            if os_name == 'windows':
+            if self.os_name == 'windows':
                 from .static.bin.win32 import win32
                 b64 = win32.contents
-            elif os_name == 'linux':
+            elif self.os_name == 'linux':
                 from .static.bin.linux import linux
                 b64 = linux.contents
             else:
@@ -56,7 +57,7 @@ class Paths():
                 f_file.write(decompressed)
 
             # Do chmod on Unix
-            if os_name != 'windows':
+            if self.os_name != 'windows':
                 os.system(f'chmod +x {self.ffmpeg_file}')
 
         return self.ffmpeg_file
