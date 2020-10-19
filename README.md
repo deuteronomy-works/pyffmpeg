@@ -9,6 +9,7 @@ The beautiful thing about it is that it comes with its own FFmpeg executable. It
     pip install pyffmpeg
 
 ## Usage
+### FFmpeg
 ```python
 from pyffmpeg import FFmpeg
 
@@ -23,21 +24,30 @@ print(output_file)
 
 ```
 
-## Advanced Usage
+### FFprobe
+Provides FFprobe functions and values
+
+## Usage
+### import statement
 ```python
-from pyffmpeg import FFmpeg
+from pyffmpeg import FFprobe
+
+input_file = 'path/to/music.mp3'
+fp = FFprobe(input_file)
 ```
 
-### Use a global directory to store all converted files
-```python
-ff = FFmpeg('path/to/app_folder')
-ff.convert('path/to/music_folder/f.mp3', 'f.wav')
-```
+The probing is done when the class is called this way. The object now
+contains the various values stored under their names eg
 
-### Overwrite (Default is set to True)
 ```python
-ff.overwrite = False # do not overwrite but exit immediately
+print(fp.duration)
 ```
+will print
+```shell
+> 00:04:32:32
+```
+NB: The above is just for illustration
+
 
 ## Wiki
 The wiki can be located [here](https://github.com/deuteronomy-works/pyffmpeg/wiki)
