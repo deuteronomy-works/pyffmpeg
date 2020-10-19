@@ -177,8 +177,11 @@ class FFprobe():
 
         os.unlink(out_file)
 
-        if b'Videosss' in stdout:
+        if b'Video' in stdout:
+            print('video')
             if not stderr:
+                print('pare')
+                print(str(stdout, 'utf-8'))
                 pattern = r'Input .*?.*?.*?Stream mapping'
                 input_data = re.findall(pattern, str(stdout)[-2:1])[0]
 
@@ -188,7 +191,10 @@ class FFprobe():
 
             self._extract()
         else:
+            print('not video')
             self._extract_all(str(stdout, 'utf-8'))
+
+        print(stdout)
 
     def _strip_meta(self, stdout):
         std = stdout.splitlines()
