@@ -34,19 +34,14 @@ from pyffmpeg import FFprobe
 
 input_file = 'path/to/music.mp3'
 fp = FFprobe(input_file)
-```
 
-The probing is done when the class is called this way. The object now
-contains the various values stored under their names eg
-
-```python
 print(fp.duration)
 ```
 will print
 ```shell
 > 00:04:32:32
 ```
-NB: The above is just for illustration
+NB: The above digits is just for illustration
 
 
 ## Wiki
