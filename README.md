@@ -27,8 +27,7 @@ print(output_file)
 ### FFprobe
 Provides FFprobe functions and values
 
-## Usage
-### import statement
+
 ```python
 from pyffmpeg import FFprobe
 
