@@ -20,6 +20,11 @@ class FFprobe():
         self.misc = Paths()
         self._ffmpeg = self.misc.load_ffmpeg_bin()
         self.file_name = file_name
+        self.overwrite = True
+        if self.overwrite:
+            self._over_write = '-y'
+        else:
+            self._over_write = '-n'
 
         # Metadata
         self.fps = 0
@@ -45,7 +50,6 @@ class FFprobe():
         self.probe()
 
     def _extract(self):
-        print(self.raw_streams)
         for stream in self.raw_streams:
             if 'Video' in stream:
                 # extract data
@@ -66,9 +70,11 @@ class FFprobe():
         streams = all_streams.split('Stream')
         for x in range(len(streams)):
             if x == 0:
-                self.metadata = self._parse_meta(streams[x])
+                if streams[x]:
+                    self.metadata = self._parse_meta(streams[x])
             else:
-                self.streams[0][x-1] = self._parse_meta(streams[x])
+                if streams[x]:
+                    self.streams[0][x-1] = self._parse_meta(streams[x])
 
         # parse other metadata
         self._parse_other_meta()
@@ -89,7 +95,8 @@ class FFprobe():
             if self.misc.os_name != 'windows':
                 os.system(f'chmod +rw {dir_name}')
 
-        commands = f'{self._ffmpeg} -i "{self.file_name}" -an'
+        commands = f'{self._ffmpeg} {self._over_write}'
+        commands += f' -i "{self.file_name}" -an'
         commands += f' -vcodec copy "{out_file}"'
 
         # start subprocess
@@ -175,12 +182,13 @@ class FFprobe():
         sleep(0.02)
         stdout, stderr = subP.communicate(input=b'q')
 
-        os.unlink(out_file)
+        if os.path.exists(out_file):
+            os.unlink(out_file)
 
-        if b'Videosss' in stdout:
+        if b'handler_name    : VideoHandler' in stdout:
             if not stderr:
                 pattern = r'Input .*?.*?.*?Stream mapping'
-                input_data = re.findall(pattern, str(stdout)[-2:1])[0]
+                input_data = re.findall(pattern, str(stdout)[2:-1])[0]
 
                 # take the streams data
                 pattern_two = r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n'
