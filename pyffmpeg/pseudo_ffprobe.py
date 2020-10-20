@@ -95,7 +95,8 @@ class FFprobe():
             if self.misc.os_name != 'windows':
                 os.system(f'chmod +rw {dir_name}')
 
-        commands = f'{self._ffmpeg} {self._over_write} -i "{self.file_name}" -an'
+        commands = f'{self._ffmpeg} {self._over_write}'
+        commands += f' -i "{self.file_name}" -an'
         commands += f' -vcodec copy "{out_file}"'
 
         # start subprocess
@@ -184,7 +185,6 @@ class FFprobe():
         if os.path.exists(out_file):
             os.unlink(out_file)
 
-    
         if b'handler_name    : VideoHandler' in stdout:
             if not stderr:
                 pattern = r'Input .*?.*?.*?Stream mapping'
