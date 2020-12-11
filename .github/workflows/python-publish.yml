@@ -26,6 +26,8 @@ jobs:
       run: |
         python setup.py bdist_wheel
         python rename.py linux
+        python setup.py bdist_wheel
+        python rename.py centos
     - name: Publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
