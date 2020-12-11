@@ -10,7 +10,7 @@ oss = {
     'amd64': 'cp35.cp36.cp37.cp38.cp39-none-win_amd64.whl',
     'macos': 'cp35.cp36.cp37.cp38.cp39-abi3-macosx_10_6_intel.whl',
     'linux': 'cp35.cp36.cp37.cp38.cp39-abi3-manylinux2010_x86_64.whl',
-    'linux': 'cp35.cp36.cp37.cp38.cp39-abi3-manylinux2014_x86_64.whl'}
+    'centos': 'cp35.cp36.cp37.cp38.cp39-abi3-manylinux2014_x86_64.whl'}
 
 for x in lists:
     if '-any' in x:
