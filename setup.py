@@ -22,6 +22,8 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    keywords='ffmpeg, FFmpeg, audio',
+    keywords='''ffmpeg, FFmpeg, ffprobe, FFprobe,
+    album art, cover art, metadata,
+    conversion, converting, audio, video''',
     packages=find_packages(),
 )
