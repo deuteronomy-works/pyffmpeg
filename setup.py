@@ -6,7 +6,7 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='pyffmpeg',
-    version='1.8.1',
+    version='2.0',
     description='FFmpeg wrapper for python',
     long_description=long_desc,
     long_description_content_type='text/markdown',
@@ -22,6 +22,8 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules"
     ],
-    keywords='ffmpeg, FFmpeg, audio',
+    keywords='''ffmpeg, FFmpeg, ffprobe, FFprobe,
+    album art, cover art, metadata,
+    conversion, converting, audio, video''',
     packages=find_packages(),
 )
