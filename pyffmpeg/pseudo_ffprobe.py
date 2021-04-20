@@ -15,7 +15,7 @@ from .misc import Paths, fix_splashes
 
 class FFprobe():
 
-    def __init__(self, file_name):
+    def __init__(self, file_name=None):
 
         self.misc = Paths()
         self._ffmpeg = self.misc.load_ffmpeg_bin()
