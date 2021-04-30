@@ -14,6 +14,15 @@ def _codec_name(line):
     return [name_string]
 
 
+def _data_rate(line):
+    dr = re.findall(r', \d+ [a-zA-Z]+/s', line)
+    if dr:
+        dr = dr[0].split(', ')[1]
+        dr_string = 'data_rate: ' + dr
+
+    return [dr_string]
+
+
 def _dimensions(line):
     dim = re.findall(r', \d+x\d+ ', line)
     if dim:
@@ -37,4 +46,4 @@ def _fps(line):
     return [fps_str]
 
 
-FUNC_LIST = [_codec_name, _dimensions, _fps]
+FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps]
