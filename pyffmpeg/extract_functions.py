@@ -5,6 +5,8 @@
 import re
 
 
+# video functions
+
 def _codec_name(line):
     if 'Video:' in line:
         cod = re.findall(r'Video: .*? ', line)[0]
@@ -86,4 +88,8 @@ def _tbr(line):
     return [tbr_str]
 
 
+
+# audio functions
+
+AUDIO_FUNC_LIST = []
 VIDEO_FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps, _tbc, _tbn, _tbr]
