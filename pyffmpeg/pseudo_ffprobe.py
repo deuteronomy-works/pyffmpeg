@@ -72,7 +72,7 @@ class FFprobe():
                     self.metadata[-1] = self._parse_input_meta(streams[x])
             else:
                 if streams[x]:
-                    self.streams[0][x-1] = self._parse_meta(streams[x])
+                    self.metadata[0][x-1] = self._parse_meta(streams[x])
 
         # parse other metadata
         self._parse_other_meta()
@@ -232,6 +232,9 @@ class FFprobe():
             self._extract()
         else:
             self._extract_all(str(stdout, 'utf-8'))
+
+        # Expose publicly know var
+        self._expose()
 
     def _strip_meta(self, stdout):
         std = stdout.splitlines()
