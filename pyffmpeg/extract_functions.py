@@ -98,7 +98,7 @@ def _audio_codec_name(line):
         if cod.endswith(', '):
             cod = cod[:-2]
         name = cod.split(':')[1].strip()
-        name_string = 'audio_codec: ' + name
+        name_string = 'codec: ' + name
     else:
         return []
 
