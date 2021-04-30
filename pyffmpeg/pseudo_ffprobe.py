@@ -53,11 +53,6 @@ class FFprobe():
 
     def _extract(self):
         for stream in self.raw_streams:
-            if 'Video' in stream:
-                # extract data
-                # extract only fps for now
-                func = self.video_extract_meths['fps']
-                func(stream)
             self._extract_all(stream)
 
     def _extract_fps(self, stream):
