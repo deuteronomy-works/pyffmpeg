@@ -72,7 +72,7 @@ class FFprobe():
         for x in range(len(streams)):
             if x == 0:
                 if streams[x]:
-                    self.metadata = self._parse_input_meta(streams[x])
+                    self.metadata[-1] = self._parse_input_meta(streams[x])
             else:
                 if streams[x]:
                     self.streams[0][x-1] = self._parse_meta(streams[x])
