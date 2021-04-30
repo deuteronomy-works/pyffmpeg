@@ -11,7 +11,7 @@ import os
 from base64 import b64decode
 
 from .misc import Paths, fix_splashes
-from .extract_functions import FUNC_LIST
+from .extract_functions import VIDEO_FUNC_LIST
 
 
 class FFprobe():
@@ -135,7 +135,7 @@ class FFprobe():
 
         if 'Video' in line:
             # extract data
-            for func in FUNC_LIST:
+            for func in VIDEO_FUNC_LIST:
                 parsed.extend(func(line))
 
         elif 'Audio' in line:

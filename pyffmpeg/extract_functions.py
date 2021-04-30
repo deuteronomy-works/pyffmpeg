@@ -86,4 +86,4 @@ def _tbr(line):
     return [tbr_str]
 
 
-FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps, _tbc, _tbn, _tbr]
+VIDEO_FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps, _tbc, _tbn, _tbr]
