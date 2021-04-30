@@ -135,10 +135,15 @@ class FFprobe():
 
         if 'Video' in line:
             # extract data
-            # extract only fps for now
             for func in FUNC_LIST:
                 parsed.extend(func(line))
 
+        elif 'Audio' in line:
+            # extract audio data
+            print(line)
+
+        print('parsed: \n')
+        print(parsed)
         return parsed
 
     def _parse_input_meta(self, stream):
