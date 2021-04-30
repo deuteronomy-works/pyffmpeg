@@ -51,6 +51,18 @@ class FFprobe():
         # START
         self.probe()
 
+    def _expose(self):
+        # Expose public functions
+        if 'Duration' in self.metadata[-1]:
+            self.duration = self.metadata[-1]['Duration']
+
+        if 'fps' in self.metadata[0][0]:
+            self.fps = self.metadata[0][0]['fps']
+
+        elif 'fps' in self.metadata[0][1]:
+            self.fps = self.metadata[0][1]['fps']
+
+
     def _extract(self):
         for stream in self.raw_streams:
             self._extract_all(stream)
