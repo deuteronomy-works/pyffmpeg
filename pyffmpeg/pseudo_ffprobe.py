@@ -237,3 +237,26 @@ class FFprobe():
                     meta.append(line)
 
         return meta
+
+    def _strip_input_meta(self, stdout):
+        std = stdout.splitlines()
+
+        # store in stream header
+        self.stream_heads.append(std[0])
+
+        meta_spaces = 0
+        meta = []
+        for line in std:
+            a = re.findall(r'\s+[A-Za-z]', line)
+            if a:
+                a = a[0]
+                if a[-1] == 'M':
+                    meta_spaces = len(a[:-1])
+                    continue
+                if len(a[:-1]) <= meta_spaces and meta_spaces > 0:
+                    self._other_metadata.append(line)
+                    break
+                if meta_spaces > 0:
+                    meta.append(line)
+
+        return meta
