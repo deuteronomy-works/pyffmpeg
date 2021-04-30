@@ -93,6 +93,8 @@ def _tbr(line):
 def _audio_codec_name(line):
     if 'Audio:' in line:
         cod = re.findall(r'Audio: .*? ', line)[0]
+        if cod.endswith(', '):
+            cod = cod[:-2]
         name = cod.split(':')[1].strip()
         name_string = 'audio_codec: ' + name
     else:
