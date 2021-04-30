@@ -20,7 +20,14 @@ def _dimensions(line):
         dim = dim.split(', ')[1].strip()
         dim_string = 'dimensions: ' + dim
 
-    return [dim_string]
+    sd = re.findall(r'\[SAR .*? DAR .*?\]', line)
+    if sd:
+        sd = sd[0].split(' ')
+        sar_string = 'SAR: ' + sd[1]
+        dar_string = 'DAR: ' + sd[3][:-1]
+
+    return [dim_string, dar_string, sar_string]
+
 
 def _fps(line):
     if 'fps' in line:
