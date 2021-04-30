@@ -10,6 +10,8 @@ import re
 def _codec_name(line):
     if 'Video:' in line:
         cod = re.findall(r'Video: .*? ', line)[0]
+        if cod.endswith(', '):
+            cod = cod[:-2]
         name = cod.split(':')[1].strip()
         name_string = 'codec: ' + name
     else:
