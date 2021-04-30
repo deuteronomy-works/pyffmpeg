@@ -243,9 +243,6 @@ class FFprobe():
     def _strip_input_meta(self, stdout):
         std = stdout.splitlines()
 
-        # store in stream header
-        self.stream_heads.append(std[0])
-
         meta_spaces = 0
         meta = []
         for line in std:
