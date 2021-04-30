@@ -76,6 +76,7 @@ class FFprobe():
         # pick only streams, all of them
         all_streams = stdout.split('Stream mapping')[0]
         all_streams = all_streams.split('Input')[1]
+
         # individual streams
         streams = all_streams.split('Stream')
         for x in range(len(streams)):
@@ -147,12 +148,9 @@ class FFprobe():
 
         elif 'Audio' in line:
             # extract audio data
-            print(line)
             for func in AUDIO_FUNC_LIST:
                 parsed.extend(func(line))
 
-        print('parsed: \n')
-        print(parsed)
         return parsed
 
     def _parse_input_meta(self, stream):
