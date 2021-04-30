@@ -10,6 +10,8 @@ def _codec_name(line):
         cod = re.findall(r'Video: .*? ', line)[0]
         name = cod.split(':')[1].strip()
         name_string = 'codec: ' + name
+    else:
+        return []
 
     return [name_string]
 
@@ -19,6 +21,8 @@ def _data_rate(line):
     if dr:
         dr = dr[0].split(', ')[1]
         dr_string = 'data_rate: ' + dr
+    else:
+        return []
 
     return [dr_string]
 
@@ -28,12 +32,16 @@ def _dimensions(line):
     if dim:
         dim = dim[0].split(', ')[1].strip()
         dim_string = 'dimensions: ' + dim
+    else:
+        return []
 
     sd = re.findall(r'\[SAR .*? DAR .*?\]', line)
     if sd:
         sd = sd[0].split(' ')
         sar_string = 'SAR: ' + sd[1]
         dar_string = 'DAR: ' + sd[3][:-1]
+    else:
+        return [dim_string]
 
     return [dim_string, dar_string, sar_string]
 
@@ -42,6 +50,8 @@ def _fps(line):
     if 'fps' in line:
         fps = re.findall(r'\d+.?\d* fps', line)[0].split(' fps')[0]
         fps_str = 'fps: '+fps
+    else:
+        return []
 
     return [fps_str]
 
