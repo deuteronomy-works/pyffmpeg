@@ -102,6 +102,17 @@ def _audio_codec_name(line):
     return [name_string]
 
 
+def _bit_rate(line):
+    bt = re.findall(r', \d+ [a-zA-Z]+/s', line)
+    if bt:
+        bt = bt[0].split(', ')[1]
+        bt_string = 'bitrate: ' + bt
+    else:
+        return []
+
+    return [bt_string]
+
+
 def _sample_rate(line):
     sr = re.findall(r', \d+ Hz', line)
     if sr:
@@ -113,5 +124,5 @@ def _sample_rate(line):
     return [sr_string]
 
 
-AUDIO_FUNC_LIST = [_audio_codec_name, _sample_rate]
+AUDIO_FUNC_LIST = [_audio_codec_name, _bit_rate, _channels, _sample_rate]
 VIDEO_FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps, _tbc, _tbn, _tbr]
