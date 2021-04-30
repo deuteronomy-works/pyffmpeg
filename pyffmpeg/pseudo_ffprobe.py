@@ -11,6 +11,7 @@ import os
 from base64 import b64decode
 
 from .misc import Paths, fix_splashes
+from .extract_functions import FUNC_LIST
 
 
 class FFprobe():
@@ -42,6 +43,7 @@ class FFprobe():
 
         # extracting methods
         self.video_extract_meths = {'fps': self._extract_fps}
+        self.video_head_extract_meths = []
 
         # error reports
         self.error = ''
@@ -126,6 +128,16 @@ class FFprobe():
                 tags[key] = value
                 prev_key = key
         return tags
+
+    def _parse_header(self, line):
+        parsed = []
+        print(line)
+        if 'Video' in line:
+            # extract data
+            # extract only fps for now
+            for func in FUNC_LIST:
+                print('fun: ', func(line))
+        return parsed
 
     def _parse_input_meta(self, stream):
         tags = {}
@@ -221,17 +233,16 @@ class FFprobe():
         std = stdout.splitlines()
 
         # store in stream header
-        self.stream_heads.append(std[0])
+        header = self._parse_header(std[0])
         std.pop(0)
 
-        meta_spaces = 0
         meta = []
         for line in std:
             items = line.split(': ')
             if len(items) > 1 and items[1]:
                 meta.append(line)
 
-        return meta
+        return header + meta
 
     def _strip_input_meta(self, stdout):
         # replace commas with '\r\n'
