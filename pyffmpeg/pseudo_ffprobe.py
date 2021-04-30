@@ -17,7 +17,7 @@ from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 class FFprobe():
 
     def __init__(self, file_name=None):
-    
+
         self.misc = Paths()
         self._ffmpeg = self.misc.load_ffmpeg_bin()
         self.file_name = file_name
