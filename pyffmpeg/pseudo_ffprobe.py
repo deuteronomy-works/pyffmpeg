@@ -222,21 +222,14 @@ class FFprobe():
 
         # store in stream header
         self.stream_heads.append(std[0])
+        std.pop(0)
 
         meta_spaces = 0
         meta = []
         for line in std:
-            a = re.findall(r'\s+[A-Za-z]', line)
-            if a:
-                a = a[0]
-                if a[-1] == 'M':
-                    meta_spaces = len(a[:-1])
-                    continue
-                if len(a[:-1]) <= meta_spaces and meta_spaces > 0:
-                    self._other_metadata.append(line)
-                    break
-                if meta_spaces > 0:
-                    meta.append(line)
+            items = line.split(': ')
+            if len(items) > 1 and items[1]:
+                meta.append(line)
 
         return meta
 
