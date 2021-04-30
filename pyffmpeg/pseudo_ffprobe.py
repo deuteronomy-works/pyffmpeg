@@ -56,6 +56,9 @@ class FFprobe():
         if 'Duration' in self.metadata[-1]:
             self.duration = self.metadata[-1]['Duration']
 
+        if 'bitrate' in self.metadata[-1]:
+            self.bitrate = self.metadata[-1]['bitrate']
+
         if 'fps' in self.metadata[0][0]:
             self.fps = self.metadata[0][0]['fps']
 
