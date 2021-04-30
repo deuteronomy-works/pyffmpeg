@@ -66,4 +66,14 @@ def _tbc(line):
     return [tbc_str]
 
 
+def _tbn(line):
+    if 'tbn' in line:
+        tbn = re.findall(r'\d+.?\d* tbn', line)[0].split(' tbn')[0]
+        tbn_str = 'tbn: '+ tbn
+    else:
+        return []
+
+    return [tbn_str]
+
+
 FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps, _tbc, _tbn, _tbr]
