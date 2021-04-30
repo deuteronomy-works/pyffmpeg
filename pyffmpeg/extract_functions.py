@@ -56,4 +56,14 @@ def _fps(line):
     return [fps_str]
 
 
-FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps]
+def _tbc(line):
+    if 'tbc' in line:
+        tbc = re.findall(r'\d+.?\d* tbc', line)[0].split(' tbc')[0]
+        tbc_str = 'tbc: '+ tbc
+    else:
+        return []
+
+    return [tbc_str]
+
+
+FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps, _tbc, _tbn, _tbr]
