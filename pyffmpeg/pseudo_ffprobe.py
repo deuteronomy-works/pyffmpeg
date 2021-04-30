@@ -32,7 +32,7 @@ class FFprobe():
         self.start = 0
         self.bitrate = 0
         self.type = ''
-        self.metadata = {}
+        self.metadata = [[0, 1], 1]  # mock indeces
         self.other_metadata = {}
         self._other_metadata = []
 
