@@ -130,8 +130,7 @@ class FFprobe():
     def _parse_input_meta(self, stream):
         tags = {}
         metadata = self._strip_input_meta(stream)
-        print(stream)
-        print(metadata)
+
         for x in range(len(metadata)):
             line = metadata[x]
             data = line.split(":", 1)
@@ -143,6 +142,7 @@ class FFprobe():
             else:
                 tags[key] = value
                 prev_key = key
+
         return tags
 
     def _parse_other_meta(self):
