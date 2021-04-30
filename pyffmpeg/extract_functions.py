@@ -91,5 +91,16 @@ def _tbr(line):
 
 # audio functions
 
-AUDIO_FUNC_LIST = []
+def _audio_codec_name(line):
+    if 'Audio:' in line:
+        cod = re.findall(r'Audio: .*? ', line)[0]
+        name = cod.split(':')[1].strip()
+        name_string = 'audio_codec: ' + name
+    else:
+        return []
+
+    return [name_string]
+
+
+AUDIO_FUNC_LIST = [_audio_codec_name, _sample_rate]
 VIDEO_FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps, _tbc, _tbn, _tbr]
