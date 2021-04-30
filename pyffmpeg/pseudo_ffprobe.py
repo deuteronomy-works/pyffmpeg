@@ -127,16 +127,18 @@ class FFprobe():
             else:
                 tags[key] = value
                 prev_key = key
+
         return tags
 
     def _parse_header(self, line):
         parsed = []
-        print(line)
+
         if 'Video' in line:
             # extract data
             # extract only fps for now
             for func in FUNC_LIST:
-                print('fun: ', func(line))
+                parsed.extend(func(line))
+
         return parsed
 
     def _parse_input_meta(self, stream):
