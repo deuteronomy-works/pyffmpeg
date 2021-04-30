@@ -1,3 +1,7 @@
+# Created on 30th April, 2021
+# Each function must return a list.
+# the string should be in the format; key: value
+# all functions must also be put in the FUNC_LIST
 import re
 
 
