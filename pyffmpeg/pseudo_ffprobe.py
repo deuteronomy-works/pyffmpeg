@@ -11,12 +11,13 @@ import os
 from base64 import b64decode
 
 from .misc import Paths, fix_splashes
+from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 
 
 class FFprobe():
 
     def __init__(self, file_name=None):
-
+    
         self.misc = Paths()
         self._ffmpeg = self.misc.load_ffmpeg_bin()
         self.file_name = file_name
@@ -32,7 +33,7 @@ class FFprobe():
         self.start = 0
         self.bitrate = 0
         self.type = ''
-        self.metadata = {}
+        self.metadata = [[0, 1], 1]  # mock indeces
         self.other_metadata = {}
         self._other_metadata = []
 
@@ -42,6 +43,7 @@ class FFprobe():
 
         # extracting methods
         self.video_extract_meths = {'fps': self._extract_fps}
+        self.video_head_extract_meths = []
 
         # error reports
         self.error = ''
@@ -49,13 +51,23 @@ class FFprobe():
         # START
         self.probe()
 
+    def _expose(self):
+        # Expose public functions
+        if 'Duration' in self.metadata[-1]:
+            self.duration = self.metadata[-1]['Duration']
+
+        if 'bitrate' in self.metadata[-1]:
+            self.bitrate = self.metadata[-1]['bitrate']
+
+        if 'fps' in self.metadata[0][0]:
+            self.fps = self.metadata[0][0]['fps']
+
+        elif 'fps' in self.metadata[0][1]:
+            self.fps = self.metadata[0][1]['fps']
+
+
     def _extract(self):
         for stream in self.raw_streams:
-            if 'Video' in stream:
-                # extract data
-                # extract only fps for now
-                func = self.video_extract_meths['fps']
-                func(stream)
             self._extract_all(stream)
 
     def _extract_fps(self, stream):
@@ -66,15 +78,17 @@ class FFprobe():
     def _extract_all(self, stdout):
         # pick only streams, all of them
         all_streams = stdout.split('Stream mapping')[0]
+        all_streams = all_streams.split('Input')[1]
+
         # individual streams
         streams = all_streams.split('Stream')
         for x in range(len(streams)):
             if x == 0:
                 if streams[x]:
-                    self.metadata = self._parse_meta(streams[x])
+                    self.metadata[-1] = self._parse_input_meta(streams[x])
             else:
                 if streams[x]:
-                    self.streams[0][x-1] = self._parse_meta(streams[x])
+                    self.metadata[0][x-1] = self._parse_meta(streams[x])
 
         # parse other metadata
         self._parse_other_meta()
@@ -124,6 +138,40 @@ class FFprobe():
             else:
                 tags[key] = value
                 prev_key = key
+
+        return tags
+
+    def _parse_header(self, line):
+        parsed = []
+
+        if 'Video' in line:
+            # extract data
+            for func in VIDEO_FUNC_LIST:
+                parsed.extend(func(line))
+
+        elif 'Audio' in line:
+            # extract audio data
+            for func in AUDIO_FUNC_LIST:
+                parsed.extend(func(line))
+
+        return parsed
+
+    def _parse_input_meta(self, stream):
+        tags = {}
+        metadata = self._strip_input_meta(stream)
+
+        for x in range(len(metadata)):
+            line = metadata[x]
+            data = line.split(":", 1)
+            key = data[0].strip()
+            value = data[1].strip()
+            # this might be a continuation
+            if key == '':
+                tags[prev_key] += "\\r\\n" + data[1].strip()
+            else:
+                tags[key] = value
+                prev_key = key
+
         return tags
 
     def _parse_other_meta(self):
@@ -198,25 +246,33 @@ class FFprobe():
         else:
             self._extract_all(str(stdout, 'utf-8'))
 
+        # Expose publicly know var
+        self._expose()
+
     def _strip_meta(self, stdout):
         std = stdout.splitlines()
 
         # store in stream header
-        self.stream_heads.append(std[0])
+        header = self._parse_header(std[0])
+        std.pop(0)
 
-        meta_spaces = 0
         meta = []
         for line in std:
-            a = re.findall(r'\s+[A-Za-z]', line)
-            if a:
-                a = a[0]
-                if a[-1] == 'M':
-                    meta_spaces = len(a[:-1])
-                    continue
-                if len(a[:-1]) <= meta_spaces and meta_spaces > 0:
-                    self._other_metadata.append(line)
-                    break
-                if meta_spaces > 0:
-                    meta.append(line)
+            items = line.split(': ')
+            if len(items) > 1 and items[1]:
+                meta.append(line)
+
+        return header + meta
+
+    def _strip_input_meta(self, stdout):
+        # replace commas with '\r\n'
+        stdout = stdout.replace(', ', '\r\n')
+        std = stdout.splitlines()
+
+        meta = []
+        for line in std:
+            items = line.split(': ')
+            if len(items) > 1 and items[1]:
+                meta.append(line)
 
         return meta
