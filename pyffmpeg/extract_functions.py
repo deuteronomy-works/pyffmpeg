@@ -13,6 +13,15 @@ def _codec_name(line):
 
     return [name_string]
 
+
+def _dimensions(line):
+    dim = re.findall(r', \d+x\d+ ', line)[0]
+    if dim:
+        dim = dim.split(', ')[1].strip()
+        dim_string = 'dimensions: ' + dim
+
+    return [dim_string]
+
 def _fps(line):
     if 'fps' in line:
         fps = re.findall(r'\d+.?\d* fps', line)[0].split(' fps')[0]
@@ -21,4 +30,4 @@ def _fps(line):
     return [fps_str]
 
 
-FUNC_LIST = [_codec_name, _fps]
+FUNC_LIST = [_codec_name, _dimensions, _fps]
