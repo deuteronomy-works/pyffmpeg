@@ -113,6 +113,16 @@ def _bit_rate(line):
     return [bt_string]
 
 
+def _channels(line):
+    ch_string = 'channels: '
+    if 'stereo' in line:
+        ch_string += 'stereo'
+    else:
+        ch_string += 'mono'
+    
+    return [ch_string]
+
+
 def _sample_rate(line):
     sr = re.findall(r', \d+ Hz', line)
     if sr:
