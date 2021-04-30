@@ -241,6 +241,8 @@ class FFprobe():
         return meta
 
     def _strip_input_meta(self, stdout):
+        # replace commas with '\r\n'
+        stdout = stdout.replace(', ', '\r\n')
         std = stdout.splitlines()
 
         meta_spaces = 0
