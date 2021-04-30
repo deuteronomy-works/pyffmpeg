@@ -17,7 +17,7 @@ from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 class FFprobe():
 
     def __init__(self, file_name=None):
-    
+
         self.misc = Paths()
         self._ffmpeg = self.misc.load_ffmpeg_bin()
         self.file_name = file_name
@@ -51,13 +51,23 @@ class FFprobe():
         # START
         self.probe()
 
+    def _expose(self):
+        # Expose public functions
+        if 'Duration' in self.metadata[-1]:
+            self.duration = self.metadata[-1]['Duration']
+
+        if 'bitrate' in self.metadata[-1]:
+            self.bitrate = self.metadata[-1]['bitrate']
+
+        if 'fps' in self.metadata[0][0]:
+            self.fps = self.metadata[0][0]['fps']
+
+        elif 'fps' in self.metadata[0][1]:
+            self.fps = self.metadata[0][1]['fps']
+
+
     def _extract(self):
         for stream in self.raw_streams:
-            if 'Video' in stream:
-                # extract data
-                # extract only fps for now
-                func = self.video_extract_meths['fps']
-                func(stream)
             self._extract_all(stream)
 
     def _extract_fps(self, stream):
@@ -69,6 +79,7 @@ class FFprobe():
         # pick only streams, all of them
         all_streams = stdout.split('Stream mapping')[0]
         all_streams = all_streams.split('Input')[1]
+
         # individual streams
         streams = all_streams.split('Stream')
         for x in range(len(streams)):
@@ -77,7 +88,7 @@ class FFprobe():
                     self.metadata[-1] = self._parse_input_meta(streams[x])
             else:
                 if streams[x]:
-                    self.streams[0][x-1] = self._parse_meta(streams[x])
+                    self.metadata[0][x-1] = self._parse_meta(streams[x])
 
         # parse other metadata
         self._parse_other_meta()
@@ -140,12 +151,9 @@ class FFprobe():
 
         elif 'Audio' in line:
             # extract audio data
-            print(line)
             for func in AUDIO_FUNC_LIST:
                 parsed.extend(func(line))
 
-        print('parsed: \n')
-        print(parsed)
         return parsed
 
     def _parse_input_meta(self, stream):
@@ -237,6 +245,9 @@ class FFprobe():
             self._extract()
         else:
             self._extract_all(str(stdout, 'utf-8'))
+
+        # Expose publicly know var
+        self._expose()
 
     def _strip_meta(self, stdout):
         std = stdout.splitlines()
