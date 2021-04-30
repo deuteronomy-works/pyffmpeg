@@ -15,9 +15,9 @@ def _codec_name(line):
 
 
 def _dimensions(line):
-    dim = re.findall(r', \d+x\d+ ', line)[0]
+    dim = re.findall(r', \d+x\d+ ', line)
     if dim:
-        dim = dim.split(', ')[1].strip()
+        dim = dim[0].split(', ')[1].strip()
         dim_string = 'dimensions: ' + dim
 
     sd = re.findall(r'\[SAR .*? DAR .*?\]', line)
