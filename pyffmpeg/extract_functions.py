@@ -61,7 +61,7 @@ def _fps(line):
 def _tbc(line):
     if 'tbc' in line:
         tbc = re.findall(r'\d+.?\d* tbc', line)[0].split(' tbc')[0]
-        tbc_str = 'tbc: '+ tbc
+        tbc_str = 'tbc: ' + tbc
     else:
         return []
 
@@ -71,7 +71,7 @@ def _tbc(line):
 def _tbn(line):
     if 'tbn' in line:
         tbn = re.findall(r'\d+.?\d* tbn', line)[0].split(' tbn')[0]
-        tbn_str = 'tbn: '+ tbn
+        tbn_str = 'tbn: ' + tbn
     else:
         return []
 
@@ -81,12 +81,11 @@ def _tbn(line):
 def _tbr(line):
     if 'tbr' in line:
         tbr = re.findall(r'\d+.?\d* tbr', line)[0].split(' tbr')[0]
-        tbr_str = 'tbr: '+ tbr
+        tbr_str = 'tbr: ' + tbr
     else:
         return []
 
     return [tbr_str]
-
 
 
 # audio functions
@@ -119,7 +118,7 @@ def _channels(line):
         ch_string += 'stereo'
     else:
         ch_string += 'mono'
-    
+
     return [ch_string]
 
 
@@ -135,4 +134,5 @@ def _sample_rate(line):
 
 
 AUDIO_FUNC_LIST = [_audio_codec_name, _bit_rate, _channels, _sample_rate]
-VIDEO_FUNC_LIST = [_codec_name, _data_rate, _dimensions, _fps, _tbc, _tbn, _tbr]
+VIDEO_FUNC_LIST = [_codec_name, _data_rate,
+_dimensions, _fps, _tbc, _tbn, _tbr]
