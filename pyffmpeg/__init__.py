@@ -134,5 +134,5 @@ class FFmpeg():
             pass
         else:
             for inst in self._ffmpeg_instances.values():
-                output = inst.communicate('q')
+                output = inst.communicate(b'q')
                 print('out: ', output)
