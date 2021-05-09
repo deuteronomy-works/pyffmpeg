@@ -131,7 +131,9 @@ class FFmpeg():
 
     def quit(self, function: Optional[str] = ''):
         if function:
-            pass
+            inst = self._ffmpeg_instances[function]
+            output = inst.communicate(b'q')
+        # Quit all instances
         else:
             for inst in self._ffmpeg_instances.values():
                 output = inst.communicate(b'q')
