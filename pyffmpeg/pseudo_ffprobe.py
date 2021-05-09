@@ -228,23 +228,12 @@ class FFprobe():
 
         # break the operation
         sleep(0.02)
-        stdout, stderr = subP.communicate(input=b'q')
+        stdout, _ = subP.communicate(input=b'q')
 
         if os.path.exists(out_file):
             os.unlink(out_file)
 
-        if b'handler_name    : VideoHandler' in stdout:
-            if not stderr:
-                pattern = r'Input .*?.*?.*?Stream mapping'
-                input_data = re.findall(pattern, str(stdout)[2:-1])[0]
-
-                # take the streams data
-                pattern_two = r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n'
-                self.raw_streams = re.findall(pattern_two, input_data)
-
-            self._extract()
-        else:
-            self._extract_all(str(stdout, 'utf-8'))
+        self._extract_all(str(stdout, 'utf-8'))
 
         # Expose publicly know var
         self._expose()
