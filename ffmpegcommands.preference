@@ -8,3 +8,5 @@ animated gif - [-i -r 2 o]
 ringtone - [-ss h:m:s -t 00:15]
 concat - [-f concat -i file_list.txt -c copy o]
 log level [-loglevel panic]
+SEEK_AND_COLLECT = "-i i -ss 00:00:14 -vf fps=1 %0d.png"
+SEEK_AND_COLLECT_AND_START_NUMBER = "-i i -ss 00:00:14 -vf fps=1 -start_number 123 %0d.png"
