@@ -4,7 +4,8 @@ Created on Wed Mar 25 15:07:19 2020
 """
 
 import os
-from subprocess import run
+from typing import Optional
+from subprocess import Popen, PIPE, STDOUT
 from platform import system
 from lzma import decompress
 from base64 import b64decode, b64encode
@@ -33,6 +34,9 @@ class FFmpeg():
             self._over_write = '-y'
         else:
             self._over_write = '-n'
+
+        # instances are store according to function names
+        self._ffmpeg_instances = {}
         self._ffmpeg_file = Paths().load_ffmpeg_bin()
         self.error = ''
 
@@ -58,8 +62,9 @@ class FFmpeg():
 
         options = f"{self._ffmpeg_file} -loglevel {self.loglevel} "
         options += f"{self._over_write} -i {inf} {out}"
-        outP = run(options, shell=True, capture_output=True)
-        self.error = str(outP.stderr, 'utf-8')
+        outP = Popen(options, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        self._ffmpeg_instances['convert'] = outP
+        self.error = str(outP.stderr.read(), 'utf-8')
         return out
 
     def get_ffmpeg_bin(self):
@@ -119,6 +124,17 @@ class FFmpeg():
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
 
-        out = run(options, shell=True, capture_output=True)
-        self.error = str(out.stderr, 'utf-8')
+        out = Popen(options, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        self._ffmpeg_instances['options'] = out
+        self.error = str(out.stderr.read(), 'utf-8')
         return True
+
+    def quit(self, function: Optional[str] = ''):
+        if function:
+            inst = self._ffmpeg_instances[function]
+            output = inst.communicate(b'q')
+        # Quit all instances
+        else:
+            for inst in self._ffmpeg_instances.values():
+                output = inst.communicate(b'q')
+                print('out: ', output)
