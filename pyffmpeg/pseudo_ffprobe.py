@@ -228,7 +228,7 @@ class FFprobe():
 
         # break the operation
         sleep(0.02)
-        stdout, stderr = subP.communicate(input=b'q')
+        stdout, _ = subP.communicate(input=b'q')
 
         if os.path.exists(out_file):
             os.unlink(out_file)
