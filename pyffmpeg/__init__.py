@@ -4,6 +4,7 @@ Created on Wed Mar 25 15:07:19 2020
 """
 
 import os
+from typing import Optional
 from subprocess import run
 from platform import system
 from lzma import decompress
@@ -127,3 +128,11 @@ class FFmpeg():
         self._ffmpeg_instances['options'] = out
         self.error = str(out.stderr, 'utf-8')
         return True
+
+    def quit(self, function: Optional[str] = ''):
+        if function:
+            pass
+        else:
+            for inst in self._ffmpeg_instances.values():
+                output = inst.communicate('q')
+                print('out: ', output)
