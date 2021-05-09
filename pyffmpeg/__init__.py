@@ -34,7 +34,7 @@ class FFmpeg():
         else:
             self._over_write = '-n'
 
-        self._ffmpeg_instance = None
+        self._ffmpeg_instances = []
         self._ffmpeg_file = Paths().load_ffmpeg_bin()
         self.error = ''
 
