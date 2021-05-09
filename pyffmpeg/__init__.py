@@ -34,7 +34,8 @@ class FFmpeg():
         else:
             self._over_write = '-n'
 
-        self._ffmpeg_instances = []
+        # instances are store according to function names
+        self._ffmpeg_instances = {}
         self._ffmpeg_file = Paths().load_ffmpeg_bin()
         self.error = ''
 
@@ -61,6 +62,7 @@ class FFmpeg():
         options = f"{self._ffmpeg_file} -loglevel {self.loglevel} "
         options += f"{self._over_write} -i {inf} {out}"
         outP = run(options, shell=True, capture_output=True)
+        self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr, 'utf-8')
         return out
 
@@ -122,5 +124,6 @@ class FFmpeg():
         options = " ".join([self._ffmpeg_file, options])
 
         out = run(options, shell=True, capture_output=True)
+        self._ffmpeg_instances['options'] = out
         self.error = str(out.stderr, 'utf-8')
         return True
