@@ -33,6 +33,8 @@ class FFmpeg():
             self._over_write = '-y'
         else:
             self._over_write = '-n'
+
+        self._ffmpeg_instance = None
         self._ffmpeg_file = Paths().load_ffmpeg_bin()
         self.error = ''
 
