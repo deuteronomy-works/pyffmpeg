@@ -6,7 +6,7 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='pyffmpeg',
-    version='2.0.4',
+    version='2.0.5',
     description='FFmpeg wrapper for python',
     long_description=long_desc,
     long_description_content_type='text/markdown',
