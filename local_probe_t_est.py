@@ -1,8 +1,9 @@
 from pyffmpeg import FFprobe
 
-f = FFprobe("H:/GitHub/pyffmpeg/_test/asem.mp3")
+f = FFprobe("C:/Users/Ampofo/Videos/RECORDINGS/SignIn/o/2movie Audio Extracted.wav")
 # ret = f.get_album_art('cover.png')
 
 
 print(f.duration)
-print(f.metadata)
+for x in f.metadata:
+    print(x, '\n')
