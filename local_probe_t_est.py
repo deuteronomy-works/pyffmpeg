@@ -1,6 +1,6 @@
 from pyffmpeg import FFprobe
 
-f = FFprobe("C:/Users/Ampofo/Videos/RECORDINGS/SignIn/o/2movie Audio Extracted.wav")
+f = FFprobe("H:/GitHub/pyffmpeg/_test/asem.mp3")
 # ret = f.get_album_art('cover.png')
 
 
