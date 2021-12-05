@@ -46,4 +46,8 @@ NB: The above digits is just for illustration
 ## Wiki
 The wiki can be located [here](https://github.com/deuteronomy-works/pyffmpeg/wiki)
 
-This library uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a>
+## Legal
+This library uses prebuilt binaries of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and can be downloaded at the following links:
+  * Mac - <a href="https://evermeet.cx/ffmpeg/">here</a>
+  * Linux - <a href="https://johnvansickle.com/ffmpeg/">here</a>
+  * Windows - <a href="https://www.gyan.dev/ffmpeg/builds/">here</a>
