@@ -60,8 +60,10 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        options = f"{self._ffmpeg_file} -loglevel {self.loglevel} "
-        options += f"{self._over_write} -i {inf} {out}"
+        options = "{} -loglevel {} "
+        options = options.format(self._ffmpeg_file, self.loglevel)
+        options += "{} -i {} {}"
+        options = options.format(self._over_write, inf, out)
         outP = Popen(options, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr.read(), 'utf-8')
