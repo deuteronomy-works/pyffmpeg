@@ -5,6 +5,9 @@ FFmpeg wrapper for python. It uses FFmpeg binary to provide both FFmpeg and FFpr
 
 The beautiful thing about it is that it comes with its own FFmpeg executable. It is compressed, making it the smallest you can find. And becuase its cross-platform and python 3, it is the only option available for building cross-platform apps with ffmpeg in python.
 
+## FFmpeg Version
+Uses current FFmpeg version 4.4
+
 ## Installation
     pip install pyffmpeg
 
@@ -45,3 +48,9 @@ NB: The above digits is just for illustration
 
 ## Wiki
 The wiki can be located [here](https://github.com/deuteronomy-works/pyffmpeg/wiki)
+
+## Legal
+This library uses prebuilt binaries of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and can be downloaded at the following links:
+  * Mac - <a href="https://evermeet.cx/ffmpeg/">here</a>
+  * Linux - <a href="https://johnvansickle.com/ffmpeg/">here</a>
+  * Windows - <a href="https://www.gyan.dev/ffmpeg/builds/">here</a>

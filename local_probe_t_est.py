@@ -5,4 +5,5 @@ f = FFprobe("H:/GitHub/pyffmpeg/_test/asem.mp3")
 
 
 print(f.duration)
-print(f.metadata)
+for x in f.metadata:
+    print(x, '\n')
