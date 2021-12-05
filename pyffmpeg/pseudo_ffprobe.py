@@ -33,7 +33,7 @@ class FFprobe():
         self.start = 0
         self.bitrate = 0
         self.type = ''
-        self.metadata = [[0, 1], 1]  # mock indeces
+        self.metadata = [[{}, {}], {}]  # mock indeces
         self.other_metadata = {}
         self._other_metadata = []
 
@@ -77,6 +77,11 @@ class FFprobe():
 
     def _extract_all(self, stdout):
         # pick only streams, all of them
+
+        if 'misdetection possible' in stdout:
+            print('File corrupt or codecs not available for the file')
+            return
+
         all_streams = stdout.split('Stream mapping')[0]
         all_streams = all_streams.split('Input')[1]
 
