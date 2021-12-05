@@ -71,7 +71,7 @@ class Paths():
         bs4 = b64encode(compressed)
         smtm = 'contents='+str(bs4)
 
-        with open(target+'.py', 'wb') as t_file:
+        with open(target+'.py', 'w') as t_file:
             t_file.write(smtm)
 
 def fix_splashes(options):
