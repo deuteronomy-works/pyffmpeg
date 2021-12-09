@@ -94,6 +94,9 @@ class FFmpeg():
     def options(self, opts):
 
         """
+        Allows user to pass any other command line options to the FFmpeg executable
+        eg.: command line options of 'ffmpeg -i a.mp4 b.mp3'
+        will be passed by user as: opts: '-i a.mp4 b.mp3'
         """
 
         if isinstance(opts, list):
