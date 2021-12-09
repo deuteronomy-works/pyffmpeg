@@ -9,6 +9,9 @@ from base64 import b64decode, b64encode
 
 
 class Paths():
+    """
+    Provide access to paths used within pyffmpeg
+    """
 
     def __init__(self):
         self.os_name = system().lower()
@@ -75,6 +78,9 @@ class Paths():
             t_file.write(smtm)
 
 def fix_splashes(options):
+    """
+    Make splashes synanymous irrespective of the OS
+    """
     if system().lower() == 'windows':
         new_opts = []
         for entry in options:
