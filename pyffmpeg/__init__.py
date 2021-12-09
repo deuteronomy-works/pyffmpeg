@@ -18,6 +18,7 @@ class FFmpeg():
 
 
     """
+    Provide methods for working with FFmpeg
     """
 
 
