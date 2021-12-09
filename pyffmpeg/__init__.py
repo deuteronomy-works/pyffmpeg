@@ -23,6 +23,9 @@ class FFmpeg():
 
 
     def __init__(self, directory="."):
+        """
+        Init function
+        """
 
         self.save_dir = directory
         self.overwrite = True
