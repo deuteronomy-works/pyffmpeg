@@ -84,6 +84,9 @@ class FFmpeg():
         return self._ffmpeg_file
 
     def get_fps(self, input_file):
+        """
+        Returns the frame per second rate of an input file
+        """
         fprobe = FFprobe(input_file)
         fps = fprobe.fps
         return fps
