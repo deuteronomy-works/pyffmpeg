@@ -47,6 +47,7 @@ class FFmpeg():
     def convert(self, input_file, output_file):
 
         """
+        Converts and input file to the output file
         """
 
         if os.path.isabs(output_file):
