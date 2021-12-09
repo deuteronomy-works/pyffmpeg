@@ -143,6 +143,10 @@ class FFmpeg():
         return True
 
     def quit(self, function: Optional[str] = ''):
+        """
+        Allows for any running process of ffmpeg started by pyffmpeg
+        to be terminated
+        """
         if function:
             inst = self._ffmpeg_instances[function]
             output = inst.communicate(b'q')
