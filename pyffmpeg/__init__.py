@@ -69,7 +69,7 @@ class FFmpeg():
         options = options.format(self._ffmpeg_file, self.loglevel)
         options += "{} -i {} {}"
         options = options.format(self._over_write, inf, out)
-        outP = Popen(options, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        outP = Popen(options, shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr.read(), 'utf-8')
         return out
@@ -137,7 +137,7 @@ class FFmpeg():
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
 
-        out = Popen(options, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        out = Popen(options, shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
         self.error = str(out.stderr.read(), 'utf-8')
         return True
