@@ -18,10 +18,14 @@ class FFmpeg():
 
 
     """
+    Provide methods for working with FFmpeg
     """
 
 
     def __init__(self, directory="."):
+        """
+        Init function
+        """
 
         self.save_dir = directory
         self.overwrite = True
@@ -43,6 +47,7 @@ class FFmpeg():
     def convert(self, input_file, output_file):
 
         """
+        Converts and input file to the output file
         """
 
         if os.path.isabs(output_file):
@@ -64,7 +69,7 @@ class FFmpeg():
         options = options.format(self._ffmpeg_file, self.loglevel)
         options += "{} -i {} {}"
         options = options.format(self._over_write, inf, out)
-        outP = Popen(options, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        outP = Popen(options, shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr.read(), 'utf-8')
         return out
@@ -79,6 +84,9 @@ class FFmpeg():
         return self._ffmpeg_file
 
     def get_fps(self, input_file):
+        """
+        Returns the frame per second rate of an input file
+        """
         fprobe = FFprobe(input_file)
         fps = fprobe.fps
         return fps
@@ -86,6 +94,9 @@ class FFmpeg():
     def options(self, opts):
 
         """
+        Allows user to pass any other command line options to the FFmpeg executable
+        eg.: command line options of 'ffmpeg -i a.mp4 b.mp3'
+        will be passed by user as: opts: '-i a.mp4 b.mp3'
         """
 
         if isinstance(opts, list):
@@ -126,12 +137,18 @@ class FFmpeg():
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
 
-        out = Popen(options, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        out = Popen(options, shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
         self.error = str(out.stderr.read(), 'utf-8')
         return True
 
     def quit(self, function: Optional[str] = ''):
+
+        """
+        Allows for any running process of ffmpeg started by pyffmpeg
+        to be terminated
+        """
+
         if function:
             inst = self._ffmpeg_instances[function]
             output = inst.communicate(b'q')
