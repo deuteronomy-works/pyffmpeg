@@ -4,11 +4,14 @@ To Provide miscellaneous function
 
 import os
 from platform import system
-from lzma import decompress
+from lzma import decompress, compress
 from base64 import b64decode, b64encode
 
 
 class Paths():
+    """
+    Provide access to paths used within pyffmpeg
+    """
 
     def __init__(self):
         self.os_name = system().lower()
@@ -62,8 +65,22 @@ class Paths():
 
         return self.ffmpeg_file
 
+    def convert_to_py(self, fn: str, target: str):
+
+        with open(fn, 'rb') as f_file:
+            raw = f_file.read()
+
+        compressed = compress(raw)
+        bs4 = b64encode(compressed)
+        smtm = 'contents='+str(bs4)
+
+        with open(target+'.py', 'w') as t_file:
+            t_file.write(smtm)
 
 def fix_splashes(options):
+    """
+    Make splashes synanymous irrespective of the OS
+    """
     if system().lower() == 'windows':
         new_opts = []
         for entry in options:

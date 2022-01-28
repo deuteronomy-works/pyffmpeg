@@ -15,6 +15,10 @@ from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 
 
 class FFprobe():
+    """
+    Provide methods for working with pseudo ffprobe
+    which is ffmpeg's log file
+    """
 
     def __init__(self, file_name=None):
 
@@ -33,7 +37,7 @@ class FFprobe():
         self.start = 0
         self.bitrate = 0
         self.type = ''
-        self.metadata = [[0, 1], 1]  # mock indeces
+        self.metadata = [[{}, {}], {}]  # mock indeces
         self.other_metadata = {}
         self._other_metadata = []
 
@@ -77,6 +81,11 @@ class FFprobe():
 
     def _extract_all(self, stdout):
         # pick only streams, all of them
+
+        if 'misdetection possible' in stdout:
+            print('File corrupt or codecs not available for the file')
+            return
+
         all_streams = stdout.split('Stream mapping')[0]
         all_streams = all_streams.split('Input')[1]
 
@@ -228,23 +237,12 @@ class FFprobe():
 
         # break the operation
         sleep(0.02)
-        stdout, stderr = subP.communicate(input=b'q')
+        stdout, _ = subP.communicate(input=b'q')
 
         if os.path.exists(out_file):
             os.unlink(out_file)
 
-        if b'handler_name    : VideoHandler' in stdout:
-            if not stderr:
-                pattern = r'Input .*?.*?.*?Stream mapping'
-                input_data = re.findall(pattern, str(stdout)[2:-1])[0]
-
-                # take the streams data
-                pattern_two = r'Stream.*?.*?.*?handler_name.*?.*?.*?\\n'
-                self.raw_streams = re.findall(pattern_two, input_data)
-
-            self._extract()
-        else:
-            self._extract_all(str(stdout, 'utf-8'))
+        self._extract_all(str(stdout, 'utf-8'))
 
         # Expose publicly know var
         self._expose()
