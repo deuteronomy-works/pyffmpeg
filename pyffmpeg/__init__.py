@@ -4,6 +4,8 @@ Created on Wed Mar 25 15:07:19 2020
 """
 
 import os
+import threading
+from time import sleep
 from typing import Optional
 from subprocess import Popen, PIPE, STDOUT
 from platform import system
@@ -39,6 +41,12 @@ class FFmpeg():
         else:
             self._over_write = '-n'
 
+        # Progress
+        self.report_progress = True
+        self.in_duration: float = 0.0
+        self._progress: int = 0
+        self.onProgressChanged = self.progressChangeMock
+
         # instances are store according to function names
         self._ffmpeg_instances = {}
         self._ffmpeg_file = Paths().load_ffmpeg_bin()
@@ -69,6 +77,13 @@ class FFmpeg():
         options = options.format(self._ffmpeg_file, self.loglevel)
         options += "{} -i {} {}"
         options = options.format(self._over_write, inf, out)
+
+        if self.report_progress:
+            f = FFprobe(inf)
+            d = f.duration.replace(':', '')
+            self.in_duration = float(d)
+            self.monitor(out)
+
         outP = Popen(options, shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr.read(), 'utf-8')
@@ -90,6 +105,25 @@ class FFmpeg():
         fprobe = FFprobe(input_file)
         fps = fprobe.fps
         return fps
+
+    def monitor(self, fn: str):
+        m_thread = threading.Thread(target=self._monitor, args=[fn])
+        m_thread.daemon = True
+        m_thread.start()
+
+    def _monitor(self, fn: str):
+        print('Monitoring Spirit started')
+        sleep(1)
+        dura = 0.0
+        while dura < self.in_duration:
+            try:
+                f = FFprobe(fn)
+                d = f.duration.replace(':', '')
+                dura = float(d)
+            except:
+                dura = 0.0
+            self.progress = dura / self.in_duration * 100
+            sleep(0.1)
 
     def options(self, opts):
 
@@ -141,6 +175,18 @@ class FFmpeg():
         self._ffmpeg_instances['options'] = out
         self.error = str(out.stderr.read(), 'utf-8')
         return True
+
+    @property
+    def progress(self):
+        return self._progress
+
+    @progress.setter
+    def progress(self, percent):
+        self._progress = int(percent)
+        self.onProgressChanged(self._progress)
+
+    def progressChangeMock(self, progress):
+        print('progress: ', progress)
 
     def quit(self, function: Optional[str] = ''):
         """
