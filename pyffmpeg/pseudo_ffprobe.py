@@ -15,6 +15,10 @@ from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 
 
 class FFprobe():
+    """
+    Provide methods for working with pseudo ffprobe
+    which is ffmpeg's log file
+    """
 
     def __init__(self, file_name=None):
 
@@ -229,7 +233,7 @@ class FFprobe():
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            shell=True)
+            shell=False)
 
         # break the operation
         sleep(0.02)
