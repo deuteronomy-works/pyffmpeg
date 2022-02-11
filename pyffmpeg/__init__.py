@@ -186,7 +186,7 @@ class FFmpeg():
         self.onProgressChanged(self._progress)
 
     def progressChangeMock(self, progress):
-        print('progress: ', progress)
+        pass
 
     def quit(self, function: Optional[str] = ''):
         """
