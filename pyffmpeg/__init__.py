@@ -42,8 +42,8 @@ class FFmpeg():
             self._over_write = '-n'
 
         # Progress
-        self.report_progress = True
         self.in_duration: float = 0.0
+        self.report_progress = False
         self._progress: int = 0
         self.onProgressChanged = self.progressChangeMock
 
