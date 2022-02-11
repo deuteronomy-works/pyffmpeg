@@ -10,7 +10,7 @@ import random
 import os
 from base64 import b64decode
 
-from .misc import Paths, fix_splashes
+from .misc import Paths, fix_splashes, SHELL
 from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 
 
@@ -233,7 +233,7 @@ class FFprobe():
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            shell=False)
+            shell=SHELL)
 
         # break the operation
         sleep(0.02)
