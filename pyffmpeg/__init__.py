@@ -13,7 +13,7 @@ from lzma import decompress
 from base64 import b64decode, b64encode
 
 from .pseudo_ffprobe import FFprobe
-from .misc import Paths, fix_splashes
+from .misc import Paths, fix_splashes, SHELL
 
 
 class FFmpeg():
@@ -42,8 +42,8 @@ class FFmpeg():
             self._over_write = '-n'
 
         # Progress
-        self.report_progress = True
-        self.in_duration: float = 0.0
+        self.report_progress = False
+        self._in_duration: float = 0.0
         self._progress: int = 0
         self.onProgressChanged = self.progressChangeMock
 
@@ -81,10 +81,11 @@ class FFmpeg():
         if self.report_progress:
             f = FFprobe(inf)
             d = f.duration.replace(':', '')
-            self.in_duration = float(d)
+            self._in_duration = float(d)
             self.monitor(out)
 
-        outP = Popen(options, shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        outP = Popen(
+            options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr.read(), 'utf-8')
         return out
@@ -115,14 +116,14 @@ class FFmpeg():
         print('Monitoring Spirit started')
         sleep(1)
         dura = 0.0
-        while dura < self.in_duration:
+        while dura < self._in_duration:
             try:
                 f = FFprobe(fn)
                 d = f.duration.replace(':', '')
                 dura = float(d)
             except:
                 dura = 0.0
-            self.progress = dura / self.in_duration * 100
+            self.progress = dura / self._in_duration * 100
             sleep(0.1)
 
     def options(self, opts):
@@ -171,7 +172,7 @@ class FFmpeg():
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
 
-        out = Popen(options, shell=False, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
         self.error = str(out.stderr.read(), 'utf-8')
         return True
@@ -186,7 +187,7 @@ class FFmpeg():
         self.onProgressChanged(self._progress)
 
     def progressChangeMock(self, progress):
-        print('progress: ', progress)
+        pass
 
     def quit(self, function: Optional[str] = ''):
 
