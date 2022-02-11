@@ -42,8 +42,8 @@ class FFmpeg():
             self._over_write = '-n'
 
         # Progress
-        self.in_duration: float = 0.0
         self.report_progress = False
+        self._in_duration: float = 0.0
         self._progress: int = 0
         self.onProgressChanged = self.progressChangeMock
 
@@ -81,7 +81,7 @@ class FFmpeg():
         if self.report_progress:
             f = FFprobe(inf)
             d = f.duration.replace(':', '')
-            self.in_duration = float(d)
+            self._in_duration = float(d)
             self.monitor(out)
 
         outP = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -115,14 +115,14 @@ class FFmpeg():
         print('Monitoring Spirit started')
         sleep(1)
         dura = 0.0
-        while dura < self.in_duration:
+        while dura < self._in_duration:
             try:
                 f = FFprobe(fn)
                 d = f.duration.replace(':', '')
                 dura = float(d)
             except:
                 dura = 0.0
-            self.progress = dura / self.in_duration * 100
+            self.progress = dura / self._in_duration * 100
             sleep(0.1)
 
     def options(self, opts):
