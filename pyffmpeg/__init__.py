@@ -84,7 +84,7 @@ class FFmpeg():
             self._in_duration = float(d)
             self.monitor(out)
 
-        outP = Popen(options, shell=SHELL, \
+        outP = Popen(options, shell=SHELL, 
             stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr.read(), 'utf-8')
