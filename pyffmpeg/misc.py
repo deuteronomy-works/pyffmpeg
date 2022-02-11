@@ -8,13 +8,21 @@ from lzma import decompress, compress
 from base64 import b64decode, b64encode
 
 
+OS_NAME = system().lower()
+
+if OS_NAME == 'linux':
+    SHELL = False
+else:
+    SHELL = True
+
+
 class Paths():
     """
     Provide access to paths used within pyffmpeg
     """
 
     def __init__(self):
-        self.os_name = system().lower()
+        self.os_name = OS_NAME
         if self.os_name == 'windows':
             env_name = 'USERPROFILE'
             self._ffmpeg_ext = '.exe'
