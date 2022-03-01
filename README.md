@@ -1,9 +1,9 @@
 # pyffmpeg    ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-linux?label=Linux&logo=linux&logoColor=white&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-darwin?label=MacOs&logo=apple&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-windows?label=Windows&logo=windows&style=for-the-badge)  [![Downloads](https://pepy.tech/badge/pyffmpeg)](https://pepy.tech/project/pyffmpeg)
 
 
-FFmpeg wrapper for python. It usess FFmpeg binary to provide both FFmpeg and FFprobe functionality (FFprobe functionality includes `get_album_art`). So you can kill two bird with one stone.
+FFmpeg wrapper for python. It uses FFmpeg binary to provide both FFmpeg and FFprobe functionality (FFprobe functionality includes `get_album_art`). So you can kill two birds with one stone.
 
-The beutiful thing about it is that it comes with its own FFmpeg executable. It is compressed, making it the smalest you can find. And becuase its cross-platform and python 3, it is the only option available for building cross-platform apps with ffmpeg in python.
+The beautiful thing about this is that it comes with it's own FFmpeg executable. It is compressed, making it the smallest one you can find. Becuase it's cross-platform and python 3, it is the only option available for building cross-platform apps with ffmpeg in python.
 
 ## FFmpeg Version
 Uses current FFmpeg version 4.4
@@ -43,7 +43,7 @@ will print
 ```shell
 > 00:04:32:32
 ```
-NB: The above digits is just for illustration
+NB: The above digits are just for illustration purposes.
 
 
 ## Wiki
@@ -54,7 +54,7 @@ The wiki can be located [here](https://github.com/deuteronomy-works/pyffmpeg/wik
 Please read [Contributing](https://github.com/deuteronomy-works/pyffmpeg/.github/contributing.md)
 
 ## Legal
-This library uses prebuilt binaries of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and can be downloaded at the following links:
+This library uses prebuilt binaries of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and can be downloaded via the following links:
   * Mac - <a href="https://evermeet.cx/ffmpeg/">here</a>
   * Linux - <a href="https://johnvansickle.com/ffmpeg/">here</a>
   * Windows - <a href="https://www.gyan.dev/ffmpeg/builds/">here</a>
