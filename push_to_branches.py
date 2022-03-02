@@ -20,7 +20,9 @@ print('Authenticated')
 BRANCHES = ('build-darwin', 'build-linux', 'build-windows')
 
 for branch in BRANCHES:
-    cmd1 = f'gh pr create --base {branch} --title "new commits from master" --body "new commits from master"'
+    title = "new commits from master"
+    body = "new commits from master"
+    cmd1 = f'gh pr create --base {branch} --title "{title}" --body "{body}"'
     os.system(cmd1)
 
 
