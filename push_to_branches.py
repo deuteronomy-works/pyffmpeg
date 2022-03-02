@@ -20,7 +20,7 @@ print('Authenticated')
 BRANCHES = ('build-darwin', 'build-linux', 'build-windows')
 
 for branch in BRANCHES:
-    cmd1 = f'gh pr create --base {branch}'
+    cmd1 = f'gh pr create --base {branch} --fill'
     os.system(cmd1)
 
 
