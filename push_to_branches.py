@@ -24,8 +24,10 @@ for branch in BRANCHES:
     body = "new commits from master"
     cmd1 = f'gh pr create --base {branch} --title "{title}" --body "{body}"'
     os.system(cmd1)
-    cmd2 = f'gh pr merge {branch}'
+    cmd2 = f'git switch {branch}'
     os.system(cmd2)
+    cmd3 = f'gh pr merge --merge --auto --body "Merged"'
+    os.system(cmd3)
 
 
 print('All Done')
