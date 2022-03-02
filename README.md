@@ -51,7 +51,7 @@ The wiki can be located [here](https://github.com/deuteronomy-works/pyffmpeg/wik
 
 
 ## Contributing
-Please read [Contributing](https://github.com/deuteronomy-works/pyffmpeg/.github/contributing.md)
+Please read [Contributing](https://github.com/deuteronomy-works/pyffmpeg/wiki/How-to-Contribute)
 
 ## Legal
 This library uses prebuilt binaries of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and can be downloaded via the following links:
