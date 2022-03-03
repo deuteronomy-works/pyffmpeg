@@ -26,6 +26,8 @@ for branch in BRANCHES:
     os.system(cmd1)
     cmd2 = f'git switch {branch}'
     os.system(cmd2)
+    # Allow 5 seconds to ensure that checks have completed
+    sleep(5)
     cmd3 = f'gh pr merge --merge --auto --body "Merged"'
     os.system(cmd3)
 
