@@ -1,12 +1,16 @@
 import os
-from platform import system
-import pytest
+# from platform import system
+# import pytest
 from pyffmpeg import FFmpeg
 from pyffmpeg.misc import Paths
 
 
 cwd = os.path.dirname(__file__)
-i = "https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/_test/f.mp3"
+i = "https://raw.githubusercontent.com/"
+i += "deuteronomy-works/pyffmpeg/master/_test/f.mp3"
+EASY_LEMON = os.path.join(
+    cwd, 'tests', 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3')
+E_FLAT = os.path.join(cwd, 'tests', "Ecossaise in E-flat - Kevin MacLeod.mp3")
 
 
 def test_save_directory():
@@ -22,6 +26,7 @@ def test_save_directory():
     else:
         assert False
 
+
 def test_convert():
 
     """
@@ -32,8 +37,8 @@ def test_convert():
 
     ff = FFmpeg()
     ff.loglevel = 'info'
-    print(f'in and out: {i}, {out}')
-    ff.convert(i, out)
+    print(f'in and out: {EASY_LEMON}, {out}')
+    ff.convert(EASY_LEMON, out)
     if ff.error:
         if 'Output' in ff.error:
             assert True
@@ -43,11 +48,13 @@ def test_convert():
     else:
         assert True
 
+
 def test_get_ffmpeg_bin():
 
     home_path = Paths().load_ffmpeg_bin()
     bin_path = FFmpeg().get_ffmpeg_bin()
     assert home_path == bin_path
+
 
 def test_loglevel():
     ff = FFmpeg()
@@ -56,21 +63,23 @@ def test_loglevel():
     path = Paths().home_path
     o = os.path.join(path, 'f.wav')
 
-    opt = ['-i', i, o]
+    opt = ['-i', EASY_LEMON, o]
 
     ff.options(opt)
     assert ff.loglevel != 'fa'
+
 
 def test_options():
 
     path = Paths().home_path
     o = os.path.join(path, 'f.wav')
 
-    opt = ['-i', i, o]
+    opt = ['-i', EASY_LEMON, o]
 
     ff = FFmpeg()
-    print(f'in and out: {i}, {o}')
-    ret = ff.options(opt)
+    print(f'in and out: {EASY_LEMON}, {o}')
+    ff.options(opt)
+
     if ff.error:
         if 'Output' in ff.error:
             assert True

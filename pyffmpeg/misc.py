@@ -85,6 +85,7 @@ class Paths():
         with open(target+'.py', 'w') as t_file:
             t_file.write(smtm)
 
+
 def fix_splashes(options):
     """
     Make splashes synanymous irrespective of the OS
