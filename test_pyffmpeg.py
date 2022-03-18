@@ -7,7 +7,8 @@ from pyffmpeg.misc import Paths
 
 cwd = os.path.dirname(__file__)
 i = "https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/_test/f.mp3"
-EASY_LEMON = os.path.join(cwd, 'tests', 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3')
+EASY_LEMON = os.path.join(
+    cwd, 'tests', 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3')
 E_FLAT = os.path.join(cwd, 'tests', "Ecossaise in E-flat - Kevin MacLeod.mp3")
 
 
