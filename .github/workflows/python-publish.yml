@@ -10,7 +10,7 @@ on:
 jobs:
   deploy:
 
-    runs-on: macOS-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -30,21 +30,6 @@ jobs:
       run: |
         python setup.py bdist_wheel
         python rename.py amd64
-    - name: Build Linux
-      run: |
-        python setup.py bdist_wheel
-        python rename.py linux
-        python setup.py bdist_wheel
-        python rename.py centos
-
-    - name: Build Darwin 15 and above
-      run: |
-        python setup.py bdist_wheel
-        python rename.py macos15
-    - name: Build Darwin
-      run: |
-        python setup.py bdist_wheel
-        python rename.py macos
 
     - name: Publish
       env:
