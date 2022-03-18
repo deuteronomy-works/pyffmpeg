@@ -10,7 +10,7 @@ on:
 jobs:
   deploy:
 
-    runs-on: macOS-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -22,29 +22,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
 
-    - name: Build Windows 32
+    - name: Build
       run: |
-        python setup.py bdist_wheel
-        python rename.py win32
-    - name: Build Windows x64
-      run: |
-        python setup.py bdist_wheel
-        python rename.py amd64
-    - name: Build Linux
-      run: |
-        python setup.py bdist_wheel
-        python rename.py linux
-        python setup.py bdist_wheel
-        python rename.py centos
-
-    - name: Build Darwin 15 and above
-      run: |
-        python setup.py bdist_wheel
-        python rename.py macos15
-    - name: Build Darwin
-      run: |
-        python setup.py bdist_wheel
-        python rename.py macos
+        python setup.py sdist
 
     - name: Publish
       env:
