@@ -10,7 +10,7 @@ on:
 jobs:
   deploy:
 
-    runs-on: macOS-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -29,7 +29,6 @@ jobs:
       run: |
         python setup.py bdist_wheel
         python rename.py macos
-
     - name: Publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
