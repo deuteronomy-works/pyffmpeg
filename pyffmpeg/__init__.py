@@ -174,6 +174,9 @@ class FFmpeg():
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
 
+        # turn options into list
+        options = options.split(" ")
+
         out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
         self.error = str(out.stderr.read(), 'utf-8')
