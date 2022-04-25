@@ -11,12 +11,15 @@ jobs:
   deploy:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -24,7 +27,9 @@ jobs:
     - name: Build Linux
       run: |
         python setup.py bdist_wheel
-        python rename.py linux
+        python rename.py linux_intel ${{ matrix.python-version }}
+        python setup.py bdist_wheel
+        python rename.py linux_aarch ${{ matrix.python-version }}
     - name: Publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
