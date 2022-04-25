@@ -1,4 +1,5 @@
 import os
+from turtle import home
 # from platform import system
 # import pytest
 from pyffmpeg import FFmpeg
@@ -43,7 +44,7 @@ def test_convert():
     out = os.path.join(path, 'f.wav')
 
     ff = FFmpeg()
-    ff.loglevel = 'info'
+    # ff.loglevel = 'info'
     print(f'in and out: {EASY_LEMON}, {out}')
     ff.convert(EASY_LEMON, out)
     if ff.error:
@@ -60,6 +61,8 @@ def test_get_ffmpeg_bin():
 
     home_path = Paths().load_ffmpeg_bin()
     bin_path = FFmpeg().get_ffmpeg_bin()
+    print('bin: ', bin_path)
+    print('home: ', home_path)
     assert home_path == bin_path
 
 
