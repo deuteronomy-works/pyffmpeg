@@ -17,7 +17,6 @@ TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
 #    cwd, 'tests', 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3')
 EASY_LEMON = TEST_FOLDER + 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'
 
-# E_FLAT = os.path.join(cwd, 'tests', "Ecossaise in E-flat - Kevin MacLeod.mp3")
 E_FLAT = TEST_FOLDER + "Ecossaise in E-flat - Kevin MacLeod.mp3"
 
 
