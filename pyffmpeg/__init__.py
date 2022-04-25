@@ -75,6 +75,7 @@ class FFmpeg():
         options = options.format(self._ffmpeg_file, self.loglevel)
         options += "{} -i {} {}"
         options = options.format(self._over_write, inf, out)
+        options = options.split(" ")
 
         if self.report_progress:
             f = FFprobe(inf)
@@ -172,6 +173,9 @@ class FFmpeg():
 
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
+
+        # turn options into list
+        options = options.split(" ")
 
         out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
