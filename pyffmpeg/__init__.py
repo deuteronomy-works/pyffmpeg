@@ -75,6 +75,7 @@ class FFmpeg():
         options = options.format(self._ffmpeg_file, self.loglevel)
         options += "{} -i {} {}"
         options = options.format(self._over_write, inf, out)
+        options = options.split(" ")
 
         if self.report_progress:
             f = FFprobe(inf)
