@@ -6,7 +6,7 @@ with open('README.md', 'r') as rm:
 
 setup(
     name='pyffmpeg',
-    version='2.3-alpha',
+    version='2.3-beta',
     description='FFmpeg wrapper for python',
     long_description=long_desc,
     long_description_content_type='text/markdown',
@@ -16,7 +16,7 @@ setup(
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 3 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
