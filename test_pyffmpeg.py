@@ -43,7 +43,7 @@ def test_convert():
     out = os.path.join(path, 'f.wav')
 
     ff = FFmpeg()
-    b_path = ff.get_ffmpeg_bin()
+    b_path = os.path.exists(ff.get_ffmpeg_bin())
     # ff.loglevel = 'info'
     print(f'in and out: {EASY_LEMON} {path} {b_path}')
     ff.convert(EASY_LEMON, out)
