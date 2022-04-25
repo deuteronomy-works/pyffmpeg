@@ -11,24 +11,31 @@ jobs:
   deploy:
 
     runs-on: macOS-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
-    - name: Build Darwin 15 and above
+    - name: Build Darwin 11
       run: |
         python setup.py bdist_wheel
-        python rename.py macos15
-    - name: Build Darwin
+        python rename.py macos11 ${{ matrix.python-version }}
+    - name: Build Darwin intel
       run: |
         python setup.py bdist_wheel
-        python rename.py macos
+        python rename.py macos_intel ${{ matrix.python-version }}
+    - name: Build Darwin universal
+      run: |
+        python setup.py bdist_wheel
+        python rename.py macos_uni ${{ matrix.python-version }}
     - name: Publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
