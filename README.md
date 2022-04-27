@@ -43,7 +43,7 @@ will print
 ```shell
 > 00:04:32:32
 ```
-NB: The above digits are just for illustration purposes.
+NB: The above digits are just for illustration purposes
 
 
 ## Wiki
