@@ -1,4 +1,4 @@
-# pyffmpeg    ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-linux?label=Linux&logo=linux&logoColor=white&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-darwin?label=MacOs&logo=apple&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-windows?label=Windows&logo=windows&style=for-the-badge)  [![Downloads](https://pepy.tech/badge/pyffmpeg)](https://pepy.tech/project/pyffmpeg)
+# pyffmpeg    ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-linux?label=Linux&logo=linux&logoColor=white&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-darwin?label=MacOs&logo=apple&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-windows?label=Windows&logo=windows&style=for-the-badge)  [![Downloads](https://pepy.tech/badge/pyffmpeg/month)](https://pepy.tech/project/pyffmpeg)
 
 
 FFmpeg wrapper for python. It uses FFmpeg binary to provide both FFmpeg and FFprobe functionality (FFprobe functionality includes `get_album_art`). So you can kill two birds with one stone.
@@ -43,7 +43,7 @@ will print
 ```shell
 > 00:04:32:32
 ```
-NB: The above digits are just for illustration purposes.
+NB: The above digits are just for illustration purposes
 
 
 ## Wiki

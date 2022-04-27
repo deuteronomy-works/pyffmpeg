@@ -7,10 +7,10 @@ import os
 import threading
 from time import sleep
 from typing import Optional
-from subprocess import Popen, PIPE, STDOUT
-from platform import system
-from lzma import decompress
-from base64 import b64decode, b64encode
+from subprocess import Popen, PIPE
+# from platform import system
+# from lzma import decompress
+# from base64 import b64decode, b64encode
 
 from .pseudo_ffprobe import FFprobe
 from .misc import Paths, fix_splashes, SHELL
@@ -18,11 +18,9 @@ from .misc import Paths, fix_splashes, SHELL
 
 class FFmpeg():
 
-
     """
     Provide methods for working with FFmpeg
     """
-
 
     def __init__(self, directory="."):
         """
@@ -77,6 +75,7 @@ class FFmpeg():
         options = options.format(self._ffmpeg_file, self.loglevel)
         options += "{} -i {} {}"
         options = options.format(self._over_write, inf, out)
+        options = options.split(" ")
 
         if self.report_progress:
             f = FFprobe(inf)
@@ -85,7 +84,9 @@ class FFmpeg():
             self.monitor(out)
 
         outP = Popen(
-            options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            options, shell=SHELL, stdin=PIPE,
+            stdout=PIPE, stderr=PIPE
+            )
         self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr.read(), 'utf-8')
         return out
@@ -129,7 +130,8 @@ class FFmpeg():
     def options(self, opts):
 
         """
-        Allows user to pass any other command line options to the FFmpeg executable
+        Allows user to pass any other command line options
+        to the FFmpeg executable
         eg.: command line options of 'ffmpeg -i a.mp4 b.mp3'
         will be passed by user as: opts: '-i a.mp4 b.mp3'
         """
@@ -171,6 +173,9 @@ class FFmpeg():
 
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
+
+        # turn options into list
+        options = options.split(" ")
 
         out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
