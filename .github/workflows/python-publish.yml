@@ -29,6 +29,7 @@ jobs:
         python setup.py bdist_wheel
         python rename.py linux_intel ${{ matrix.python-version }}
     - name: Build Linux aarch
+      run: |
         python setup.py bdist_wheel
         python rename.py linux_aarch ${{ matrix.python-version }}
     - name: Publish
