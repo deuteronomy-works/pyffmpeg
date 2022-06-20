@@ -1,6 +1,7 @@
 import os
 # from platform import system
 import pytest
+from pyffmpeg.static.bin.linuxmod import linux
 from pyffmpeg import FFmpeg
 from pyffmpeg.misc import Paths
 
@@ -18,6 +19,10 @@ TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
 EASY_LEMON = TEST_FOLDER + 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'
 
 E_FLAT = TEST_FOLDER + "Ecossaise in E-flat - Kevin MacLeod.mp3"
+
+
+def test_some():
+    assert linux.some() == 123
 
 
 def test_save_directory():
