@@ -23,10 +23,7 @@ for x in lists:
         if len(sys.argv) > 2:
             py_version = sys.argv[2].replace('.', '')
             cp = 'cp' + py_version
-            if cp == 'cp39':
-                na.extend(['py3', 'abi3'])
-            else:
-                na.extend([cp, cp])
+            na.extend([cp, cp])
 
         na.append(oss[version])
         print(na)
