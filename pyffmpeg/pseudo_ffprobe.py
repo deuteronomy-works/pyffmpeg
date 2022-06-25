@@ -228,7 +228,7 @@ class FFprobe():
 
         # randomize the filename to avoid overwrite prompt
 
-        commands = [self._ffmpeg, '-i', self.file_name, "-f", "null", os.devnull]
+        commands = [self._ffmpeg, '-y', '-i', self.file_name, "-f", "null", os.devnull]
 
         # start subprocess
         subP = subprocess.Popen(
