@@ -8,9 +8,9 @@ from time import sleep
 import re
 import random
 import os
-from base64 import b64decode
+# from base64 import b64decode
 
-from .misc import Paths, fix_splashes
+from .misc import Paths, SHELL
 from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 
 
@@ -68,7 +68,6 @@ class FFprobe():
 
         elif 'fps' in self.metadata[0][1]:
             self.fps = self.metadata[0][1]['fps']
-
 
     def _extract(self):
         for stream in self.raw_streams:
@@ -136,6 +135,9 @@ class FFprobe():
     def _parse_meta(self, stream):
         tags = {}
         metadata = self._strip_meta(stream)
+        # Previous key will be overriden
+        prev_key = ''
+
         for x in range(len(metadata)):
             line = metadata[x]
             data = line.split(":", 1)
@@ -169,6 +171,8 @@ class FFprobe():
         tags = {}
         metadata = self._strip_input_meta(stream)
 
+        # previous key will be overriden
+        prev_key = ''
         for x in range(len(metadata)):
             line = metadata[x]
             data = line.split(":", 1)
@@ -233,7 +237,7 @@ class FFprobe():
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            shell=False)
+            shell=SHELL)
 
         # break the operation
         sleep(0.02)

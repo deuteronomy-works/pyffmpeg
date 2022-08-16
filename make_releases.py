@@ -19,15 +19,25 @@ cmd = 'gh auth login --with-token < token.txt'
 os.system(cmd)
 print('Authenticated')
 
-BRANCHES = ('build-darwin', 'build-linux', 'build-windows')
 
-for branch in BRANCHES:
-    tag = version + branch.replace('build', '')
-    cmd1 = f'gh release create {tag} --target {branch} -p'
-    os.system(cmd1)
+def main():
+    BRANCHES = ('build-darwin', 'build-linux', 'build-windows')
 
-print('sleeping for a minute')
-sleep(60)
-print('Should delete tags')
+    for branch in BRANCHES:
+        tag = version + branch.replace('build', '')
+        cmd1 = f'gh release create {tag} --target {branch} -p'
+        os.system(cmd1)
+
+    print('sleeping for a minute')
+    sleep(600)
+    print('Should delete tags')
+    for branch in BRANCHES:
+        tag = version + branch.replace('build', '')
+        cmd1 = f'gh release delete {tag} --yes'
+        os.system(cmd1)
+    print('done deleting tags')
+
+
+main()
 
 print('All Done')
