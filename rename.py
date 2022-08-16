@@ -19,7 +19,7 @@ oss = {
 for x in lists:
     if '-any' in x:
         na = x.split('-', 2)[:2]
-        
+
         if len(sys.argv) > 2:
             py_version = sys.argv[2].replace('.', '')
             cp = 'cp' + py_version
