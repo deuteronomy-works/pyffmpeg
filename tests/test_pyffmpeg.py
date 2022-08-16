@@ -12,6 +12,7 @@ TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
 
 EASY_LEMON = TEST_FOLDER + 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'
 E_FLAT = TEST_FOLDER + "Ecossaise in E-flat - Kevin MacLeod.mp3"
+COUNTDOWN = TEST_FOLDER + 'countdown.mp4'
 
 
 def test_save_directory():
@@ -40,9 +41,9 @@ def test_convert():
     b_path = os.path.exists(ff.get_ffmpeg_bin())
     ff.loglevel = 'info'
 
-    print(f'in and out: {EASY_LEMON} {path} {b_path}')
+    print(f'in and out: {COUNTDOWN} {path} {b_path}')
 
-    ff.convert(EASY_LEMON, out)
+    ff.convert(COUNTDOWN, out)
 
     if ff.error:
         if 'Output' in ff.error:
