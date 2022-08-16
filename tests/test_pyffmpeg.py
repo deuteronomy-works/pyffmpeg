@@ -71,12 +71,13 @@ def test_loglevel():
     ff.loglevel = 'fa'
 
     path = Paths().home_path
-    print('this is the home path: ', path)
+    print('this is the home path: ', os.listdir(path))
     o = os.path.join(path, 'f.wav')
 
     opt = ['-i', EASY_LEMON, o]
 
     ff.options(opt)
+    print('here is loglevel', ff.loglevel)
     assert ff.loglevel != 'fa'
 
 
