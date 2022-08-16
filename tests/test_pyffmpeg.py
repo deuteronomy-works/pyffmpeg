@@ -40,9 +40,9 @@ def test_convert():
     b_path = os.path.exists(ff.get_ffmpeg_bin())
     ff.loglevel = 'info'
 
-    print(f'in and out: {E_FLAT} {path} {b_path}')
+    print(f'in and out: {EASY_LEMON} {path} {b_path}')
 
-    ff.convert(E_FLAT, out)
+    ff.convert(EASY_LEMON, out)
 
     if ff.error:
         if 'Output' in ff.error:
