@@ -29,7 +29,7 @@ def main():
         os.system(cmd1)
 
     print('sleeping for a minute')
-    sleep(60)
+    sleep(600)
     print('Should delete tags')
     for branch in BRANCHES:
         tag = version + branch.replace('build', '')

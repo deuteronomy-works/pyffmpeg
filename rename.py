@@ -4,27 +4,18 @@ from glob import glob
 
 version = sys.argv[1]
 
-# "cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-
 lists = glob('./dist/*.whl')
 oss = {
-    'win32': 'py3-none-win32.whl',
-    'amd64': 'py3-none-win_amd64.whl',
-    'linux_intel': "manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
-    'linux_aarch': "manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
-    'macos11': "macosx_11_0_arm64.whl",
-    'macos_intel': "macosx_10_9_x86_64.whl",
-    'macos_uni': "macosx_10_9_universal2.whl"}
+    'win32': 'cp35.cp36.cp37.cp38.cp39-none-win32.whl',
+    'amd64': 'cp35.cp36.cp37.cp38.cp39-none-win_amd64.whl',
+    'macos15': 'cp35.cp36.cp37.cp38.cp39-abi3-macosx_10_14_x86_64.whl',
+    'macos': 'cp35.cp36.cp37.cp38.cp39-abi3-macosx_10_6_intel.whl',
+    'linux': 'cp35.cp36.cp37.cp38.cp39-abi3-manylinux2010_x86_64.whl',
+    'centos': 'cp35.cp36.cp37.cp38.cp39-abi3-manylinux2014_x86_64.whl'}
 
 for x in lists:
     if '-any' in x:
         na = x.split('-', 2)[:2]
-        
-        if len(sys.argv) > 2:
-            py_version = sys.argv[2].replace('.', '')
-            cp = 'cp' + py_version
-            na.extend([cp, cp])
-
         na.append(oss[version])
         print(na)
         new_name = '-'.join(na)

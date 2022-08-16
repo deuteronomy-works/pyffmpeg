@@ -227,8 +227,9 @@ class FFprobe():
     def probe(self):
 
         # randomize the filename to avoid overwrite prompt
+        out_file = str(random.randrange(1, 10000000)) + '.mp3'
 
-        commands = [self._ffmpeg, '-y', '-i', self.file_name, '-f', 'null', os.devnull]
+        commands = [self._ffmpeg, '-i', self.file_name, out_file]
 
         # start subprocess
         subP = subprocess.Popen(
@@ -236,14 +237,16 @@ class FFprobe():
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            text=True,
             shell=SHELL)
 
         # break the operation
         sleep(0.02)
-        stdout, _ = subP.communicate(input='q')
+        stdout, _ = subP.communicate(input=b'q')
 
-        self._extract_all(stdout)
+        if os.path.exists(out_file):
+            os.unlink(out_file)
+
+        self._extract_all(str(stdout, 'utf-8'))
 
         # Expose publicly know var
         self._expose()
