@@ -71,6 +71,7 @@ def test_loglevel():
     ff.loglevel = 'fa'
 
     path = Paths().home_path
+    print('this is the home path: ', path)
     o = os.path.join(path, 'f.wav')
 
     opt = ['-i', EASY_LEMON, o]
