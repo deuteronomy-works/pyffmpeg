@@ -76,6 +76,9 @@ def test_loglevel():
 
     # opt = ['-i', EASY_LEMON, o]
     opt = ""
+    print('************************')
+    print(os.stat(ff.get_ffmpeg_bin()))
+    print('***************************')
 
     ff.options(opt)
     print('here is loglevel', ff.loglevel)
