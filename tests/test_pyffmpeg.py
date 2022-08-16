@@ -45,8 +45,11 @@ def test_convert():
     ff = FFmpeg()
     b_path = os.path.exists(ff.get_ffmpeg_bin())
     ff.loglevel = 'info'
+
     print(f'in and out: {EASY_LEMON} {path} {b_path}')
+
     ff.convert(EASY_LEMON, out)
+
     if ff.error:
         if 'Output' in ff.error:
             assert True
@@ -71,17 +74,11 @@ def test_loglevel():
     ff.loglevel = 'fa'
 
     path = Paths().home_path
-    print('this is the home path: ', os.listdir(path))
     o = os.path.join(path, 'f.wav')
 
-    # opt = ['-i', EASY_LEMON, o]
-    opt = ""
-    print('************************')
-    print(os.stat(ff.get_ffmpeg_bin()))
-    print('***************************')
+    opt = ['-i', EASY_LEMON, o]
 
     ff.options(opt)
-    print('here is loglevel', ff.loglevel)
     assert ff.loglevel != 'fa'
 
 
