@@ -4,6 +4,7 @@ Created on Wed Mar 25 15:07:19 2020
 """
 
 import os
+import shlex
 import threading
 from time import sleep
 from typing import Optional
@@ -73,7 +74,7 @@ class FFmpeg():
 
         options = "{} -loglevel {} "
         options = options.format(self._ffmpeg_file, self.loglevel)
-        options += "{} -i {} {}"
+        options += '{} -i "{}" "{}"'
         options = options.format(self._over_write, inf, out)
 
         if self.report_progress:
@@ -172,6 +173,8 @@ class FFmpeg():
 
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
+
+        # options = shlex.split(options, posix=False)
 
         out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out

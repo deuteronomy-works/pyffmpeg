@@ -38,6 +38,7 @@ class Paths():
         if not os.path.exists(self.bin_path):
             os.makedirs(self.bin_path)
             if self.os_name != 'windows':
+                os.system(f'chmod +rw {self.home_path}')
                 os.system(f'chmod +rw {self.bin_path}')
         self.ffmpeg_file = ''
 
