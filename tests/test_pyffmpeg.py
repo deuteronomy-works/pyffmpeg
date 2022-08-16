@@ -7,7 +7,7 @@ from pyffmpeg.misc import Paths
 
 cwd = os.path.dirname(__file__)
 
-TEST_FOLDER = "https://raw.githubusercontent.com/"
+TEST_FOLDER = "http://raw.githubusercontent.com/"
 TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
 
 EASY_LEMON = TEST_FOLDER + 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'
