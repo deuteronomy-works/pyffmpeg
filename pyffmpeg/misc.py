@@ -55,7 +55,7 @@ class Paths():
                 from .static.bin.win32 import win32
                 b64 = win32.contents
             elif self.os_name == 'linux':
-                from .static.bin.linux import linux
+                from .static.bin.linuxmod import linux
                 b64 = linux.contents
             else:
                 from .static.bin.darwin import darwin
