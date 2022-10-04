@@ -74,7 +74,8 @@ class Paths():
 
         return self.ffmpeg_file
 
-    def convert_to_py(self, fn: str, target: str):
+    @staticmethod
+    def convert_to_py(fn: str, target: str):
 
         with open(fn, 'rb') as f_file:
             raw = f_file.read()
