@@ -1,13 +1,19 @@
 import pytest
 import os
+import requests
 from pyffmpeg import FFprobe
 
 # test speed to make sure no convertion took place
 # test file exist does not happen
 
-# test_folder = os.path.abspath('./tests')
-TEST_FOLDER = "https://raw.githubusercontent.com/"
-TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
+
+try:
+    resp = requests.get('https://google.com')
+    TEST_FOLDER = "https://raw.githubusercontent.com/"
+    TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
+except:
+    TEST_FOLDER = os.path.join(os.path.abspath('.'), 'tests')
+
 
 @pytest.mark.parametrize(
     'file_name,duration',
