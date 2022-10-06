@@ -1,15 +1,22 @@
 import os
+import requests
 # from platform import system
 import pytest
 from pyffmpeg import FFmpeg
 from pyffmpeg.misc import Paths
 
 
+# are we offline?
+try:
+    resp = requests.get('https://google.com/')
+    TEST_FOLDER = "http://raw.githubusercontent.com/"
+    TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
+except:
+    TEST_FOLDER = os.path.join(os.path.abspath('.'), 'tests')
+
+
 cwd = os.path.dirname(__file__)
 
-TEST_FOLDER = "http://raw.githubusercontent.com/"
-TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
-TEST_FOLDER = os.path.abspath('.')
 
 EASY_LEMON = TEST_FOLDER + '/Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'
 E_FLAT = TEST_FOLDER + "/Ecossaise in E-flat - Kevin MacLeod.mp3"
