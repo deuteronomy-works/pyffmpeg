@@ -9,7 +9,7 @@ from pyffmpeg.misc import Paths
 # are we offline?
 try:
     resp = requests.get('https://google.com/')
-    TEST_FOLDER = "http://raw.githubusercontent.com/"
+    TEST_FOLDER = "https://raw.githubusercontent.com/"
     TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
 except:
     TEST_FOLDER = os.path.join(os.path.abspath('.'), 'tests/')
