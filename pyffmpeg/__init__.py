@@ -72,6 +72,16 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
+        options = "{} -loglevel {} "
+        options = options.format(self._ffmpeg_file, self.loglevel)
+        options += '{} -i'
+        options = options.format(self._over_write)
+        if SHELL:
+            options += ' "{}" "{}"'.format(inf, out)
+        else:
+            options = options.split(' ')
+            options.extend([inf, out])
+
         if self.report_progress:
             f = FFprobe(inf)
             d = f.duration.replace(':', '')
@@ -79,7 +89,7 @@ class FFmpeg():
             self.monitor(out)
 
         outP = Popen(
-            [self._ffmpeg_file, '-loglevel', self.loglevel, self._over_write, '-i', inf, out], shell=SHELL, stdin=PIPE,
+            options, shell=SHELL, stdin=PIPE,
             stdout=PIPE, stderr=PIPE
             )
         self._ffmpeg_instances['convert'] = outP
