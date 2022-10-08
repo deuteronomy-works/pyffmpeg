@@ -82,8 +82,6 @@ class FFmpeg():
             options = options.split(' ')
             options.extend([inf, out])
 
-        print('options here: ', options)
-
         if self.report_progress:
             f = FFprobe(inf)
             d = f.duration.replace(':', '')
@@ -121,7 +119,6 @@ class FFmpeg():
         m_thread.start()
 
     def _monitor(self, fn: str):
-        print('Monitoring Spirit started')
         sleep(1)
         dura = 0.0
         while dura < self._in_duration:
@@ -215,4 +212,3 @@ class FFmpeg():
         else:
             for inst in self._ffmpeg_instances.values():
                 output = inst.communicate(b'q')
-                print('out: ', output)
