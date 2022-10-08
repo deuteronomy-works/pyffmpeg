@@ -181,7 +181,8 @@ class FFmpeg():
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
 
-        # options = shlex.split(options, posix=False)
+        if SHELL:
+            options = shlex.split(options, posix=False)
 
         out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
