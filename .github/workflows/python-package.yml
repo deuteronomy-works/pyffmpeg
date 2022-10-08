@@ -5,7 +5,7 @@ name: Test Python package
 
 on:
   push:
-    branches: [ build-linux, build-windows ]
+    branches: [ build-linux]
  # pull_request:
  #   branches: [ master ]
 
