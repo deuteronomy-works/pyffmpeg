@@ -82,6 +82,8 @@ class FFmpeg():
             options = options.split(' ')
             options.extend([inf, out])
 
+        print('options here: ', options)
+
         if self.report_progress:
             f = FFprobe(inf)
             d = f.duration.replace(':', '')
