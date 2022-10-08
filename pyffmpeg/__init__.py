@@ -72,8 +72,17 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        options = [self._ffmpeg_file, '-loglevel', self.loglevel, self._over_write, '-i', inf, out]
-        print('options: ', options)
+        options = "{} -loglevel {} "
+        options = options.format(self._ffmpeg_file, self.loglevel)
+        options += '{} -i'
+        options = options.format(self._over_write)
+        if SHELL:
+            options += ' "{}" "{}"'.format(inf, out)
+        else:
+            options = options.split(' ')
+            options.extend([inf, out])
+
+        print('options here: ', options)
 
         if self.report_progress:
             f = FFprobe(inf)
