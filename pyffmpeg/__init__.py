@@ -74,7 +74,7 @@ class FFmpeg():
 
         options = "{} -loglevel {} "
         options = options.format(self._ffmpeg_file, self.loglevel)
-        options += '{} -i "{}" "{}"'
+        options += '{} -i {} {}'
         options = options.format(self._over_write, inf, out)
 
         if self.report_progress:
