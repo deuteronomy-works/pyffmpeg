@@ -26,6 +26,7 @@ class Paths():
     """
 
     def __init__(self):
+        self.logger = logging.getLogger('pyffmpeg.misc.Paths')
         self.os_name = OS_NAME
         if self.os_name == 'windows':
             env_name = 'USERPROFILE'
