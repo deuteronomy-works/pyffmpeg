@@ -4,6 +4,7 @@ Created on Wed Mar 25 15:07:19 2020
 """
 
 import os
+import shlex
 import threading
 from time import sleep
 from typing import Optional
@@ -73,9 +74,13 @@ class FFmpeg():
 
         options = "{} -loglevel {} "
         options = options.format(self._ffmpeg_file, self.loglevel)
-        options += "{} -i {} {}"
-        options = options.format(self._over_write, inf, out)
-        options = options.split(" ")
+        options += '{} -i'
+        options = options.format(self._over_write)
+        if SHELL:
+            options += ' "{}" "{}"'.format(inf, out)
+        else:
+            options = options.split(' ')
+            options.extend([inf, out])
 
         if self.report_progress:
             f = FFprobe(inf)
@@ -114,7 +119,6 @@ class FFmpeg():
         m_thread.start()
 
     def _monitor(self, fn: str):
-        print('Monitoring Spirit started')
         sleep(1)
         dura = 0.0
         while dura < self._in_duration:
@@ -174,8 +178,8 @@ class FFmpeg():
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
 
-        # turn options into list
-        options = options.split(" ")
+        if not SHELL:
+            options = shlex.split(options, posix=False)
 
         out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
@@ -208,4 +212,3 @@ class FFmpeg():
         else:
             for inst in self._ffmpeg_instances.values():
                 output = inst.communicate(b'q')
-                print('out: ', output)
