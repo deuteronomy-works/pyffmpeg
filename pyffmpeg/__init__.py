@@ -6,6 +6,7 @@ Created on Wed Mar 25 15:07:19 2020
 import os
 import shlex
 import threading
+import logging
 from time import sleep
 from typing import Optional
 from subprocess import Popen, PIPE
@@ -15,6 +16,23 @@ from subprocess import Popen, PIPE
 
 from .pseudo_ffprobe import FFprobe
 from .misc import Paths, fix_splashes, SHELL
+
+
+logger = logging.getLogger('pyffmpeg')
+logger.setLevel(logging.DEBUG)
+
+log_file = os.path.join(Paths().home_path, 'pyffmpeg.log')
+fh = logging.FileHandler(log_file)
+ch = logging.StreamHandler()
+fh.setLevel(logging.DEBUG)
+ch.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime) - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+
+logger.addHandler(fh)
+logger.addHandler(ch)
 
 
 class FFmpeg():
@@ -28,6 +46,8 @@ class FFmpeg():
         Init function
         """
 
+        self.logger = logging.getLogger('pyffmpeg.FFmpeg')
+        self.logger.info('FFmpeg Initialising')
         self.save_dir = directory
         self.overwrite = True
         self.loglevels = (

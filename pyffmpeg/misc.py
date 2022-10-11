@@ -6,6 +6,10 @@ import os
 from platform import system
 from lzma import decompress, compress
 from base64 import b64decode, b64encode
+import logging
+
+
+logger = logging.getLogger('pyffmpeg.misc')
 
 
 OS_NAME = system().lower()
