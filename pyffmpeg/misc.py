@@ -38,6 +38,7 @@ class Paths():
         if not os.path.exists(self.bin_path):
             os.makedirs(self.bin_path)
             if self.os_name != 'windows':
+                os.system(f'chmod +rw {self.home_path}')
                 os.system(f'chmod +rw {self.bin_path}')
         self.ffmpeg_file = ''
 
@@ -55,7 +56,7 @@ class Paths():
                 from .static.bin.win32 import win32
                 b64 = win32.contents
             elif self.os_name == 'linux':
-                from .static.bin.linux import linux
+                from .static.bin.linuxmod import linux
                 b64 = linux.contents
             else:
                 from .static.bin.darwin import darwin
@@ -73,7 +74,8 @@ class Paths():
 
         return self.ffmpeg_file
 
-    def convert_to_py(self, fn: str, target: str):
+    @staticmethod
+    def convert_to_py(fn: str, target: str):
 
         with open(fn, 'rb') as f_file:
             raw = f_file.read()

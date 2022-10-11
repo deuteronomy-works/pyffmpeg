@@ -1,16 +1,26 @@
 import os
+import requests
 # from platform import system
-# import pytest
+import pytest
 from pyffmpeg import FFmpeg
 from pyffmpeg.misc import Paths
 
 
+# are we offline?
+try:
+    resp = requests.get('https://google.com/')
+    TEST_FOLDER = "https://raw.githubusercontent.com/"
+    TEST_FOLDER += "deuteronomy-works/pyffmpeg/master/tests/"
+except:
+    TEST_FOLDER = os.path.join(os.path.abspath('.'), 'tests/')
+
+
 cwd = os.path.dirname(__file__)
-i = "https://raw.githubusercontent.com/"
-i += "deuteronomy-works/pyffmpeg/master/_test/f.mp3"
-EASY_LEMON = os.path.join(
-    cwd, 'tests', 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3')
-E_FLAT = os.path.join(cwd, 'tests', "Ecossaise in E-flat - Kevin MacLeod.mp3")
+
+
+EASY_LEMON = TEST_FOLDER + 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'
+E_FLAT = TEST_FOLDER + "Ecossaise in E-flat - Kevin MacLeod.mp3"
+COUNTDOWN = TEST_FOLDER + 'countdown.mp4'
 
 
 def test_save_directory():
@@ -36,9 +46,13 @@ def test_convert():
     out = os.path.join(path, 'f.wav')
 
     ff = FFmpeg()
+    b_path = os.path.exists(ff.get_ffmpeg_bin())
     ff.loglevel = 'info'
-    print(f'in and out: {EASY_LEMON}, {out}')
-    ff.convert(EASY_LEMON, out)
+
+    print(f'in and out: {COUNTDOWN} {path} {b_path}')
+
+    ff.convert(COUNTDOWN, out)
+
     if ff.error:
         if 'Output' in ff.error:
             assert True
@@ -53,6 +67,8 @@ def test_get_ffmpeg_bin():
 
     home_path = Paths().load_ffmpeg_bin()
     bin_path = FFmpeg().get_ffmpeg_bin()
+    print('bin: ', bin_path)
+    print('home: ', home_path)
     assert home_path == bin_path
 
 
