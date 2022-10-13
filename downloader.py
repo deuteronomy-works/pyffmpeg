@@ -57,7 +57,7 @@ if os_name == 'win32':
         # extract to folder
         arch = glob.glob('ffmpeg*.7z')[0]
         fullpath = extract_to_folder('ffmpeg.exe', arch)
-        out = '../win32'
+        out = 'win32'
 
         misc.Paths().convert_to_py(fullpath, out)
         # copy all those contents to folder_name, skip exitsting
@@ -65,44 +65,51 @@ if os_name == 'win32':
         # replace
         shutil.copy('win32.py', win32)
 
-    except:
-        print('failed trying something else')
+    except Exception as err:
+        print(err)
         print(os.listdir(cwd))
 
+elif os_name == 'darwin':
+    try:
+        link = 'https://evermeet.cx/ffmpeg/get/ffmpeg/zip'
+        resp = requests.get(link, stream=True)
+        with open('ffmpeg.7z', 'wb') as z:
+            for chunk in resp.iter_content(chunk_size=2048):
+                if chunk:
+                    z.write(chunk)
 
-if os_name == 'darwin':
-    link = 'https://evermeet.cx/ffmpeg/get/ffmpeg/7z'
-    resp = requests.get(link, stream=True)
-    with open('ffmpeg.7z', 'wb') as z:
-        for chunk in resp.iter_content(chunk_size=2048):
-            if chunk:
-                z.write(chunk)
+        arch = glob.glob('ffmpeg*.7z')[0]
+        fullpath = extract_to_folder('ffmpeg',arch, z=False)
+        out = 'darwin'
 
-    arch = glob.glob('ffmpeg*.7z')[0]
-    fullpath = extract_to_folder('ffmpeg',arch)
-    out = '../darwin'
+        misc.Paths().convert_to_py(fullpath, out)
 
-    misc.Paths().convert_to_py(fullpath, out)
-
-    darwin = os.path.join(bin_path, 'darwin')
-    shutil.copy('darwin.py', darwin)
+        darwin = os.path.join(bin_path, 'darwin')
+        shutil.copy('darwin.py', darwin)
+    except Exception as err:
+        print(err)
+        print(os.listdir(cwd))
 
 else:
     # Download Qmlview archive for os
-    link = 'https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-i686-static.tar.xz'
-    resp = requests.get(link, stream=True)
-    with open('ffmpeg.tar.xz', 'wb') as z:
-        for chunk in resp.iter_content(chunk_size=2048):
-            if chunk:
-                z.write(chunk)
+    try:
+        link = 'https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-i686-static.tar.xz'
+        resp = requests.get(link, stream=True)
+        with open('ffmpeg.tar.xz', 'wb') as z:
+            for chunk in resp.iter_content(chunk_size=2048):
+                if chunk:
+                    z.write(chunk)
 
-    arch = glob.glob('ffmpeg*.tar.xz')[0]
-    fullpath = extract_to_folder('ffmpeg', arch, z=False)
-    out = '../linux'
+        arch = glob.glob('ffmpeg*.tar.xz')[0]
+        fullpath = extract_to_folder('ffmpeg', arch, z=False)
+        out = 'linux'
 
-    misc.Paths().convert_to_py(fullpath, out)
+        misc.Paths().convert_to_py(fullpath, out)
 
-    linux = os.path.join(bin_path, 'linuxmod')
-    shutil.copy('linux.py', linux)
+        linux = os.path.join(bin_path, 'linuxmod')
+        shutil.copy('linux.py', linux)
+    except Exception as err:
+        print(err)
+        print(os.listdir(cwd))
 
 print('All Done')
