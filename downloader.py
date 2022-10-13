@@ -142,4 +142,7 @@ else:
         print(err)
         print(os.listdir(cwd))
 
+
+replace_setup_file_version()
+
 print('All Done')
