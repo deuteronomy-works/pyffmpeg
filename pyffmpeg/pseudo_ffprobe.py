@@ -8,10 +8,14 @@ from time import sleep
 import re
 import random
 import os
+import logging
 # from base64 import b64decode
 
 from .misc import Paths, SHELL
 from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
+
+
+logger = logging.getLogger('pyffmpeg.pseudo_ffprobe')
 
 
 class FFprobe():
