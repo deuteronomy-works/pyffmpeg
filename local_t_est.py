@@ -1,3 +1,4 @@
+import os
 import threading
 from time import sleep
 from pyffmpeg import FFmpeg
@@ -5,6 +6,7 @@ from pyffmpeg import FFmpeg
 
 ff = FFmpeg()
 ff.loglevel = 'info'
+test_folder = os.path.abspath('./tests')
 
 
 def tt():
@@ -21,8 +23,13 @@ def qq():
 
 
 def ov():
-    out = ff.convert('H:\\GitHub\\pyffmpeg\\_test\\quantum.mp4', 'H:\\GitHub\\pyffmpeg\\_test\\fa.mp3')
-    print('done')
+    input_file = os.path.join(test_folder, 'count down.mp4')
+    output_file = os.path.join(test_folder, 'fa.mp3')
+
+    #input_file = "https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/tests/countdown.mp4"
+    out = ff.convert(input_file, output_file)
+    print(ff.error)
+
     if ff.error:
         if 'Output' in ff.error:
             assert True
@@ -31,8 +38,4 @@ def ov():
     else:
         assert True
 
-
-fps = ff.get_fps("H:/CS/practice/python/pyffmpeg subproces/vid.mp4")
-print(fps)
-
-# tt()
+ov()
