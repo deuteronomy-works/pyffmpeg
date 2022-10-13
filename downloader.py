@@ -69,9 +69,8 @@ if os_name == 'win32':
         print('failed trying something else')
         print(os.listdir(cwd))
 
-
-if os_name == 'darwin':
-    link = 'https://evermeet.cx/ffmpeg/get/ffmpeg/7z'
+elif os_name == 'darwin':
+    link = 'https://evermeet.cx/ffmpeg/get/ffmpeg/zip'
     resp = requests.get(link, stream=True)
     with open('ffmpeg.7z', 'wb') as z:
         for chunk in resp.iter_content(chunk_size=2048):
