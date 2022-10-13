@@ -47,7 +47,7 @@ def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
 
 
 # Build wheel
-if os_name == 'windows-latest':
+if os_name == 'win32':
     # Download Qmlview archive for os
     os_cmd = 'gh release download --repo'
     os_cmd += ' github.com/GyanD/codexffmpeg --pattern "*full_build.7z"'
@@ -70,7 +70,7 @@ if os_name == 'windows-latest':
         print(os.listdir(cwd))
 
 
-if os_name == 'macos':
+if os_name == 'darwin':
     link = 'https://evermeet.cx/ffmpeg/get/ffmpeg/7z'
     resp = requests.get(link, stream=True)
     with open('ffmpeg.7z', 'wb') as z:
