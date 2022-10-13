@@ -3,7 +3,10 @@
 # the string should be in the format; key: value
 # all functions must also be put in the FUNC_LIST
 import re
+import logging
 
+
+logger = logging.getLogger('pyggmpeg.extract_functions')
 
 # video functions
 

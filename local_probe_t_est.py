@@ -1,6 +1,11 @@
+import os
 from pyffmpeg import FFprobe
 
-f = FFprobe("H:/GitHub/pyffmpeg/_test/asem.mp3")
+
+test_folder = os.path.abspath('./tests/')
+test_file = os.path.join(test_folder, 'loss_countdown.mkv')
+
+f = FFprobe(test_file)
 # ret = f.get_album_art('cover.png')
 
 
