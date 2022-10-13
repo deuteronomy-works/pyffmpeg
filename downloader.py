@@ -65,8 +65,8 @@ if os_name == 'win32':
         # replace
         shutil.copy('win32.py', win32)
 
-    except:
-        print('failed trying something else')
+    except Exception as err:
+        print(err)
         print(os.listdir(cwd))
 
 elif os_name == 'darwin':
