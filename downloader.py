@@ -78,7 +78,7 @@ elif os_name == 'darwin':
                 z.write(chunk)
 
     arch = glob.glob('ffmpeg*.7z')[0]
-    fullpath = extract_to_folder('ffmpeg',arch)
+    fullpath = extract_to_folder('ffmpeg',arch, z=False)
     out = '../darwin'
 
     misc.Paths().convert_to_py(fullpath, out)
