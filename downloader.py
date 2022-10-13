@@ -1,11 +1,10 @@
 import sys
 import os
-import tarfile
 import shutil
 import glob
-import subprocess
 import requests
 from py7zr import unpack_7zarchive
+import re
 
 from pyffmpeg import misc
 
@@ -44,6 +43,37 @@ def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
     fpath = f'**/{ffmpeg}'
     fname = glob.glob(fpath)[0]
     return os.path.join(cwd, fname)
+
+
+def replace_setup_file_version():
+
+    sta = '"Development Status :: 5 - Production/Stable"'
+    bta = '"Development Status :: 4 - Beta"'
+
+    ver = version.split('-')[0]
+    ver = ver.replace('v', '')
+
+    if 'beta' in version:
+        beta = version.split('-')[1]
+        beta = beta.split('beta.')[1]
+        ver += f'b{beta}'
+
+    with open('setup.py', 'r') as f:
+        data = f.read()
+
+    repl = re.compile("version='.*?[0-9]'")
+    ver_str = f"version='{ver}'"
+    data = repl.sub(ver_str, data)
+
+    if 'beta' in version:
+        data = data.replace(sta, bta)
+    else:
+        data = data.replace(bta, sta)
+
+    with open('setup.py', 'w') as fw:
+        fw.write(data)
+    
+    print('Done changing version type')
 
 
 # Build wheel
