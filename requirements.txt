@@ -1,3 +1,6 @@
 pyffmpeg
 requests
 py7zr
+setuptools
+wheel
+twine
