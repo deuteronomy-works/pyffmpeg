@@ -57,7 +57,7 @@ if os_name == 'win32':
         # extract to folder
         arch = glob.glob('ffmpeg*.7z')[0]
         fullpath = extract_to_folder('ffmpeg.exe', arch)
-        out = '../win32'
+        out = 'win32'
 
         misc.Paths().convert_to_py(fullpath, out)
         # copy all those contents to folder_name, skip exitsting
@@ -79,7 +79,7 @@ elif os_name == 'darwin':
 
     arch = glob.glob('ffmpeg*.7z')[0]
     fullpath = extract_to_folder('ffmpeg',arch, z=False)
-    out = '../darwin'
+    out = 'darwin'
 
     misc.Paths().convert_to_py(fullpath, out)
 
@@ -97,7 +97,7 @@ else:
 
     arch = glob.glob('ffmpeg*.tar.xz')[0]
     fullpath = extract_to_folder('ffmpeg', arch, z=False)
-    out = '../linux'
+    out = 'linux'
 
     misc.Paths().convert_to_py(fullpath, out)
 
