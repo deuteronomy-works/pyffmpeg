@@ -49,6 +49,7 @@ class FFmpeg():
         self.logger = logging.getLogger('pyffmpeg.FFmpeg')
         self.logger.info('FFmpeg Initialising')
         self.save_dir = directory
+        self.logger.info(f"Save directory: {self.save_dir}")
         self.overwrite = True
         self.loglevels = (
             'quiet', 'panic', 'fatal', 'error', 'warning',
@@ -69,6 +70,7 @@ class FFmpeg():
         # instances are store according to function names
         self._ffmpeg_instances = {}
         self._ffmpeg_file = Paths().load_ffmpeg_bin()
+        self.logger.info(f"FFmpeg file: {self._ffmpeg_file}")
         self.error = ''
 
     def convert(self, input_file, output_file):
