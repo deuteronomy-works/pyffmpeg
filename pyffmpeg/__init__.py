@@ -27,7 +27,7 @@ ch = logging.StreamHandler()
 fh.setLevel(logging.DEBUG)
 ch.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter('%(asctime) - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 
@@ -49,6 +49,7 @@ class FFmpeg():
         self.logger = logging.getLogger('pyffmpeg.FFmpeg')
         self.logger.info('FFmpeg Initialising')
         self.save_dir = directory
+        self.logger.info(f"Save directory: {self.save_dir}")
         self.overwrite = True
         self.loglevels = (
             'quiet', 'panic', 'fatal', 'error', 'warning',
@@ -69,6 +70,7 @@ class FFmpeg():
         # instances are store according to function names
         self._ffmpeg_instances = {}
         self._ffmpeg_file = Paths().load_ffmpeg_bin()
+        self.logger.info(f"FFmpeg file: {self._ffmpeg_file}")
         self.error = ''
 
     def convert(self, input_file, output_file):
@@ -77,14 +79,18 @@ class FFmpeg():
         Converts and input file to the output file
         """
 
+        self.logger.info('Inside convert function')
         if os.path.isabs(output_file):
             # absolute file
             out = output_file
         else:
             # not an absolute file
             out = os.path.join(self.save_dir, output_file)
+        
+        self.logger.info(f"Output file: {out}")
 
         inf = input_file.replace("\\", "/")
+        self.logger.info(f"Input file: {inf}")
 
         if self.loglevel not in self.loglevels:
             msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
@@ -96,6 +102,9 @@ class FFmpeg():
         options = options.format(self._ffmpeg_file, self.loglevel)
         options += '{} -i'
         options = options.format(self._over_write)
+
+        self.logger.info(f"shell: {SHELL}")
+
         if SHELL:
             options += ' "{}" "{}"'.format(inf, out)
         else:
@@ -114,6 +123,7 @@ class FFmpeg():
             )
         self._ffmpeg_instances['convert'] = outP
         self.error = str(outP.stderr.read(), 'utf-8')
+        self.logger.info(f"error message length: {len(self.error)}")
         return out
 
     def get_ffmpeg_bin(self):
@@ -122,6 +132,7 @@ class FFmpeg():
         Get the ffmpeg executable file. This is the fullpath to the
         binary distributed with pyffmpeg. There is only one at a time.
         """
+        self.logger.info("Inside get_ffmpeg_bin")
 
         return self._ffmpeg_file
 
@@ -129,6 +140,7 @@ class FFmpeg():
         """
         Returns the frame per second rate of an input file
         """
+        self.logger.info("Inside get_fps")
         fprobe = FFprobe(input_file)
         fps = fprobe.fps
         return fps
@@ -139,6 +151,7 @@ class FFmpeg():
         m_thread.start()
 
     def _monitor(self, fn: str):
+        self.logger.info('Monitoring spirit started')
         sleep(1)
         dura = 0.0
         while dura < self._in_duration:
@@ -159,8 +172,10 @@ class FFmpeg():
         eg.: command line options of 'ffmpeg -i a.mp4 b.mp3'
         will be passed by user as: opts: '-i a.mp4 b.mp3'
         """
+        self.logger.info("inside options")
 
         if isinstance(opts, list):
+            self.logger.info('Options is a List')
             options = fix_splashes(opts)
 
             # Add ffmpeg and overwrite variable
@@ -175,6 +190,7 @@ class FFmpeg():
             options = ' '.join(['-loglevel', self.loglevel, options])
 
         else:
+            self.logger.info('Options is a String')
             options = opts
 
             # Add ffmpeg and overwrite variable
@@ -197,6 +213,8 @@ class FFmpeg():
 
         # add ffmpeg
         options = " ".join([self._ffmpeg_file, options])
+
+        self.logger.info(f"Shell: {SHELL}")
 
         if not SHELL:
             options = shlex.split(options, posix=False)
@@ -224,8 +242,10 @@ class FFmpeg():
         Allows for any running process of ffmpeg started by pyffmpeg
         to be terminated
         """
+        self.logger.info('Inside Quit')
 
         if function:
+            self.logger.info('There is a function for Quit: {function}')
             inst = self._ffmpeg_instances[function]
             output = inst.communicate(b'q')
         # Quit all instances
