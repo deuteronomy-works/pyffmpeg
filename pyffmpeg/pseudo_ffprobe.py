@@ -26,8 +26,11 @@ class FFprobe():
 
     def __init__(self, file_name=None):
 
+        self.logger = logging.getLogger('pyffmpeg.pseudo_ffprobe.FFprobe')
+        self.logger.info('FFprobe initialised')
         self.misc = Paths()
         self._ffmpeg = self.misc.load_ffmpeg_bin()
+        self.logger.info(f'ffmpeg bin: {self._ffmpeg}')
         self.file_name = file_name
         self.overwrite = True
         if self.overwrite:
@@ -61,6 +64,7 @@ class FFprobe():
 
     def _expose(self):
         # Expose public functions
+        self.logger.info('Inside expose')
         if 'Duration' in self.metadata[-1]:
             self.duration = self.metadata[-1]['Duration']
 
@@ -74,15 +78,18 @@ class FFprobe():
             self.fps = self.metadata[0][1]['fps']
 
     def _extract(self):
+        self.logger.info('Inside extract')
         for stream in self.raw_streams:
             self._extract_all(stream)
 
     def _extract_fps(self, stream):
+        self.logger.info('Inside _extract_fps')
         # Extract fps data from the stream
         fps_str = re.findall(r'\d+.?\d* fps', stream)[0].split(' fps')[0]
         self.fps = float(fps_str)
 
     def _extract_all(self, stdout):
+        self.logger.info('Inside _extract_all')
         # pick only streams, all of them
 
         if 'misdetection possible' in stdout:
@@ -109,6 +116,7 @@ class FFprobe():
         self._parse_stream_meta(self.stream_heads)
 
     def get_album_art(self, out_file=None):
+        self.logger.info('Inside get_album_art')
         user_file = True
         if not out_file:
             # randomize the filename to avoid overwrite prompt
@@ -137,6 +145,7 @@ class FFprobe():
                 return data
 
     def _parse_meta(self, stream):
+        self.logger.info('Inside _parse_meta')
         tags = {}
         metadata = self._strip_meta(stream)
         # Previous key will be overriden
@@ -157,6 +166,7 @@ class FFprobe():
         return tags
 
     def _parse_header(self, line):
+        self.logger.info('Inside _parse_header')
         parsed = []
 
         if 'Video' in line:
@@ -172,6 +182,7 @@ class FFprobe():
         return parsed
 
     def _parse_input_meta(self, stream):
+        self.logger.info('Inside _parse_input_meta')
         tags = {}
         metadata = self._strip_input_meta(stream)
 
@@ -192,6 +203,7 @@ class FFprobe():
         return tags
 
     def _parse_other_meta(self):
+        self.logger.info('Inside _parse_other_meta')
         for stream in self._other_metadata:
             items = stream.split(',')
             for each in items:
@@ -215,6 +227,7 @@ class FFprobe():
             self.bitrate = self.other_metadata['bitrate']
 
     def _parse_stream_meta(self, stream):
+        self.logger.info('Inside _parse_stream_meta')
         for stream in stream:
             infos = stream.split(': ')[-1]
             data = infos.split(', ')
@@ -229,6 +242,7 @@ class FFprobe():
                     self.type = each
 
     def probe(self):
+        self.logger.info('Inside _probe')
 
         # randomize the filename to avoid overwrite prompt
 
@@ -256,6 +270,7 @@ class FFprobe():
         self._expose()
 
     def _strip_meta(self, stdout):
+        self.logger.info('Inside _strip_meta')
         std = stdout.splitlines()
 
         # store in stream header
@@ -271,6 +286,7 @@ class FFprobe():
         return header + meta
 
     def _strip_input_meta(self, stdout):
+        self.logger.info('Inside _strip_input_meta')
         # replace commas with '\r\n'
         stdout = stdout.replace(', ', '\r\n')
         std = stdout.splitlines()
