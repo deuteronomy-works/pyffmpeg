@@ -11,6 +11,7 @@ logger = logging.getLogger('pyggmpeg.extract_functions')
 # video functions
 
 def _codec_name(line):
+    logger.info('Inside _codec_name')
     if 'Video:' in line:
         cod = re.findall(r'Video: .*? ', line)[0]
         if cod.endswith(', '):
@@ -24,6 +25,7 @@ def _codec_name(line):
 
 
 def _data_rate(line):
+    logger.info('Inside _data_rate')
     dr = re.findall(r', \d+ [a-zA-Z]+/s', line)
     if dr:
         dr = dr[0].split(', ')[1]
@@ -35,6 +37,7 @@ def _data_rate(line):
 
 
 def _dimensions(line):
+    logger.info("Inside _dimensions")
     dim = re.findall(r', \d+x\d+ ', line)
     if dim:
         dim = dim[0].split(', ')[1].strip()
@@ -54,6 +57,7 @@ def _dimensions(line):
 
 
 def _fps(line):
+    logger.info('Inside _fps')
     if 'fps' in line:
         fps = re.findall(r'\d+.?\d* fps', line)[0].split(' fps')[0]
         fps_str = 'fps: '+fps
@@ -64,6 +68,7 @@ def _fps(line):
 
 
 def _tbc(line):
+    logger.info("Inside _tbc")
     if 'tbc' in line:
         tbc = re.findall(r'\d+.?\d* tbc', line)[0].split(' tbc')[0]
         tbc_str = 'tbc: ' + tbc
@@ -74,6 +79,7 @@ def _tbc(line):
 
 
 def _tbn(line):
+    logger.info('Inside _tbn')
     if 'tbn' in line:
         tbn = re.findall(r'\d+.?\d* tbn', line)[0].split(' tbn')[0]
         tbn_str = 'tbn: ' + tbn
@@ -84,6 +90,7 @@ def _tbn(line):
 
 
 def _tbr(line):
+    logger.info("Inside _tbr")
     if 'tbr' in line:
         tbr = re.findall(r'\d+.?\d* tbr', line)[0].split(' tbr')[0]
         tbr_str = 'tbr: ' + tbr
@@ -96,6 +103,7 @@ def _tbr(line):
 # audio functions
 
 def _audio_codec_name(line):
+    logger.info('Inside _audio_codec_name')
     if 'Audio:' in line:
         cod = re.findall(r'Audio: .*? ', line)[0]
         if cod.endswith(', '):
@@ -109,6 +117,7 @@ def _audio_codec_name(line):
 
 
 def _bit_rate(line):
+    logger.info('Inside _bit_rate')
     bt = re.findall(r', \d+ [a-zA-Z]+/s', line)
     if bt:
         bt = bt[0].split(', ')[1]
@@ -120,6 +129,7 @@ def _bit_rate(line):
 
 
 def _channels(line):
+    logger.info("Inside _channels")
     ch_string = 'channels: '
     if 'stereo' in line:
         ch_string += 'stereo'
@@ -130,6 +140,7 @@ def _channels(line):
 
 
 def _sample_rate(line):
+    logger.info("Inside _sample_rate")
     sr = re.findall(r', \d+ Hz', line)
     if sr:
         sr = sr[0].split(', ')[1]
