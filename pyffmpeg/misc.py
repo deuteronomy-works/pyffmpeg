@@ -13,6 +13,7 @@ logger = logging.getLogger('pyffmpeg.misc')
 
 
 OS_NAME = system().lower()
+logger.info(f"OS: {OS_NAME}")
 
 if OS_NAME == 'linux':
     SHELL = False
@@ -45,9 +46,11 @@ class Paths():
             if self.os_name != 'windows':
                 os.system(f'chmod +rw {self.home_path}')
                 os.system(f'chmod +rw {self.bin_path}')
+        self.logger.info(f'bin folder: {self.bin_path}')
         self.ffmpeg_file = ''
 
     def load_ffmpeg_bin(self):
+        self.logger.info('Inside load_ffmpeg_bin')
 
         # Load OS specific ffmpeg executable
 
@@ -81,6 +84,7 @@ class Paths():
 
     @staticmethod
     def convert_to_py(fn: str, target: str):
+        logger.info('Inside convert_to_py')
 
         with open(fn, 'rb') as f_file:
             raw = f_file.read()
@@ -97,6 +101,7 @@ def fix_splashes(options):
     """
     Make splashes synanymous irrespective of the OS
     """
+    logger.info('Inside fix_splashes')
     if system().lower() == 'windows':
         new_opts = []
         for entry in options:
