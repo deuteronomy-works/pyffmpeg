@@ -1,12 +1,34 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
+import re
+import os
+
+
+version = os.environ['GITHUB_REF'].split('/')[-1]
+print(f'version: {version}')
+
 
 with open('README.md', 'r') as rm:
     long_desc = rm.read()
 
+
+sta = 'Development Status :: 5 - Production/Stable'
+bta = 'Development Status :: 4 - Beta'
+dev_status = sta
+
+ver = version.split('-')[0]
+ver = ver.replace('v', '')
+
+if 'beta' in version:
+    beta = version.split('-')[1]
+    beta = beta.split('beta.')[1]
+    ver += f'b{beta}'
+    dev_status = bta
+
+
 setup(
     name='pyffmpeg',
-    version='2.4.2b0',
+    version=f'{ver}',
     description='FFmpeg wrapper for python',
     long_description=long_desc,
     long_description_content_type='text/markdown',
@@ -16,7 +38,7 @@ setup(
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Development Status :: 4 - Beta",
+        f"{dev_status}",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
