@@ -244,6 +244,7 @@ class FFprobe():
 
     def probe(self):
         self.logger.info('Inside probe')
+        self.logger.info(f'Probing file: "{self.file_name}"')
 
         # randomize the filename to avoid overwrite prompt
 
