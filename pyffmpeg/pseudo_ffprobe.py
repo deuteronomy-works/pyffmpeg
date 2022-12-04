@@ -243,7 +243,8 @@ class FFprobe():
                     self.type = each
 
     def probe(self):
-        self.logger.info('Inside _probe')
+        self.logger.info('Inside probe')
+        self.logger.info(f'Probing file: "{self.file_name}"')
 
         # randomize the filename to avoid overwrite prompt
 
@@ -251,6 +252,8 @@ class FFprobe():
             self._ffmpeg, '-y', '-i',
             self.file_name, '-f',
             'null', os.devnull]
+
+        self.logger.info(f"Issuing commads {str(commands)}")
 
         # start subprocess
         subP = subprocess.Popen(
