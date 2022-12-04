@@ -253,6 +253,8 @@ class FFprobe():
             self.file_name, '-f',
             'null', os.devnull]
 
+        self.logger.info(f"Issuing commads {str(commands)}")
+
         # start subprocess
         subP = subprocess.Popen(
             commands,
