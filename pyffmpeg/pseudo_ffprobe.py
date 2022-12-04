@@ -74,7 +74,7 @@ class FFprobe():
         if 'fps' in self.metadata[0][0]:
             self.fps = self.metadata[0][0]['fps']
 
-        elif 'fps' in self.metadata[0][1]:
+        elif len(self.metadata[0]) > 1 and 'fps' in self.metadata[0][1]:
             self.fps = self.metadata[0][1]['fps']
 
     def _extract(self):
