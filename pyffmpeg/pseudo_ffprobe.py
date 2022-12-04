@@ -44,7 +44,7 @@ class FFprobe():
         self.start = 0
         self.bitrate = 0
         self.type = ''
-        self.metadata = [[{}, {}], {}]  # mock indeces
+        self.metadata = [[], {}]  # mock indeces
         self.other_metadata = {}
         self._other_metadata = []
 
@@ -74,7 +74,7 @@ class FFprobe():
         if 'fps' in self.metadata[0][0]:
             self.fps = self.metadata[0][0]['fps']
 
-        elif 'fps' in self.metadata[0][1]:
+        elif len(self.metadata[0]) > 1 and 'fps' in self.metadata[0][1]:
             self.fps = self.metadata[0][1]['fps']
 
     def _extract(self):
@@ -102,12 +102,13 @@ class FFprobe():
         # individual streams
         streams = all_streams.split('Stream')
         for x in range(len(streams)):
+
             if x == 0:
                 if streams[x]:
                     self.metadata[-1] = self._parse_input_meta(streams[x])
             else:
                 if streams[x]:
-                    self.metadata[0][x-1] = self._parse_meta(streams[x])
+                    self.metadata[0].append(self._parse_meta(streams[x]))
 
         # parse other metadata
         self._parse_other_meta()
