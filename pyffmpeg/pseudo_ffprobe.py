@@ -97,7 +97,20 @@ class FFprobe():
             return
 
         all_streams = stdout.split('Stream mapping')[0]
-        all_streams = all_streams.split('Input')[1]
+        all_streams = all_streams.split('Input')
+
+        if len(all_streams) < 2:
+            # Error
+            all_streams = all_streams[0]
+            self.error = re.split(r'libpostproc .*?.*?.*?\n', all_streams)[-1]
+            self.logger.error(self.error)
+            return
+        else:
+            del all_streams[0]
+            if len(all_streams) > 1:
+                print("Multiple input files found.\
+                     However only one will be probed")
+            all_streams = all_streams[0]
 
         # individual streams
         streams = all_streams.split('Stream')
