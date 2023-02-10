@@ -1,4 +1,5 @@
 import re
+import os
 
 
 version = os.environ['GITHUB_REF'].split('/')[-1]
