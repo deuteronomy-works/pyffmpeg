@@ -125,6 +125,5 @@ class ModifiedList(list):
 
         if index >= length:
             raise Exception("Empty list")
-            #return ModifiedList()
         else:
             return super().__getitem__(index)
