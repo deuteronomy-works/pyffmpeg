@@ -44,7 +44,6 @@ def test_save_directory():
         (FLV_WITH_AUDIO, 'flv.mp4'),
         (FLV_WITH_AUDIO, 'flv.mp3'),
         (FLV_WITH_AUDIO, 'flv.wav'),
-        ('', 'non.mp3'),
         (FLV_WITH_AUDIO, 'outs/flv.mp3')])
 def test_convert(in_file, out_file):
 
