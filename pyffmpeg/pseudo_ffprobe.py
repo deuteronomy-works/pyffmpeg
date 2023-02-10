@@ -11,7 +11,7 @@ import os
 import logging
 # from base64 import b64decode
 
-from .misc import Paths, SHELL
+from .misc import Paths, SHELL, ModifiedList
 from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 
 
@@ -44,7 +44,7 @@ class FFprobe():
         self.start = 0
         self.bitrate = 0
         self.type = ''
-        self.metadata = [[], {}]  # mock indeces
+        self.metadata = ModifiedList([ModifiedList([]), {}])  # mock indeces
         self.other_metadata = {}
         self._other_metadata = []
 
