@@ -86,7 +86,7 @@ class FFmpeg():
         else:
             # not an absolute file
             out = os.path.join(self.save_dir, output_file)
-        
+
         self.logger.info(f"Output file: {out}")
 
         inf = input_file.replace("\\", "/")
@@ -122,8 +122,14 @@ class FFmpeg():
             stdout=PIPE, stderr=PIPE
             )
         self._ffmpeg_instances['convert'] = outP
-        self.error = str(outP.stderr.read(), 'utf-8')
-        self.logger.info(f"error message length: {len(self.error)}")
+        stderr = str(outP.stderr.read(), 'utf-8')
+        if 'Output #0' not in stderr:
+            self.error = stderr.rsplit('\r\n', maxsplit=2)[-2]
+            self.logger.error(self.error)
+            raise Exception(self.error)
+        else:
+            self.error = ''
+            self.logger.info('Conversion Done')
         return out
 
     def get_ffmpeg_bin(self):
