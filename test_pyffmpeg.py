@@ -14,13 +14,14 @@ try:
 except:
     TEST_FOLDER = os.path.join(os.path.abspath('.'), 'tests/')
 
-
+home = Paths().home_path
 cwd = os.path.dirname(__file__)
 
 
 EASY_LEMON = TEST_FOLDER + 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'
 E_FLAT = TEST_FOLDER + "Ecossaise in E-flat - Kevin MacLeod.mp3"
 COUNTDOWN = TEST_FOLDER + 'countdown.mp4'
+FLV_WITH_AUDIO = TEST_FOLDER + 'sample_960x400_ocean_with_audio.flv'
 
 
 def test_save_directory():
@@ -36,22 +37,29 @@ def test_save_directory():
     else:
         assert False
 
-
-def test_convert():
+@pytest.mark.parametrize(
+    'in_file,out_file',
+    [
+        (COUNTDOWN, 'countdown.wav'),
+        (FLV_WITH_AUDIO, 'flv.mp4'),
+        (FLV_WITH_AUDIO, 'flv.mp3'),
+        (FLV_WITH_AUDIO, 'flv.wav'),
+        ('', 'non.mp3'),
+        (FLV_WITH_AUDIO, 'outs/flv.mp3')])
+def test_convert(in_file, out_file):
 
     """
     """
 
-    path = Paths().home_path
-    out = os.path.join(path, 'f.wav')
+    out_file = os.path.join(home, out_file)
 
     ff = FFmpeg()
     b_path = os.path.exists(ff.get_ffmpeg_bin())
     ff.loglevel = 'info'
 
-    print(f'in and out: {COUNTDOWN} {path} {b_path}')
+    print(f'in and out: {in_file} {home} {b_path}')
 
-    ff.convert(COUNTDOWN, out)
+    ff.convert(in_file, out_file)
 
     if ff.error:
         if 'Output' in ff.error:
