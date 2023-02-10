@@ -24,7 +24,7 @@ def qq():
 
 def ov():
     input_file = os.path.join(test_folder, 'count down.mp4')
-    output_file = os.path.join(test_folder, 'fa.mp3')
+    output_file = os.path.join(test_folder, './outs/fa.mp3')
 
     #input_file = "https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/tests/countdown.mp4"
     out = ff.convert(input_file, output_file)
