@@ -44,7 +44,6 @@ def test_save_directory():
         (FLV_WITH_AUDIO, 'flv.mp4'),
         (FLV_WITH_AUDIO, 'flv.mp3'),
         (FLV_WITH_AUDIO, 'flv.wav'),
-        ('', 'non.mp3'),
         (FLV_WITH_AUDIO, 'outs/flv.mp3')])
 def test_convert(in_file, out_file):
 
@@ -62,11 +61,8 @@ def test_convert(in_file, out_file):
     ff.convert(in_file, out_file)
 
     if ff.error:
-        if 'Output' in ff.error:
-            assert True
-        else:
-            print(ff.error)
-            assert False
+        print(ff.error)
+        assert False
     else:
         assert True
 
@@ -105,10 +101,7 @@ def test_options():
     ff.options(opt)
 
     if ff.error:
-        if 'Output' in ff.error:
-            assert True
-        else:
-            print(ff.error)
-            assert False
+        print(ff.error)
+        assert False
     else:
         assert True
