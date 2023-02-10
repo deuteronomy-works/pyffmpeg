@@ -51,6 +51,7 @@ class FFmpeg():
         self.save_dir = directory
         self.logger.info(f"Save directory: {self.save_dir}")
         self.overwrite = True
+        self.create_folders = True
         self.loglevels = (
             'quiet', 'panic', 'fatal', 'error', 'warning',
             'info', 'verbose', 'debug', 'trace')
@@ -86,6 +87,10 @@ class FFmpeg():
         else:
             # not an absolute file
             out = os.path.join(self.save_dir, output_file)
+
+        out_path = os.path.dirname(out)
+        if not os.path.exists(out_path) and self.create_folders:
+            os.makedirs(out_path)
 
         self.logger.info(f"Output file: {out}")
 
@@ -227,7 +232,14 @@ class FFmpeg():
 
         out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
-        self.error = str(out.stderr.read(), 'utf-8')
+        stderr = str(out.stderr.read(), 'utf-8')
+        if stderr and 'Output #0' not in stderr:
+            self.error = stderr.rsplit('\r\n', maxsplit=2)[-2]
+            self.logger.error(self.error)
+            raise Exception(self.error)
+        else:
+            self.error = ''
+            self.logger.info('Conversion Done')
         return True
 
     @property
