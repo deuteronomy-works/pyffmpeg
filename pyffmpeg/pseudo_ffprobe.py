@@ -11,7 +11,7 @@ import os
 import logging
 # from base64 import b64decode
 
-from .misc import Paths, SHELL
+from .misc import Paths, SHELL, ModifiedList
 from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 
 
@@ -44,7 +44,7 @@ class FFprobe():
         self.start = 0
         self.bitrate = 0
         self.type = ''
-        self.metadata = [[], {}]  # mock indeces
+        self.metadata = ModifiedList([ModifiedList([]), {}])  # mock indeces
         self.other_metadata = {}
         self._other_metadata = []
 
@@ -65,6 +65,11 @@ class FFprobe():
     def _expose(self):
         # Expose public functions
         self.logger.info('Inside expose')
+
+        if len(self.metadata[0]) < 1:
+            self.logger.info("No metadata")
+            return
+
         if 'Duration' in self.metadata[-1]:
             self.duration = self.metadata[-1]['Duration']
 
@@ -97,7 +102,20 @@ class FFprobe():
             return
 
         all_streams = stdout.split('Stream mapping')[0]
-        all_streams = all_streams.split('Input')[1]
+        all_streams = all_streams.split('Input')
+
+        if len(all_streams) < 2:
+            # Error
+            all_streams = all_streams[0]
+            self.error = re.split(r'libpostproc .*?.*?.*?\n', all_streams)[-1]
+            self.logger.error(self.error)
+            raise Exception(self.error)
+        else:
+            del all_streams[0]
+            if len(all_streams) > 1:
+                print("Multiple input files found.\
+                     However only one will be probed")
+            all_streams = all_streams[0]
 
         # individual streams
         streams = all_streams.split('Stream')
