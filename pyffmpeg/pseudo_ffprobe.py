@@ -65,6 +65,11 @@ class FFprobe():
     def _expose(self):
         # Expose public functions
         self.logger.info('Inside expose')
+
+        if len(self.metadata[0]) < 1:
+            self.logger.info("No metadata")
+            return
+
         if 'Duration' in self.metadata[-1]:
             self.duration = self.metadata[-1]['Duration']
 
