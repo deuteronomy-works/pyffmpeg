@@ -6,9 +6,14 @@ import os
 from platform import system
 from lzma import decompress, compress
 from base64 import b64decode, b64encode
+import logging
+
+
+logger = logging.getLogger('pyffmpeg.misc')
 
 
 OS_NAME = system().lower()
+logger.info(f"OS: {OS_NAME}")
 
 if OS_NAME == 'linux':
     SHELL = False
@@ -22,6 +27,7 @@ class Paths():
     """
 
     def __init__(self):
+        self.logger = logging.getLogger('pyffmpeg.misc.Paths')
         self.os_name = OS_NAME
         if self.os_name == 'windows':
             env_name = 'USERPROFILE'
@@ -40,9 +46,11 @@ class Paths():
             if self.os_name != 'windows':
                 os.system(f'chmod +rw {self.home_path}')
                 os.system(f'chmod +rw {self.bin_path}')
+        self.logger.info(f'bin folder: {self.bin_path}')
         self.ffmpeg_file = ''
 
     def load_ffmpeg_bin(self):
+        self.logger.info('Inside load_ffmpeg_bin')
 
         # Load OS specific ffmpeg executable
 
@@ -76,6 +84,7 @@ class Paths():
 
     @staticmethod
     def convert_to_py(fn: str, target: str):
+        logger.info('Inside convert_to_py')
 
         with open(fn, 'rb') as f_file:
             raw = f_file.read()
@@ -92,6 +101,7 @@ def fix_splashes(options):
     """
     Make splashes synanymous irrespective of the OS
     """
+    logger.info('Inside fix_splashes')
     if system().lower() == 'windows':
         new_opts = []
         for entry in options:
@@ -103,3 +113,17 @@ def fix_splashes(options):
         return new_opts
     else:
         return options
+
+
+class ModifiedList(list):
+
+    def __init__(self, other=[]):
+        super().__init__(other)
+
+    def __getitem__(self, index):
+        length = super().__len__()
+
+        if index >= length:
+            raise Exception("Empty list")
+        else:
+            return super().__getitem__(index)

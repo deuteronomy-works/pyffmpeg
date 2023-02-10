@@ -6,7 +6,7 @@ FFmpeg wrapper for python. It uses the most up-to-date FFmpeg binary to provide 
 The beautiful thing about this is that it comes with it's own FFmpeg executable. It is compressed, making it the smallest one you can find. Becuase it's cross-platform and python 3, it is the only option available for building cross-platform apps with ffmpeg in python.
 
 ## FFmpeg Version
-Uses current FFmpeg version 4.4
+Uses current FFmpeg version
 
 ## Installation
     pip install pyffmpeg
