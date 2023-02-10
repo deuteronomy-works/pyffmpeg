@@ -28,13 +28,14 @@ def ov():
 
     #input_file = "https://raw.githubusercontent.com/deuteronomy-works/pyffmpeg/master/tests/countdown.mp4"
     out = ff.convert(input_file, output_file)
-    print(ff.error)
+    # print(ff.error)
 
     if ff.error:
         if 'Output' in ff.error:
             assert True
         else:
-            print(ff.error)
+            pass
+            # print(ff.error)
     else:
         assert True
 

@@ -16,4 +16,7 @@ print(f.duration)
 for x in f.metadata:
     print(x, '\n')
 
+print(f.metadata)
+print(f.metadata[0])
+# print(f.metadata[0][0])
 print(f.metadata[0][0]['codec'])
