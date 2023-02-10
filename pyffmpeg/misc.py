@@ -113,3 +113,16 @@ def fix_splashes(options):
         return new_opts
     else:
         return options
+
+class ModifiedList(list):
+
+    def __init__(self, other=[]):
+        super().__init__(other)
+
+    def __getitem__(self, index):
+        length = super().__len__()
+
+        if index > length:
+            return []
+        else:
+            return super().__getitem__(index)
