@@ -114,6 +114,7 @@ def fix_splashes(options):
     else:
         return options
 
+
 class ModifiedList(list):
 
     def __init__(self, other=[]):
@@ -122,7 +123,8 @@ class ModifiedList(list):
     def __getitem__(self, index):
         length = super().__len__()
 
-        if index > length:
-            return []
+        if index >= length:
+            raise Exception("Empty list")
+            #return ModifiedList()
         else:
             return super().__getitem__(index)
