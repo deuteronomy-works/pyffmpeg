@@ -62,11 +62,8 @@ def test_convert(in_file, out_file):
     ff.convert(in_file, out_file)
 
     if ff.error:
-        if 'Output' in ff.error:
-            assert True
-        else:
-            print(ff.error)
-            assert False
+        print(ff.error)
+        assert False
     else:
         assert True
 
