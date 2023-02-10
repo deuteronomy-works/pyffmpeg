@@ -233,7 +233,7 @@ class FFmpeg():
         out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
         self._ffmpeg_instances['options'] = out
         stderr = str(out.stderr.read(), 'utf-8')
-        if 'Output #0' not in stderr:
+        if stderr and 'Output #0' not in stderr:
             self.error = stderr.rsplit('\r\n', maxsplit=2)[-2]
             self.logger.error(self.error)
             raise Exception(self.error)
