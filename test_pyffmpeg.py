@@ -102,10 +102,7 @@ def test_options():
     ff.options(opt)
 
     if ff.error:
-        if 'Output' in ff.error:
-            assert True
-        else:
-            print(ff.error)
-            assert False
+        print(ff.error)
+        assert False
     else:
         assert True
