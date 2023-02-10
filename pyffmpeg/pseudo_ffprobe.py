@@ -109,7 +109,7 @@ class FFprobe():
             all_streams = all_streams[0]
             self.error = re.split(r'libpostproc .*?.*?.*?\n', all_streams)[-1]
             self.logger.error(self.error)
-            return
+            raise Exception(self.error)
         else:
             del all_streams[0]
             if len(all_streams) > 1:
