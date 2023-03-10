@@ -26,8 +26,12 @@ class Paths():
     Provide access to paths used within pyffmpeg
     """
 
-    def __init__(self):
-        self.logger = logging.getLogger('pyffmpeg.misc.Paths')
+    def __init__(self, enable_log: bool=True):
+
+        self.enable_log = enable_log
+
+        if self.enable_log:
+            self.logger = logging.getLogger('pyffmpeg.misc.Paths')
         self.os_name = OS_NAME
         if self.os_name == 'windows':
             env_name = 'USERPROFILE'
@@ -46,11 +50,14 @@ class Paths():
             if self.os_name != 'windows':
                 os.system(f'chmod +rw {self.home_path}')
                 os.system(f'chmod +rw {self.bin_path}')
-        self.logger.info(f'bin folder: {self.bin_path}')
+        if self.enable_log:
+            self.logger.info(f'bin folder: {self.bin_path}')
         self.ffmpeg_file = ''
 
     def load_ffmpeg_bin(self):
-        self.logger.info('Inside load_ffmpeg_bin')
+
+        if self.enable_log:
+            self.logger.info('Inside load_ffmpeg_bin')
 
         # Load OS specific ffmpeg executable
 
