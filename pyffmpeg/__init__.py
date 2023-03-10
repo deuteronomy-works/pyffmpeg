@@ -144,8 +144,16 @@ class FFmpeg():
             )
         self._ffmpeg_instances['convert'] = outP
         stderr = str(outP.stderr.read(), 'utf-8')
+
+        print(stderr)
+
         if 'Output #0' not in stderr:
-            self.error = stderr.rsplit('\r\n', maxsplit=2)[-2]
+            lines = stderr.splitlines()
+            if len(lines) > 0:
+                self.error = lines[-1]
+            else:
+                self.error = ""
+
             if self.enable_log:
                 self.logger.error(self.error)
             raise Exception(self.error)
@@ -259,7 +267,11 @@ class FFmpeg():
         self._ffmpeg_instances['options'] = out
         stderr = str(out.stderr.read(), 'utf-8')
         if stderr and 'Output #0' not in stderr:
-            self.error = stderr.rsplit('\r\n', maxsplit=2)[-2]
+            lines = stderr.splitlines()
+            if len(lines) > 0:
+                self.error = lines[-1]
+            else:
+                self.error = ""
             self.logger.error(self.error)
             raise Exception(self.error)
         else:
