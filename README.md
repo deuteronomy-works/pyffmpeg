@@ -1,4 +1,4 @@
-# pyffmpeg    ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-linux?label=Linux&logo=linux&logoColor=white&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-darwin?label=MacOs&logo=apple&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-windows?label=Windows&logo=windows&style=for-the-badge)  [![Downloads](https://static.pepy.tech/personalized-badge/pyffmpeg?period=month&units=international_system&left_color=black&right_color=brightgreen&left_text=Downloads/month)](https://pepy.tech/project/pyffmpeg)
+# pyffmpeg |      [![Downloads](https://static.pepy.tech/personalized-badge/pyffmpeg?period=week&units=international_system&left_color=black&right_color=brightgreen&left_text=Downloads/week)](https://pepy.tech/project/pyffmpeg)
 
 
 FFmpeg wrapper for python. It uses the most up-to-date FFmpeg binary to provide both FFmpeg and FFprobe functionality. So you can kill two birds with one stone.
