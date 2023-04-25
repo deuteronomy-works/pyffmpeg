@@ -118,7 +118,7 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        options = "{} -loglevel {} "
+        options = '"{}" -loglevel {} '
         options = options.format(self._ffmpeg_file, self.loglevel)
         options += '{} -i'
         options = options.format(self._over_write)
@@ -255,7 +255,9 @@ class FFmpeg():
                         [options])
 
         # add ffmpeg
-        options = " ".join([self._ffmpeg_file, options])
+        # Put into brackets
+        _ffmpeg_file = '"' + self._ffmpeg_file + '"'
+        options = " ".join([_ffmpeg_file, options])
 
         if self.enable_log:
             self.logger.info(f"Shell: {SHELL}")
