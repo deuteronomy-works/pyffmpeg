@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    if: ${{ github.ref == "build-linux" }}
+    if: ${{ github.ref_name == 'build-linux' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
