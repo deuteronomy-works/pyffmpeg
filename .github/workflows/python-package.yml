@@ -5,14 +5,14 @@ name: Test Python package
 
 on:
   push:
-    branches: [ build-windows]
+    branches: [ build-linux]
  # pull_request:
  #   branches: [ master ]
 
 jobs:
   build:
-
-    runs-on: windows-latest
+    if: ${{ github.ref == "build-linux" }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
