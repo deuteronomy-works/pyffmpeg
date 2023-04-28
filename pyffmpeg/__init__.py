@@ -59,6 +59,7 @@ class FFmpeg():
         self.save_dir = directory
         if self.enable_log:
             self.logger.info(f"Save directory: {self.save_dir}")
+        self.logger.info("Checking GitHub Activeness: True")
         self.overwrite = True
         self.create_folders = True
         self.loglevels = (
@@ -260,7 +261,10 @@ class FFmpeg():
             _ffmpeg_file = '"' + self._ffmpeg_file + '"'
         else:
             _ffmpeg_file = self._ffmpeg_file
+        
+        self.logger.info(f'Using {_ffmpeg_file} as ffmpeg file')
         options = " ".join([_ffmpeg_file, options])
+        self.logger.inof(f"Options is: {options} as at now")
 
         if self.enable_log:
             self.logger.info(f"Shell: {SHELL}")
