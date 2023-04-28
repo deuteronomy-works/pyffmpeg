@@ -59,6 +59,7 @@ class FFmpeg():
         self.save_dir = directory
         if self.enable_log:
             self.logger.info(f"Save directory: {self.save_dir}")
+        self.logger.info("Checking GitHub Activeness: True")
         self.overwrite = True
         self.create_folders = True
         self.loglevels = (
