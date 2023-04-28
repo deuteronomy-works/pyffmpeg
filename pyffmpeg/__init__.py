@@ -260,7 +260,10 @@ class FFmpeg():
             _ffmpeg_file = '"' + self._ffmpeg_file + '"'
         else:
             _ffmpeg_file = self._ffmpeg_file
+        
+        self.logger.info(f'Using {_ffmpeg_file} as ffmpeg file')
         options = " ".join([_ffmpeg_file, options])
+        self.logger.inof(f"Options is: {options} as at now")
 
         if self.enable_log:
             self.logger.info(f"Shell: {SHELL}")
