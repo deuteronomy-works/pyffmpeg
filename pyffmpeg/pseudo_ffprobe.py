@@ -283,7 +283,7 @@ class FFprobe():
             shell=SHELL)
 
         # break the operation
-        sleep(0.02)
+        sleep(0.5)
         stdout, _ = subP.communicate(input='q')
 
         self._extract_all(stdout)
