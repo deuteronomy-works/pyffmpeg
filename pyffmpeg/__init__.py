@@ -255,8 +255,11 @@ class FFmpeg():
                         [options])
 
         # add ffmpeg
-        # Put into brackets
-        _ffmpeg_file = '"' + self._ffmpeg_file + '"'
+        # Put into brackets if contain spaces
+        if " " in self._ffmpeg_file:
+            _ffmpeg_file = '"' + self._ffmpeg_file + '"'
+        else:
+            _ffmpeg_file = self._ffmpeg_file
         options = " ".join([_ffmpeg_file, options])
 
         if self.enable_log:
