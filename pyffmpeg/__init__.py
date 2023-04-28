@@ -220,7 +220,7 @@ class FFmpeg():
                 self.logger.info('Options is a List')
             options = fix_splashes(opts)
 
-            # Add ffmpeg and overwrite variable
+            # Add overwrite variable
             options.insert(0, self._over_write)
             if self.loglevel not in self.loglevels:
                 msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
