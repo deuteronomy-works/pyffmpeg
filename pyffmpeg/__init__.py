@@ -139,14 +139,17 @@ class FFmpeg():
             self._in_duration = float(d)
             self.monitor(out)
 
-        outP = Popen(
-            options, shell=SHELL, stdin=PIPE,
-            stdout=PIPE, stderr=PIPE
-            )
-        self._ffmpeg_instances['convert'] = outP
-        stderr = str(outP.stderr.read(), 'utf-8')
+        try:
+            outP = Popen(
+                options, shell=SHELL, stdin=PIPE,
+                stdout=PIPE, stderr=PIPE
+                )
+            self._ffmpeg_instances['convert'] = outP
+            stderr = str(outP.stderr.read(), 'utf-8')
 
-        print(stderr)
+            print(stderr)
+        except:
+            self.quit()
 
         if 'Output #0' not in stderr:
             lines = stderr.splitlines()
@@ -272,9 +275,13 @@ class FFmpeg():
         if not SHELL:
             options = shlex.split(options, posix=False)
 
-        out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        self._ffmpeg_instances['options'] = out
-        stderr = str(out.stderr.read(), 'utf-8')
+        try:
+            out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            self._ffmpeg_instances['options'] = out
+            stderr = str(out.stderr.read(), 'utf-8')
+        except:
+            self.quit()
+
         if stderr and 'Output #0' not in stderr:
             lines = stderr.splitlines()
             if len(lines) > 0:
