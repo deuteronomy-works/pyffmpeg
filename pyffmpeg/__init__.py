@@ -15,7 +15,7 @@ from subprocess import Popen, PIPE
 # from base64 import b64decode, b64encode
 
 from .pseudo_ffprobe import FFprobe
-from .misc import Paths, fix_splashes, SHELL
+from .misc import Paths, fix_splashes, SHELL, OS_NAME
 
 
 logger = logging.getLogger('pyffmpeg')
@@ -256,7 +256,7 @@ class FFmpeg():
 
         # add ffmpeg
         # Put into brackets if contain spaces
-        if " " in self._ffmpeg_file:
+        if OS_NAME == "windows":
             _ffmpeg_file = '"' + self._ffmpeg_file + '"'
         else:
             _ffmpeg_file = self._ffmpeg_file
