@@ -9,6 +9,7 @@ import re
 import random
 import os
 import logging
+from collections import defaultdict
 # from base64 import b64decode
 
 from .misc import Paths, SHELL, ModifiedList
@@ -116,19 +117,18 @@ class FFprobe():
                 print("Multiple input files found.\
                      However only one will be probed")
             all_streams = all_streams[0]
-
         # individual streams
         streams = all_streams.split('Stream')
-        for x in range(len(streams)):
+        self.metadata[-1] = self._parse_input_meta(streams[0])
 
-            if x == 0:
-                if streams[x]:
-                    self.metadata[-1] = self._parse_input_meta(streams[x])
-            else:
-                if streams[x]:
-                    self.metadata[0].append(self._parse_meta(streams[x]))
+        tags = defaultdict(list)
+        for x in range(1, len(streams)):
+            if streams[x]:
+                tags.update(self._parse_meta(streams[x]))
 
-        # parse other metadata
+        if len(tags) > 0:
+            self.metadata[0] = tags
+
         self._parse_other_meta()
 
         # then handle stream 0:0 so
@@ -165,23 +165,8 @@ class FFprobe():
 
     def _parse_meta(self, stream):
         self.logger.info('Inside _parse_meta')
-        tags = {}
         metadata = self._strip_meta(stream)
-        # Previous key will be overriden
-        prev_key = ''
-
-        for x in range(len(metadata)):
-            line = metadata[x]
-            data = line.split(":", 1)
-            key = data[0].strip()
-            value = data[1].strip()
-            # this might be a continuation
-            if key == '':
-                tags[prev_key] += "\\r\\n" + data[1].strip()
-            else:
-                tags[key] = value
-                prev_key = key
-
+        tags = self._generate_tags(metadata)
         return tags
 
     def _parse_header(self, line):
@@ -202,23 +187,8 @@ class FFprobe():
 
     def _parse_input_meta(self, stream):
         self.logger.info('Inside _parse_input_meta')
-        tags = {}
         metadata = self._strip_input_meta(stream)
-
-        # previous key will be overriden
-        prev_key = ''
-        for x in range(len(metadata)):
-            line = metadata[x]
-            data = line.split(":", 1)
-            key = data[0].strip()
-            value = data[1].strip()
-            # this might be a continuation
-            if key == '':
-                tags[prev_key] += "\\r\\n" + data[1].strip()
-            else:
-                tags[key] = value
-                prev_key = key
-
+        tags = self._generate_tags(metadata)
         return tags
 
     def _parse_other_meta(self):
@@ -320,3 +290,23 @@ class FFprobe():
                 meta.append(line)
 
         return meta
+
+    def _generate_tags(self, metadata):
+        prev_key = ''
+        tags = defaultdict(list)
+
+        for x in range(len(metadata)):
+            line = metadata[x]
+            data = line.split(":", 1)
+            key = data[0].strip() 
+            value = data[1].strip()
+            # this might be a continuation, if not we add it to orphaned key list
+            if key == '':
+                if prev_key == '':
+                    tags['unpaired_values'].append(value)
+                else:
+                    tags[prev_key].append("\\r\\n" + data[1].strip())
+            else:
+                tags[key] = value
+                prev_key = key
+        return tags
