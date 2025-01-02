@@ -31,8 +31,8 @@ jobs:
         python setup.py bdist_wheel
         python rename.py linux_aarch
     - name: Publish
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASS_WORD }}
+      #env:
+        #TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
+        #TWINE_PASSWORD: ${{ secrets.PYPI_PASS_WORD }}
       run: |
         twine upload dist/*
