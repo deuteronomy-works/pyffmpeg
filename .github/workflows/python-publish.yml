@@ -11,6 +11,9 @@ jobs:
   deploy:
 
     runs-on: windows-latest
+    permissions:
+       # IMPORTANT: this permission is mandatory for Trusted Publishing
+       id-token: write
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -26,9 +29,7 @@ jobs:
       run: |
         python setup.py sdist
 
-    - name: Publish
-      #env:
-        #TWINE_USERNAME: ${{ secrets.PYPI_USER_NAME }}
-        #TWINE_PASSWORD: ${{ secrets.PYPI_PASS_WORD }}
-      run: |
-        twine upload dist/* --trusted-publish
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      #run: |
+      #  twine upload dist/* --trusted-publish
