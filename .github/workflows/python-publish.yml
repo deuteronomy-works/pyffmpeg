@@ -35,6 +35,8 @@ jobs:
         python rename.py amd64
 
     - name: Publish package distributions to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      #run: |
-      #  twine upload dist/* --trusted-publish
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        twine upload dist/*
