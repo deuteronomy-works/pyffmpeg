@@ -50,6 +50,8 @@ def replace_setup_file_version():
     sta = '"Development Status :: 5 - Production/Stable"'
     bta = '"Development Status :: 4 - Beta"'
 
+    # Version will be in format v2.4.2.20-beta.3-windows
+    # or v2.4.2.20-windows
     ver = version.split('-')[0]
     ver = ver.replace('v', '')
 
