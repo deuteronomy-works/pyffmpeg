@@ -149,10 +149,10 @@ class FFmpeg():
 
             print(stderr)
         except:
+            stderr = ""
             self.quit()
 
-        # This code could be optimized
-        if stderr and 'Output #0' not in stderr:
+        if 'Output #0' not in stderr:
             lines = stderr.splitlines()
             if len(lines) > 0:
                 self.error = lines[-1]
