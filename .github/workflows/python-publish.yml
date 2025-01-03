@@ -38,4 +38,8 @@ jobs:
         python setup.py bdist_wheel
         python rename.py macos_uni
     - name: Publish package distributions to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        twine upload dist/*
