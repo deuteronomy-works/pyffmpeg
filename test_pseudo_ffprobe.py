@@ -20,7 +20,7 @@ except:
     'file_name,duration',
     [
         ("countdown.mp4", "00:00:04.37"),
-        ('Ea-sy_Lemon_30_Second_-_Kevin_MacLeod.mp3', "00:00:31.29"),
+        ('Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3', "00:00:31.29"),
         ("Ecossaise in E-flat - Kevin MacLeod.mp3", "00:00:30.96")
     ])
 def test_probe(file_name, duration):
