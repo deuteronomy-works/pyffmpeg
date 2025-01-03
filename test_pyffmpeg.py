@@ -18,10 +18,10 @@ home = Paths().home_path
 cwd = os.path.dirname(__file__)
 
 
-EASY_LEMON = TEST_FOLDER + 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'
-E_FLAT = TEST_FOLDER + "Ecossaise in E-flat - Kevin MacLeod.mp3"
-COUNTDOWN = TEST_FOLDER + 'countdown.mp4'
-FLV_WITH_AUDIO = TEST_FOLDER + 'sample_960x400_ocean_with_audio.flv'
+EASY_LEMON = "".join([TEST_FOLDER, 'Easy_Lemon_30_Second_-_Kevin_MacLeod.mp3'])
+E_FLAT = "".join([TEST_FOLDER, "Ecossaise in E-flat - Kevin MacLeod.mp3"])
+COUNTDOWN = "".join([TEST_FOLDER, 'countdown.mp4'])
+FLV_WITH_AUDIO = "".join([TEST_FOLDER, 'sample_960x400_ocean_with_audio.flv'])
 
 
 def test_save_directory():
