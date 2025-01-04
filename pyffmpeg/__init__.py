@@ -155,9 +155,10 @@ class FFmpeg():
         if 'Output #0' not in stderr:
             lines = stderr.splitlines()
             if len(lines) > 0:
-                self.error = lines[-1]
+                self.error = "".join(lines) # instead of lines[-1]
+                self.error = "New error info: " + self.error
             else:
-                self.error = ""
+                self.error = "Error but nothing much"
 
             if self.enable_log:
                 self.logger.error(self.error)
