@@ -144,8 +144,11 @@ class FFmpeg():
                 options, shell=SHELL, stdin=PIPE,
                 stdout=PIPE, stderr=PIPE
                 )
+            self.logger.error('did we')
             self._ffmpeg_instances['convert'] = outP
+            self.logger.error('didn we')
             stderr = str(outP.stderr.read(), 'utf-8')
+            self.logger.error('error should')
 
             print(stderr)
         except:
