@@ -151,8 +151,9 @@ class FFmpeg():
             self.logger.error('error should')
 
             print(stderr)
-        except:
-            stderr = ""
+        except Exception as e:
+            self.logger.error(e)
+            stderr = e
             self.quit()
 
         if 'Output #0' not in stderr:
