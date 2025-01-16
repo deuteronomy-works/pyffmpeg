@@ -82,17 +82,17 @@ def replace_setup_file_version():
 if os_name == 'win32':
     # Download FFmpeg for Windows
     try:
-        link = 'https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z'
+        link = 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip'
         resp = requests.get(link, stream=True)
-        with open('ffmpeg-git-full.7z', 'wb') as z:
+        with open('ffmpeg-master-latest-win64-gpl.zip', 'wb') as z:
             for chunk in resp.iter_content(chunk_size=2048):
                 if chunk:
                     z.write(chunk)
         print('done with download of winbin')
 
         # extract to folder
-        arch = glob.glob('ffmpeg*.7z')[0]
-        fullpath = extract_to_folder('ffmpeg.exe', arch)
+        arch = glob.glob('ffmpeg*.zip')[0]
+        fullpath = extract_to_folder('ffmpeg.exe', arch, z=False)
         out = 'win32'
 
         misc.Paths().convert_to_py(fullpath, out)
