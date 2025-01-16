@@ -3,7 +3,6 @@ import os
 import shutil
 import glob
 import requests
-from py7zr import unpack_7zarchive
 import re
 
 from pyffmpeg import misc
@@ -37,7 +36,7 @@ print('Authenticated')
 
 def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
     if z:
-        shutil.register_unpack_format('7zip', ['.7z'], unpack_7zarchive)
+        pass
     shutil.unpack_archive(arch, extract_dir=cwd)
     print('done with unpack')
     fpath = f'**/{ffmpeg}'
@@ -107,14 +106,14 @@ if os_name == 'win32':
 
 elif os_name == 'darwin':
     try:
-        link = 'https://evermeet.cx/ffmpeg/ffmpeg-118205-gd3aa99a4f4.7z'
+        link = 'https://evermeet.cx/ffmpeg/get/zip'
         resp = requests.get(link, stream=True)
-        with open('ffmpeg.7z', 'wb') as z:
+        with open('ffmpeg.zip', 'wb') as z:
             for chunk in resp.iter_content(chunk_size=2048):
                 if chunk:
                     z.write(chunk)
 
-        arch = glob.glob('ffmpeg*.7z')[0]
+        arch = glob.glob('ffmpeg*.zip')[0]
         fullpath = extract_to_folder('ffmpeg',arch, z=False)
         out = 'darwin'
 
