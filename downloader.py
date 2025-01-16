@@ -81,7 +81,8 @@ def replace_setup_file_version():
 if os_name == 'win32':
     # Download FFmpeg for Windows
     try:
-        link = 'https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip'
+        link = 'https://github.com/BtbN/FFmpeg-Builds/releases/download/'
+        link += 'latest/ffmpeg-master-latest-win64-gpl.zip'
         resp = requests.get(link, stream=True)
         with open('ffmpeg-master-latest-win64-gpl.zip', 'wb') as z:
             for chunk in resp.iter_content(chunk_size=2048):
