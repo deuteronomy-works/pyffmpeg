@@ -1,12 +1,12 @@
-# pyffmpeg    ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-linux?label=Linux&logo=linux&logoColor=white&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-darwin?label=MacOs&logo=apple&style=for-the-badge)  ![Travis (.org)](https://img.shields.io/travis/deuteronomy-works/pyffmpeg/build-windows?label=Windows&logo=windows&style=for-the-badge)  [![Downloads](https://pepy.tech/badge/pyffmpeg/month)](https://pepy.tech/project/pyffmpeg)
+# pyffmpeg |      [![Downloads](https://static.pepy.tech/personalized-badge/pyffmpeg?period=week&units=international_system&left_color=black&right_color=brightgreen&left_text=Downloads/week)](https://pepy.tech/project/pyffmpeg)
 
 
-FFmpeg wrapper for python. It uses FFmpeg binary to provide both FFmpeg and FFprobe functionality (FFprobe functionality includes `get_album_art`). So you can kill two birds with one stone.
+FFmpeg wrapper for python. It uses the most up-to-date FFmpeg binary to provide both FFmpeg and FFprobe functionality. So you can kill two birds with one stone.
 
 The beautiful thing about this is that it comes with it's own FFmpeg executable. It is compressed, making it the smallest one you can find. Becuase it's cross-platform and python 3, it is the only option available for building cross-platform apps with ffmpeg in python.
 
 ## FFmpeg Version
-Uses current FFmpeg version 4.4
+Uses current FFmpeg version
 
 ## Installation
     pip install pyffmpeg

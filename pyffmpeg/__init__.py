@@ -144,19 +144,25 @@ class FFmpeg():
                 options, shell=SHELL, stdin=PIPE,
                 stdout=PIPE, stderr=PIPE
                 )
+            self.logger.error('did we')
             self._ffmpeg_instances['convert'] = outP
+            self.logger.error('didn we')
             stderr = str(outP.stderr.read(), 'utf-8')
+            self.logger.error('error should')
 
             print(stderr)
-        except:
+        except Exception as e:
+            self.logger.error(e)
+            stderr = e
             self.quit()
 
         if 'Output #0' not in stderr:
             lines = stderr.splitlines()
             if len(lines) > 0:
-                self.error = lines[-1]
+                self.error = "".join(lines)  # instead of lines[-1]
+                self.error = "New error info: " + self.error
             else:
-                self.error = ""
+                self.error = "Error all: " + str(stderr)
 
             if self.enable_log:
                 self.logger.error(self.error)
