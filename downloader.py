@@ -3,7 +3,6 @@ import os
 import shutil
 import glob
 import requests
-from py7zr import unpack_7zarchive
 import re
 
 from pyffmpeg import misc
@@ -37,7 +36,7 @@ print('Authenticated')
 
 def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
     if z:
-        shutil.register_unpack_format('7zip', ['.7z'], unpack_7zarchive)
+        pass
     shutil.unpack_archive(arch, extract_dir=cwd)
     print('done with unpack')
     fpath = f'**/{ffmpeg}'
@@ -50,6 +49,8 @@ def replace_setup_file_version():
     sta = '"Development Status :: 5 - Production/Stable"'
     bta = '"Development Status :: 4 - Beta"'
 
+    # Version will be in format v2.4.2.20-beta.3-windows
+    # or v2.4.2.20-windows
     ver = version.split('-')[0]
     ver = ver.replace('v', '')
 
@@ -78,15 +79,20 @@ def replace_setup_file_version():
 
 # Build wheel
 if os_name == 'win32':
-    # Download Qmlview archive for os
-    os_cmd = 'gh release download --repo'
-    os_cmd += ' github.com/GyanD/codexffmpeg --pattern "*full_build.7z"'
+    # Download FFmpeg for Windows
     try:
-        os.system(os_cmd)
+        link = 'https://github.com/BtbN/FFmpeg-Builds/releases/download/'
+        link += 'latest/ffmpeg-master-latest-win64-gpl.zip'
+        resp = requests.get(link, stream=True)
+        with open('ffmpeg-master-latest-win64-gpl.zip', 'wb') as z:
+            for chunk in resp.iter_content(chunk_size=2048):
+                if chunk:
+                    z.write(chunk)
         print('done with download of winbin')
+
         # extract to folder
-        arch = glob.glob('ffmpeg*.7z')[0]
-        fullpath = extract_to_folder('ffmpeg.exe', arch)
+        arch = glob.glob('ffmpeg*.zip')[0]
+        fullpath = extract_to_folder('ffmpeg.exe', arch, z=False)
         out = 'win32'
 
         misc.Paths().convert_to_py(fullpath, out)
@@ -101,14 +107,14 @@ if os_name == 'win32':
 
 elif os_name == 'darwin':
     try:
-        link = 'https://evermeet.cx/ffmpeg/get/ffmpeg/zip'
+        link = 'https://evermeet.cx/ffmpeg/get/zip'
         resp = requests.get(link, stream=True)
-        with open('ffmpeg.7z', 'wb') as z:
+        with open('ffmpeg.zip', 'wb') as z:
             for chunk in resp.iter_content(chunk_size=2048):
                 if chunk:
                     z.write(chunk)
 
-        arch = glob.glob('ffmpeg*.7z')[0]
+        arch = glob.glob('ffmpeg*.zip')[0]
         fullpath = extract_to_folder('ffmpeg',arch, z=False)
         out = 'darwin'
 
@@ -121,14 +127,11 @@ elif os_name == 'darwin':
         print(os.listdir(cwd))
 
 else:
-    # Download Qmlview archive for os
+    # Download FFmpeg for linux
     try:
-        link = 'https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-i686-static.tar.xz'
-        resp = requests.get(link, stream=True)
-        with open('ffmpeg.tar.xz', 'wb') as z:
-            for chunk in resp.iter_content(chunk_size=2048):
-                if chunk:
-                    z.write(chunk)
+        os_cmd = 'gh release download --repo'
+        os_cmd += ' github.com/BtbN/FFmpeg-Builds --pattern "*latest-linux64-gpl.tar.xz"'
+        os.system(os_cmd)
 
         arch = glob.glob('ffmpeg*.tar.xz')[0]
         fullpath = extract_to_folder('ffmpeg', arch, z=False)

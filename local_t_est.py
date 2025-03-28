@@ -39,4 +39,9 @@ def ov():
     else:
         assert True
 
+
+#fps = ff.get_fps("H:/CS/practice/python/pyffmpeg subproces/vid.mp4")
+#print(fps)
+
 ov()
+# tt()
