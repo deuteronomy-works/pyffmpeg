@@ -119,19 +119,10 @@ class FFmpeg():
             print(msg.format(self.loglevel))
             self.loglevel = 'fatal'
 
-        options = '"{}" -loglevel {} '
-        options = options.format(self._ffmpeg_file, self.loglevel)
-        options += '{} -i'
-        options = options.format(self._over_write)
+        options = [self._ffmpeg_file, "-loglevel", self.loglevel, self._over_write, "-i", inf, out]
 
         if self.enable_log:
             self.logger.info(f"shell: {SHELL}")
-
-        if SHELL:
-            options += ' "{}" "{}"'.format(inf, out)
-        else:
-            options = options.split(' ')
-            options.extend([inf, out])
 
         if self.report_progress:
             f = FFprobe(inf)
@@ -141,7 +132,7 @@ class FFmpeg():
 
         try:
             outP = Popen(
-                options, shell=SHELL, stdin=PIPE,
+                options, shell=False, stdin=PIPE,
                 stdout=PIPE, stderr=PIPE
                 )
             self.logger.error('did we')
