@@ -250,7 +250,7 @@ class FFprobe():
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            shell=SHELL)
+            shell=False)
 
         # break the operation
         sleep(0.5)
