@@ -68,8 +68,8 @@ class Paths():
 
             # load os specific ffmpeg bin data
             if self.os_name == 'windows':
-                from .static.bin.win32 import win32
-                b64 = win32.contents
+                from .static.bin.win32 import win64
+                b64 = win64.contents
             elif self.os_name == 'linux':
                 from .static.bin.linuxmod import linux
                 b64 = linux.contents
