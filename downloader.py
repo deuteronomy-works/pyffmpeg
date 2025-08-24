@@ -93,16 +93,16 @@ if os_name == 'win32':
         # extract to folder
         arch = glob.glob('ffmpeg*.zip')[0]
         fullpath = extract_to_folder('ffmpeg.exe', arch, z=False)
-        out = 'win32'
+        out = 'win64'
 
         misc.Paths().convert_to_py(fullpath, out)
         # copy py file to folder_name
-        win32 = os.path.join(bin_path, 'win32')
+        win32 = os.path.join(bin_path, 'win64')
         # delete old file
-        old_file = os.path.join(win32, 'win32.py')
+        old_file = os.path.join(win32, 'win64.py')
         os.remove(old_file)
         # copy file to folder
-        shutil.copy('win32.py', win32)
+        shutil.copy('win64.py', win32)
 
     except Exception as err:
         print(err)
