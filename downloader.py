@@ -96,9 +96,12 @@ if os_name == 'win32':
         out = 'win32'
 
         misc.Paths().convert_to_py(fullpath, out)
-        # copy all those contents to folder_name, skip exitsting
+        # copy py file to folder_name
         win32 = os.path.join(bin_path, 'win32')
-        # replace
+        # delete old file
+        old_file = os.path.join(win32, 'win32.py')
+        os.remove(old_file)
+        # copy file to folder
         shutil.copy('win32.py', win32)
 
     except Exception as err:
@@ -121,6 +124,10 @@ elif os_name == 'darwin':
         misc.Paths().convert_to_py(fullpath, out)
 
         darwin = os.path.join(bin_path, 'darwin')
+        # delete old file
+        old_file = os.path.join(darwin, 'darwin.py')
+        os.remove(old_file)
+        # copy file to folder
         shutil.copy('darwin.py', darwin)
     except Exception as err:
         print(err)
@@ -140,6 +147,10 @@ else:
         misc.Paths().convert_to_py(fullpath, out)
 
         linux = os.path.join(bin_path, 'linuxmod')
+        # delete old file
+        old_file = os.path.join(linux, 'linux.py')
+        os.remove(old_file)
+        # copy file to folder
         shutil.copy('linux.py', linux)
     except Exception as err:
         print(err)
