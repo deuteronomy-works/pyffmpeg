@@ -42,7 +42,10 @@ def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
         pass
     shutil.unpack_archive(arch, extract_dir=cwd)
     print('done with unpack')
-    curr_path = os.path.splitext(arch)[0]
+    if 'tar.xz' in arch:
+        curr_path = arch.split('.tar')[0]
+    else:
+        curr_path = os.path.splitext(arch)[0]
     os.chdir(curr_path)
     curr_list = os.listdir(".")
     print(curr_list)
@@ -176,11 +179,19 @@ else:
         misc.Paths().convert_to_py(fullpath, out)
 
         linux = os.path.join(bin_path, 'linuxmod')
-        # delete old file
-        old_file = os.path.join(linux, 'linux.py')
-        os.remove(old_file)
+        try:
+            # delete old file
+            print('delete old file')
+            old_file = os.path.join(linux, 'linux.py')
+            os.remove(old_file)
+        except Exception as e:
+            print(e)
         # copy file to folder
+        print('coping to new file')
+        print(os.listdir('.'))
         shutil.copy('linux.py', linux)
+        print(f"{old_file=:}")
+        print('Does it exist: ', os.path.exist(old_file))
     except Exception as err:
         print(err)
         print(os.listdir(cwd))
