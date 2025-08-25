@@ -156,11 +156,16 @@ elif os_name == 'darwin':
         misc.Paths().convert_to_py(fullpath, out)
 
         darwin = os.path.join(bin_path, 'darwin')
-        # delete old file
         old_file = os.path.join(darwin, 'darwin.py')
-        os.remove(old_file)
+        try:
+            # delete old file
+            os.remove(old_file)
+        except Exception as e:
+            print(e)
         # copy file to folder
+        print('file exists: ', os.path.exists('darwin.py'))
         shutil.copy('darwin.py', darwin)
+        print('file exists in folder: ', os.path.exists(old_file))
     except Exception as err:
         print(err)
         print(os.listdir(cwd))
@@ -191,7 +196,7 @@ else:
         print(os.listdir('.'))
         shutil.copy('linux.py', linux)
         print(f"{old_file=:}")
-        print('Does it exist: ', os.path.exist(old_file))
+        print('Does it exist: ', os.path.exists(old_file))
     except Exception as err:
         print(err)
         print(os.listdir(cwd))
