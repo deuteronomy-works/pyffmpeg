@@ -120,7 +120,7 @@ if os_name == 'win32':
         win32 = os.path.join(bin_path, 'win32')
         # delete old file
         old_file = os.path.join(win32, 'win64.py')
-        print("old_file exists: " + os.path.exists(old_file))
+        print("old_file exists: ", os.path.exists(old_file))
         try:
             os.remove(old_file)
             print('removed old file')
