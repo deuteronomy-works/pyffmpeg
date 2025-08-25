@@ -15,9 +15,11 @@ _, os_name, token = sys.argv
 
 osn = os_name.split('-')[0]
 cwd = os.path.realpath('.')
-
+print('cwd')
+print(os.listdir(cwd))
 bin_path = os.path.join(cwd, 'pyffmpeg/static/bin')
-
+print('bin_path')
+print(os.listdir(bin_path))
 # Download Qmlview archive for os
 # extract to folder
 # copy all those contents to folder_name, skipping the existing ones
@@ -109,8 +111,12 @@ if os_name == 'win32':
         out = 'win64'
 
         misc.Paths().convert_to_py(fullpath, out)
+        expected_file = out + '.py'
+        print(f'{expected_file=:}')
+        print('Does it exists?')
+        print(os.path.exists(expected_file))
         # copy py file to folder_name
-        win32 = os.path.join(bin_path, 'win64')
+        win32 = os.path.join(bin_path, 'win32')
         # delete old file
         old_file = os.path.join(win32, 'win64.py')
         try:
