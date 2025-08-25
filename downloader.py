@@ -41,9 +41,14 @@ def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
     print('done with unpack')
     curr_path = os.path.splitext(arch)[0]
     os.chdir(curr_path)
+    curr_list = os.listdir(".")
+    print(curr_list)
     fpath = f'**/{ffmpeg}'
     try:
-        fname = glob.glob(fpath, recursive=True)[0]
+        globlist = glob.glob(fpath, recursive=True)
+        print(f"{globlist=:}")
+        fname = globlist[0]
+        print('have used glob list')
     except:
         print('glob did not work')
         constructed_path = os.path.join(curr_path, ffmpeg)
