@@ -112,7 +112,7 @@ if os_name == 'win32':
         # extract to folder
         arch = glob.glob('ffmpeg*.zip')[0]
         fullpath = extract_to_folder('ffmpeg.exe', arch, z=False)
-        out = 'win64'
+        out = 'win32'
 
         misc.Paths().convert_to_py(fullpath, out)
         expected_file = out + '.py'
@@ -122,7 +122,7 @@ if os_name == 'win32':
         # copy py file to folder_name
         win32 = os.path.join(bin_path, 'win32')
         # delete old file
-        old_file = os.path.join(win32, 'win64.py')
+        old_file = os.path.join(win32, 'win32.py')
         print("old_file exists: ", os.path.exists(old_file))
         try:
             os.remove(old_file)
@@ -131,7 +131,7 @@ if os_name == 'win32':
             print(e)
         # copy file to folder
         print('copying python file')
-        shutil.copy('win64.py', win32)
+        shutil.copy('win32.py', win32)
         print('contents of win32 below')
         print(os.listdir(win32))
         print("file exist now: ", os.path.exists(old_file))
