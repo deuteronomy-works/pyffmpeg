@@ -39,9 +39,20 @@ def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
         pass
     shutil.unpack_archive(arch, extract_dir=cwd)
     print('done with unpack')
+    curr_path = os.path.splitext(arch)[0]
+    os.chdir(curr_path)
     fpath = f'**/{ffmpeg}'
-    fname = glob.glob(fpath)[0]
-    return os.path.join(cwd, fname)
+    try:
+        fname = glob.glob(fpath, recursive=True)[0]
+    except:
+        print('glob did not work')
+        constructed_path = os.path.join(curr_path, ffmpeg)
+        if not os.path.exist(constructed_path):
+            print("first constructed path didn't work")
+            fname = os.path.join(curr_path, curr_path, ffmpeg)
+        else:
+            fname = constructed_path
+    return fname # os.path.join(cwd, fname)
 
 
 def replace_setup_file_version():
@@ -100,8 +111,13 @@ if os_name == 'win32':
         win32 = os.path.join(bin_path, 'win64')
         # delete old file
         old_file = os.path.join(win32, 'win64.py')
-        os.remove(old_file)
+        try:
+            os.remove(old_file)
+            print('removed old file')
+        except Exception as e:
+            print(e)
         # copy file to folder
+        print('copying python file')
         shutil.copy('win64.py', win32)
 
     except Exception as err:
