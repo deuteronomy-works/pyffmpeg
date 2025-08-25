@@ -17,8 +17,9 @@ osn = os_name.split('-')[0]
 cwd = os.path.realpath('.')
 print('cwd')
 print(os.listdir(cwd))
-bin_path = os.path.join(cwd, 'pyffmpeg/static/bin')
-print('bin_path')
+raw_bin_path = os.path.join('pyffmpeg', 'static', 'bin')
+bin_path = os.path.realpath(raw_bin_path)
+print('bin_path: ' + bin_path + " contents below.")
 print(os.listdir(bin_path))
 # Download Qmlview archive for os
 # extract to folder
@@ -119,6 +120,7 @@ if os_name == 'win32':
         win32 = os.path.join(bin_path, 'win32')
         # delete old file
         old_file = os.path.join(win32, 'win64.py')
+        print("old_file exists: " + os.path.exists(old_file))
         try:
             os.remove(old_file)
             print('removed old file')
@@ -127,6 +129,9 @@ if os_name == 'win32':
         # copy file to folder
         print('copying python file')
         shutil.copy('win64.py', win32)
+        print('contents of win32 below')
+        print(os.listdir(win32))
+        print("file exist now: ", os.path.exists(old_file))
 
     except Exception as err:
         print(err)
