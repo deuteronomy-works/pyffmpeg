@@ -192,6 +192,8 @@ else:
         except Exception as e:
             print(e)
         # copy file to folder
+        print(f"{old_file=:}")
+        print('Does it exist: ', os.path.exists(old_file))
         print('coping to new file')
         print(os.listdir('.'))
         shutil.copy('linux.py', linux)
