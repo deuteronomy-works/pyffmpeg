@@ -51,13 +51,10 @@ def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
         print('have used glob list')
     except:
         print('glob did not work')
-        constructed_path = os.path.join(curr_path, ffmpeg)
-        if not os.path.exist(constructed_path):
-            print("first constructed path didn't work")
-            fname = os.path.join(curr_path, curr_path, ffmpeg)
-        else:
-            fname = constructed_path
-    return fname # os.path.join(cwd, fname)
+        fname = os.path.join('bin', ffmpeg)
+    c_path = os.getcwd()
+    os.chdir("..")
+    return os.path.join(c_path, fname)
 
 
 def replace_setup_file_version():
