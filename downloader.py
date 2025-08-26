@@ -46,7 +46,8 @@ def extract_to_folder(ffmpeg: str, arch: str, z=True) -> str:
         curr_path = arch.split('.tar')[0]
     else:
         curr_path = os.path.splitext(arch)[0]
-    os.chdir(curr_path)
+    new_const_curr_path = f"./{curr_path}"
+    os.chdir(new_const_curr_path)
     curr_list = os.listdir(".")
     print(curr_list)
     fpath = f'**/{ffmpeg}'
