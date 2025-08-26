@@ -113,9 +113,15 @@ def fix_splashes(options):
         new_opts = []
         for entry in options:
             fixed = entry
-            if '/' in entry:
-                fixing = entry.replace('/', '\\')
-                fixed = fixing
+            real = os.path.realpath(entry)
+            # if the path does not exist on the filesystem
+            # then its propably online and should not be touched
+            if not os.path.exists(real):
+                pass
+            else:
+                if '/' in entry:
+                    fixing = entry.replace('/', '\\')
+                    fixed = fixing
             new_opts.append(fixed)
         return new_opts
     else:

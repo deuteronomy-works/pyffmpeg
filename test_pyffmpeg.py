@@ -80,8 +80,8 @@ def test_loglevel():
     ff = FFmpeg()
     ff.loglevel = 'fa'
 
-    path = Paths().home_path
-    o = os.path.join(path, 'f.wav')
+    home_path = Paths().home_path
+    o = os.path.join(home_path, 'log.wav')
 
     opt = ['-i', EASY_LEMON, o]
 
@@ -91,8 +91,8 @@ def test_loglevel():
 
 def test_options():
 
-    path = Paths().home_path
-    o = os.path.join(path, 'f.wav')
+    home_path = Paths().home_path
+    o = os.path.join(home_path, 'opt.wav')
 
     opt = ['-i', EASY_LEMON, o]
 
