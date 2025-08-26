@@ -13,8 +13,8 @@ os_name = system().lower()
             ['-i', 'path\\path one\\f.wav', 'path\\path one\\f.wav']
         ),
         (
-            ['-i', 'path/path one/f.wav', 'path/path one/f.wav'],
-            ['-i', 'path\\path one\\f.wav', 'path\\path one\\f.wav']
+            ['-i', './tests/license_e_flat.txt', './tests/license_e_flat.txt'],
+            ['-i', '.\\tests\\license_e_flat.txt', '.\\tests\\license_e_flat.txt']
         )
         ])
 def test_fix_splashes(case, exp):
