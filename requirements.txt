@@ -1,4 +1,3 @@
-pyffmpeg
 requests
 setuptools
 wheel
