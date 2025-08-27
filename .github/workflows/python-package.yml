@@ -30,6 +30,7 @@ jobs:
         python -m pip install flake8 pytest
         # python${{ matrix.python-version }}
         python${{ matrix.python-version }} -m pip install -r requirements.txt
+        python download_binaries.py
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -59,6 +60,7 @@ jobs:
         python -m pip install flake8 pytest
         # python${{ matrix.python-version }}
         python${{ matrix.python-version }} -m pip install -r requirements.txt
+        python download_binaries.py
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -88,6 +90,7 @@ jobs:
         python -m pip install flake8 pytest
         # python${{ matrix.python-version }}
         python -m pip install -r requirements.txt
+        python download_binaries.py
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
