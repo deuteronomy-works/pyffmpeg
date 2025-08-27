@@ -3,11 +3,9 @@ name: CI
 on:
   push:
     branches:
-      - master
       - development
   pull_request:
     branches:
-      - master
       - development
   workflow_dispatch:
 
@@ -17,8 +15,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.13"]
       fail-fast: false
     defaults:
       run:
