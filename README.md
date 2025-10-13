@@ -26,6 +26,15 @@ output_file = ff.convert(inp, out)
 print(output_file)
 
 ```
+OR
+
+```python
+from pyffmpeg import FFmpeg
+ff = FFmpeg()
+ff.input('path/to/music_folder/f.mp4').output('path/to/music_folder/f.mp3').run()
+ff.input('path/to/music_folder/f.mp4', 'path/to/music_folder/g.mp3', map=['0:1', '0:0']).output('path/to/music_folder/f.mp4').run()
+```
+This method allows more complex file handling
 
 ### FFprobe
 Provides FFprobe functions and values
