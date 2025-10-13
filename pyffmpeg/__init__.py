@@ -8,7 +8,7 @@ import shlex
 import threading
 import logging
 from time import sleep
-from typing import Optional
+from typing import Optional, List
 from subprocess import Popen, PIPE
 # from platform import system
 # from lzma import decompress
@@ -77,6 +77,14 @@ class FFmpeg():
         self._in_duration: float = 0.0
         self._progress: int = 0
         self.onProgressChanged = self.progressChangeMock
+
+         # Chain Parameters
+        self.inputs = ()
+        self.outputs = ()
+        self.chain_string = ''
+        self.chain_input_string = ''
+        self.chain_map_string = ''
+        self.chain_output_string = ''
 
         # instances are store according to function names
         self._ffmpeg_instances = {}
@@ -163,6 +171,238 @@ class FFmpeg():
             if self.enable_log:
                 self.logger.info('Conversion Done')
         return out
+
+    def run(self):
+        """
+        Allows user to pass any other command line options
+        to the FFmpeg executable
+        eg.: command line options of 'ffmpeg -i a.mp4 b.mp3'
+        will be passed by user as: opts: '-i a.mp4 b.mp3'
+        """
+        if self.enable_log:
+            self.logger.info("inside Chain run")
+
+        options = [self.chain_input_string, self.chain_map_string,
+                self.chain_output_string
+              ]
+        options = [n for n in options if n != '']
+        print(f'{options=:}')
+
+        o_string = ' '.join(options)
+        c_string = self.chain_string
+
+        # choose which of the two has more info.
+        options = [o_string if o_string > c_string else c_string][0]
+
+        ## Add ffmpeg and overwrite variable
+
+        # handle overwrite
+        if self._over_write not in options:
+            options = " ".join([self._over_write, options])
+
+        # handle loglevel
+        if self._log_level_stmt not in options:
+            if self.loglevel not in self.loglevels:
+                msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+                    ' Using fatal instead'
+                print(msg.format(self.loglevel))
+                self.loglevel = 'fatal'
+
+            if self.loglevel != 'fatal':
+                options = " ".join(
+                    [options])
+
+        # add ffmpeg
+        # Put into brackets if contain spaces
+        if OS_NAME == "windows":
+            _ffmpeg_file = '"' + self._ffmpeg_file + '"'
+        else:
+            _ffmpeg_file = self._ffmpeg_file
+        
+        self.logger.info(f'Using {_ffmpeg_file} as ffmpeg file')
+        options = " ".join([_ffmpeg_file, options])
+        self.logger.info(f"Options is: {options} as at now")
+
+        if self.enable_log:
+            self.logger.info(f"Shell: {SHELL}")
+
+        if not SHELL:
+            options = shlex.split(options, posix=False)
+
+        try:
+            out = Popen(options, shell=SHELL, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            self._ffmpeg_instances['options'] = out
+            stderr = str(out.stderr.read(), 'utf-8')
+        except:
+            self.quit()
+
+        if stderr and 'Output #0' not in stderr:
+            lines = stderr.splitlines()
+            if len(lines) > 0:
+                self.error = lines[-1]
+            else:
+                self.error = ""
+            self.logger.error(self.error)
+            raise Exception(self.error)
+        else:
+            self.error = ''
+            self.logger.info('Operation Done')
+
+        # wipe all chain string data
+        self.chain_string = ''
+        self.chain_input_string = ''
+        self.chain_map_string = ''
+        self.chain_output_string = ''
+
+        return True
+
+    def input(
+            self, *inputs,
+            map: List[str] | None = None,
+            rate: int = 0):
+        
+        """
+        Add any number of inputs
+        map: should be in the form of '0:1' or '0:v'
+        rate: The framerate
+        """
+
+        fixed_inputs = []
+
+        # frame rate
+        if rate:
+            self.chain_input_string += f'-r {rate}'
+            self.chain_string += f"-r {rate} " # extra space added
+
+        for input_file in inputs:
+            input_f = input_file.replace("\\", "/")
+
+            fixed_inputs.append(input_f)
+
+            if self.enable_log:
+                self.logger.info(f"Input file: {input_f}")
+
+        self.inputs = tuple(fixed_inputs)
+        fixed_inputs.insert(0, '')
+        self.chain_input_string += ' -i '.join(fixed_inputs).strip()
+        self.chain_string += ' -i '.join(fixed_inputs).strip()
+
+        # mapping
+        if map:
+            fixed_map = list(map)
+            fixed_map.insert(0, '')
+            self.chain_map_string = ' -map '.join(fixed_map).strip()
+            self.chain_string += ' -map '.join(fixed_map)
+
+        return self
+
+    def output(self, *outputs):
+        # Handle outputs for chain procedure
+
+        fixed_outputs = []
+
+        for output_file in outputs:
+            if os.path.isabs(output_file):
+                # absolute file
+                out = output_file
+            else:
+                # not an absolute file
+                out = os.path.join(self.save_dir, output_file)
+
+            out_path = os.path.dirname(out)
+            if not os.path.exists(out_path) and self.create_folders:
+                os.makedirs(out_path)
+
+            fixed_outputs.append(out)
+
+            if self.enable_log:
+                self.logger.info(f"Output file: {out}")
+
+        self.outputs = tuple(fixed_outputs)
+        output_string = ' '.join(fixed_outputs).strip()
+        self.chain_output_string = output_string
+        self.chain_string += " " + output_string # extra space
+        return self
+
+    def bitrate(self, value: int, specifier: str = ""):
+        specifier = specifier.lower()
+        if specifier in ['a', 'v']:
+            self.chain_string += f" -b:{specifier} {value}"
+        else:
+            self.chain_string += f" -b {value}"
+        return self
+
+    def aspect_ratio(self, value: str, map: str):
+        if map:
+            map = f":{map}"
+        self.chain_string += f" -aspect{map} {value}"
+        return self
+
+    def filter(self, value: str, specifier: str = ""):
+        specifier = specifier.lower()
+        if specifier in ['a', 'v']:
+            self.chain_string += f" -filter:{specifier} {value}"
+        else:
+            self.chain_string += f" -filter {value}"
+        return self
+
+    def force(self):
+        # Force container format
+
+        self.chain_string += " -f"
+        return self
+
+    def channels(self, value: int, specifier: str, map: str):
+
+        if map:
+            map = f":{map}"
+
+        specifier = specifier.lower()
+        if specifier in ['a', 'v']:
+            self.chain_string += f" -{specifier}c{map} {value}"
+        else:
+            self.chain_string += f" -c{map} {value}"
+        return self
+
+    def rate(self, value: int = 24, specifier: str= "", map: str = ""):
+        # frame rate
+        specifier = specifier.lower()
+        if map:
+            map = f":{map}"
+
+        if specifier in ['a', 'v']:
+            self.chain_string += f"-{specifier}r{map} {value} "
+        else:
+            self.chain_string += f"-r{map} {value} " # extra space for next
+        return self
+
+    def codec(self, value: str = 'copy', specifier: str = ""):
+        """
+        Codec option
+        value: must be of format 'copy'
+        specifier: v for video, a for audio. Default is blank.
+        """
+        specifier = specifier.lower()
+        if specifier in ['v', 'a', 's']:
+            self.chain_string += f" -c:{specifier} {value}"
+        else:
+            self.chain_string += f" -c {value}"
+        return self
+
+    def disable(self, value: str):
+
+        value = value.lower()
+        if value in ['v', 'a', 's']:
+            self.chain_string += f' -{value}n'
+        return self
+
+    def map(self, value: str):
+        """
+        Map
+        value: must be of format '0:0' or '0:v'
+        """
+        self.chain_string += f' -map {value}'
+        return self
 
     def get_ffmpeg_bin(self):
 
