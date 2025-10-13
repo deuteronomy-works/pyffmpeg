@@ -8,7 +8,7 @@ import shlex
 import threading
 import logging
 from time import sleep
-from typing import Optional
+from typing import Optional, List
 from subprocess import Popen, PIPE
 # from platform import system
 # from lzma import decompress
