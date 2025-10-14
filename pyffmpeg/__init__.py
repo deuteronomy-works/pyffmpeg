@@ -78,13 +78,10 @@ class FFmpeg():
         self._progress: int = 0
         self.onProgressChanged = self.progressChangeMock
 
-         # Chain Parameters
+        # Chain Parameters
         self.inputs = ()
         self.outputs = ()
         self.chain_string = ''
-        self.chain_input_string = ''
-        self.chain_map_string = ''
-        self.chain_output_string = ''
 
         # instances are store according to function names
         self._ffmpeg_instances = {}
@@ -172,6 +169,31 @@ class FFmpeg():
                 self.logger.info('Conversion Done')
         return out
 
+    def clip(self, start, end):
+        """
+        start and end can either int, float of time: '10:02:01'
+        """
+        self.logger.info("Inside Clip")
+        if '-i' not in self.chain_string:
+            self.logger.error("input must be set before calling clip")
+            self.error = "input must be set before calling clip"
+        else:
+            timeframe = f"-ss {start} -to {end} -i"
+            self.chain_string = self.chain_string.replace('-i', timeframe)
+        return self
+
+    def duration(self, duration):
+        self.logger.info("Inside duration")
+        if self.chain_string:
+            spacing = " "
+        else:
+            spacing = ""
+
+        dura = f"{spacing}-t {duration}"
+        self.chain_string = self.chain_string + dura
+
+        return self
+
     def run(self):
         """
         Allows user to pass any other command line options
@@ -182,23 +204,13 @@ class FFmpeg():
         if self.enable_log:
             self.logger.info("inside Chain run")
 
-        options = [self.chain_input_string, self.chain_map_string,
-                self.chain_output_string
-              ]
-        options = [n for n in options if n != '']
-        print(f'{options=:}')
-
-        o_string = ' '.join(options)
         c_string = self.chain_string
-
-        # choose which of the two has more info.
-        options = [o_string if o_string > c_string else c_string][0]
 
         ## Add ffmpeg and overwrite variable
 
         # handle overwrite
-        if self._over_write not in options:
-            options = " ".join([self._over_write, options])
+        if self._over_write not in c_string:
+            options = " ".join([self._over_write, c_string])
 
         # handle loglevel
         if self._log_level_stmt not in options:
@@ -250,9 +262,6 @@ class FFmpeg():
 
         # wipe all chain string data
         self.chain_string = ''
-        self.chain_input_string = ''
-        self.chain_map_string = ''
-        self.chain_output_string = ''
 
         return True
 
@@ -271,7 +280,6 @@ class FFmpeg():
 
         # frame rate
         if rate:
-            self.chain_input_string += f'-r {rate}'
             self.chain_string += f"-r {rate} " # extra space added
 
         for input_file in inputs:
@@ -284,14 +292,12 @@ class FFmpeg():
 
         self.inputs = tuple(fixed_inputs)
         fixed_inputs.insert(0, '')
-        self.chain_input_string += ' -i '.join(fixed_inputs).strip()
-        self.chain_string += ' -i '.join(fixed_inputs).strip()
+        self.chain_string += ' -i '.join(fixed_inputs)#.strip()
 
         # mapping
         if map:
             fixed_map = list(map)
             fixed_map.insert(0, '')
-            self.chain_map_string = ' -map '.join(fixed_map).strip()
             self.chain_string += ' -map '.join(fixed_map)
 
         return self
@@ -320,7 +326,6 @@ class FFmpeg():
 
         self.outputs = tuple(fixed_outputs)
         output_string = ' '.join(fixed_outputs).strip()
-        self.chain_output_string = output_string
         self.chain_string += " " + output_string # extra space
         return self
 
