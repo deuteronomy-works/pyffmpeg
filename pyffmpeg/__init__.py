@@ -267,7 +267,7 @@ class FFmpeg():
 
     def input(
             self, *inputs,
-            map: List[str] | None = None,
+            map: Optional[List[str]] = None,
             rate: int = 0):
         
         """
