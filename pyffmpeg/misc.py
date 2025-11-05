@@ -104,11 +104,11 @@ class Paths():
             t_file.write(smtm)
 
 
-def fix_splashes(options):
+def fix_slashes(options):
     """
-    Make splashes synanymous irrespective of the OS
+    Make slashes synonymous irrespective of the OS
     """
-    logger.info('Inside fix_splashes')
+    logger.info('Inside fix_slashes')
     if system().lower() == 'windows':
         new_opts = []
         for entry in options:
