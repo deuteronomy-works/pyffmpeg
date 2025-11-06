@@ -1,6 +1,6 @@
 from platform import system
 import pytest
-from pyffmpeg.misc import fix_splashes
+from pyffmpeg.misc import fix_slashes
 
 os_name = system().lower()
 
@@ -17,8 +17,8 @@ os_name = system().lower()
             ['-i', '.\\tests\\license_e_flat.txt', '.\\tests\\license_e_flat.txt']
         )
         ])
-def test_fix_splashes(case, exp):
-    ret = fix_splashes(case)
+def test_fix_slashes(case, exp):
+    ret = fix_slashes(case)
 
     if os_name == "windows":
         assert ret == exp
