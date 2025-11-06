@@ -16,7 +16,7 @@ from typing import Optional, List, Union, Callable, Dict, Any
 from subprocess import Popen, PIPE, TimeoutExpired, CalledProcessError
 
 from .pseudo_ffprobe import FFprobe
-from .misc import Paths, fix_splashes, SHELL, OS_NAME
+from .misc import Paths, fix_slashes, SHELL, OS_NAME
 
 # --- Global Logging Setup ---
 # This part sets up the root 'pyffmpeg' logger.
@@ -795,7 +795,24 @@ class FFmpeg():
         :rtype: str
         :raises CalledProcessError: If the FFmpeg command encounters an error.
         """
-        self.logger.info("Executing raw FFmpeg options via options()")
+        if self.enable_log:
+            self.logger.info("inside options")
+
+        if isinstance(opts, list):
+            if self.enable_log:
+                self.logger.info('Options is a List')
+            options = fix_slashes(opts)
+
+            # Add overwrite variable
+            options.insert(0, self._over_write)
+            if self.loglevel not in self.loglevels:
+                msg = 'Warning: "{}" not an ffmpeg loglevel flag.' +\
+                 ' Using fatal instead'
+                print(msg.format(self.loglevel))
+                self.loglevel = 'fatal'
+
+            options = ' '.join(options)
+            options = ' '.join(['-loglevel', self.loglevel, options])
 
         options_list: List[str]
         if isinstance(opts, str):
