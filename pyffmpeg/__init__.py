@@ -15,7 +15,7 @@ from subprocess import Popen, PIPE
 # from base64 import b64decode, b64encode
 
 from .pseudo_ffprobe import FFprobe
-from .misc import Paths, fix_splashes, SHELL, OS_NAME
+from .misc import Paths, fix_slashes, SHELL, OS_NAME
 
 
 logger = logging.getLogger('pyffmpeg')
@@ -464,7 +464,7 @@ class FFmpeg():
         if isinstance(opts, list):
             if self.enable_log:
                 self.logger.info('Options is a List')
-            options = fix_splashes(opts)
+            options = fix_slashes(opts)
 
             # Add overwrite variable
             options.insert(0, self._over_write)

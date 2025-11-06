@@ -12,7 +12,7 @@ import logging
 from collections import defaultdict
 # from base64 import b64decode
 
-from .misc import Paths, SHELL, ModifiedList
+from .misc import Paths, SHELL, ModifiedList, fix_slashes
 from .extract_functions import VIDEO_FUNC_LIST, AUDIO_FUNC_LIST
 
 
@@ -25,7 +25,7 @@ class FFprobe():
     which is ffmpeg's log file
     """
 
-    def __init__(self, file_name=None):
+    def __init__(self, file_name=None, args: list = list()):
 
         self.logger = logging.getLogger('pyffmpeg.pseudo_ffprobe.FFprobe')
         self.logger.info('FFprobe initialised')
@@ -38,6 +38,7 @@ class FFprobe():
             self._over_write = '-y'
         else:
             self._over_write = '-n'
+        self.args = fix_slashes(args)
 
         # Metadata
         self.fps = 0
@@ -240,6 +241,8 @@ class FFprobe():
             self._ffmpeg, '-y', '-i',
             self.file_name, '-f',
             'null', os.devnull]
+
+        commands.extend(self.args)
 
         self.logger.info(f"Issuing commads {str(commands)}")
 
